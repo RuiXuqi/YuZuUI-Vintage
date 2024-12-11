@@ -1,5 +1,6 @@
 package com.paulzzh.yuzu;
 
+import com.paulzzh.yuzu.config.YuZuUIConfig;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -10,9 +11,8 @@ public class CommonProxy {
     // preInit "Run before anything else. Read your config, create blocks, items, etc, and register them with the
     // GameRegistry." (Remove if not needed)
     public void preInit(FMLPreInitializationEvent event) {
-        Config.synchronizeConfiguration(event.getSuggestedConfigurationFile());
 
-        YuZuUI.LOG.info(Config.greeting);
+        YuZuUI.LOG.info(YuZuUIConfig.greeting);
         YuZuUI.LOG.info("I am YuZuUI at version " + Tags.VERSION);
     }
 

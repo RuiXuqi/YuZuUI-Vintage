@@ -5,7 +5,7 @@ import com.gtnewhorizon.gtnhlib.config.Config;
 @Config(modid = "yuzu")
 public class YuZuUIConfig {
     @Config.Comment("How shall I greet?")
-    @Config.DefaultString("Hello World")
+    @Config.DefaultString("Ciallo～(∠ · ω < )⌒★")
     public static String greeting;
 
     @Config.Comment("直接退出游戏？(否则返回到原主菜单)")

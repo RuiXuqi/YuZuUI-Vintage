@@ -23,6 +23,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     private static final ResourceLocation YUZU_TITLE_BUTTON_CLICK = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_click");
     private static final ResourceLocation YUZU_TITLE_BUTTON_NEW_GAME = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_new_game");
     private static final ResourceLocation YUZU_TITLE_BUTTON_SELECT_WORLD = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_select_world");
+    private static final ResourceLocation YUZU_TITLE_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_on");
     private static final ResourceLocation YUZU_TITLE_BUTTON_OPTIONS = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_options");
     private static final ResourceLocation YUZU_TITLE_BUTTON_QUIT_GAME = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_quit_game");
     private static final ResourceLocation YUZU_TITLE_SENREN = new ResourceLocation(YuZuUI.MODID, "yuzu_title_senren");
@@ -112,6 +113,12 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
                 modListButton.mousePressed(mouseX, mouseY);
             }
         }
+    }
+
+    @Override
+    public void keyTyped(char typedChar, int keyCode)
+    {
+        mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_BUTTON_ON));
     }
 
     @Override

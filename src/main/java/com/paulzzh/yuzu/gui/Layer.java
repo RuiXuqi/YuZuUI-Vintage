@@ -1,36 +1,32 @@
 package com.paulzzh.yuzu.gui;
 
 import com.paulzzh.yuzu.function.AnimationFunction;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import java.time.Instant;
 
-import static com.paulzzh.yuzu.gui.YuZuUIGuiMainMenu.mc;
-
 /**
  * @author : IMG
  * @create : 2024/10/26
  */
 public class Layer {
+    private final Minecraft mc;
     private ResourceLocation texture;
-
     private float x;
     private float y;
     private float width;
     private float height;
     private float scale;
-
     private int u;
     private int v;
     private int regionWidth;
     private int regionHeight;
     private int textureWidth;
     private int textureHeight;
-
     private float alpha;
-
     private VirtualScreen virtualScreen;
     // 动画相关
     private Long duration;
@@ -40,9 +36,6 @@ public class Layer {
     private AnimationFunction<Float> yFunction;
     private AnimationFunction<Float> alphaFunction;
     private AnimationFunction<Float> scaleFunction;
-
-    public Layer() {
-    }
 
     public Layer(ResourceLocation texture, float x, float y, float width, float height, float scale, int u, int v, int regionWidth, int regionHeight, int textureWidth, int textureHeight, float alpha, VirtualScreen virtualScreen) {
         this.texture = texture;
@@ -59,6 +52,7 @@ public class Layer {
         this.textureHeight = textureHeight;
         this.alpha = alpha;
         this.virtualScreen = virtualScreen;
+        this.mc = Minecraft.getMinecraft();
     }
 
     public void render(int mouseX, int mouseY, float delta) {

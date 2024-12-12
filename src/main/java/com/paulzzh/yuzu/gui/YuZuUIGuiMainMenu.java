@@ -16,16 +16,15 @@ import static com.paulzzh.yuzu.YuZuUI.inGamed;
 import static java.lang.Thread.sleep;
 
 public class YuZuUIGuiMainMenu extends GuiScreen {
-    protected static final ResourceLocation YUZU_TITLE_MUSIC = new ResourceLocation(YuZuUI.MODID, "yuzu_title_music");
-    protected static final ResourceLocation YUZU_TITLE_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_on");
-    protected static final ResourceLocation YUZU_TITLE_BUTTON_CLICK = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_click");
-    protected static final ResourceLocation YUZU_TITLE_BUTTON_NEW_GAME = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_new_game");
-    protected static final ResourceLocation YUZU_TITLE_BUTTON_SELECT_WORLD = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_select_world");
-    protected static final ResourceLocation YUZU_TITLE_BUTTON_OPTIONS = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_options");
-    protected static final ResourceLocation YUZU_TITLE_BUTTON_QUIT_GAME = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_quit_game");
-    protected static final ResourceLocation YUZU_TITLE_SENREN = new ResourceLocation(YuZuUI.MODID, "yuzu_title_senren");
-    protected static final ResourceLocation YUZU_TITLE_BUTTON_REALMS = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_realms");
-    protected static final ResourceLocation YUZU_TITLE_BUTTON_MOD_LIST = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_mod_list");
+    private static final ResourceLocation YUZU_TITLE_MUSIC = new ResourceLocation(YuZuUI.MODID, "yuzu_title_music");
+    private static final ResourceLocation YUZU_TITLE_BUTTON_CLICK = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_click");
+    private static final ResourceLocation YUZU_TITLE_BUTTON_NEW_GAME = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_new_game");
+    private static final ResourceLocation YUZU_TITLE_BUTTON_SELECT_WORLD = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_select_world");
+    private static final ResourceLocation YUZU_TITLE_BUTTON_OPTIONS = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_options");
+    private static final ResourceLocation YUZU_TITLE_BUTTON_QUIT_GAME = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_quit_game");
+    private static final ResourceLocation YUZU_TITLE_SENREN = new ResourceLocation(YuZuUI.MODID, "yuzu_title_senren");
+    private static final ResourceLocation YUZU_TITLE_BUTTON_REALMS = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_realms");
+    private static final ResourceLocation YUZU_TITLE_BUTTON_MOD_LIST = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_mod_list");
     private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(YuZuUI.MODID, "textures/gui/background.png");
     private static final ResourceLocation TITLE_YOSHINO = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_yoshino.png");
     private static final ResourceLocation TITLE_MURASAME = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_murasame.png");

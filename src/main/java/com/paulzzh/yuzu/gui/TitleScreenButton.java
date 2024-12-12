@@ -1,6 +1,8 @@
 package com.paulzzh.yuzu.gui;
 
+import com.paulzzh.yuzu.YuZuUI;
 import com.paulzzh.yuzu.function.AnimationFunction;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -8,13 +10,16 @@ import org.lwjgl.opengl.GL11;
 import java.time.Instant;
 import java.util.function.Consumer;
 
-import static com.paulzzh.yuzu.gui.YuZuUIGuiMainMenu.YUZU_TITLE_BUTTON_ON;
-import static com.paulzzh.yuzu.gui.YuZuUIGuiMainMenu.mc;
-
 /**
- * 重写适用于 1.7.10 的 TitleScreenButton 类
+ * @author : IMG
+ * @create : 2024/10/26
  */
 public class TitleScreenButton {
+    private static final ResourceLocation YUZU_TITLE_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_on");
+    private final ResourceLocation texture;
+    private final ResourceLocation textureHover;
+    private final VirtualScreen virtualScreen;
+    private final Minecraft mc;
     public boolean visible = true;
     private float x;
     private float y;
@@ -23,13 +28,7 @@ public class TitleScreenButton {
     private float alpha;
     private boolean isHovered = false;
     private boolean isFocused = false;
-
-    private ResourceLocation texture;
-    private ResourceLocation textureHover;
-    private VirtualScreen virtualScreen;
-
     private Consumer<TitleScreenButton> onClick;
-
     /**
      * 动画相关
      */
@@ -37,7 +36,6 @@ public class TitleScreenButton {
     private Long startTime = null;
     private Long delay;
     private AnimationFunction<Float> alphaFunction;
-
 
     public TitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover, VirtualScreen virtualScreen, float alpha) {
         this.x = x;
@@ -48,6 +46,7 @@ public class TitleScreenButton {
         this.textureHover = textureHover;
         this.virtualScreen = virtualScreen;
         this.alpha = alpha;
+        this.mc = Minecraft.getMinecraft();
     }
 
     public boolean isHovered() {
@@ -87,16 +86,14 @@ public class TitleScreenButton {
         }
     }
 
-    public boolean mousePressed(int mouseX, int mouseY) {
+    public void mousePressed(int mouseX, int mouseY) {
         if (this.visible && isMouseOver(mouseX, mouseY)) {
             if (onClick != null) {
                 onClick.accept(this);
             }
             // 播放点击声音
             mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(new ResourceLocation("random.click")));
-            return true;
         }
-        return false;
     }
 
     public void tick() {

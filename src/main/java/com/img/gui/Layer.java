@@ -1,6 +1,6 @@
-package com.paulzzh.yuzu.gui;
+package com.img.gui;
 
-import com.paulzzh.yuzu.function.AnimationFunction;
+import com.img.function.AnimationFunction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;

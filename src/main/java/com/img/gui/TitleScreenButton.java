@@ -1,7 +1,8 @@
-package com.paulzzh.yuzu.gui;
+package com.img.gui;
 
+import com.img.function.AnimationFunction;
 import com.paulzzh.yuzu.YuZuUI;
-import com.paulzzh.yuzu.function.AnimationFunction;
+import com.paulzzh.yuzu.gui.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;

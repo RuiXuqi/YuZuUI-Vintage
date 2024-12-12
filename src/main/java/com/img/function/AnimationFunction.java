@@ -1,4 +1,4 @@
-package com.paulzzh.yuzu.function;
+package com.img.function;
 
 /**
  * @author : IMG

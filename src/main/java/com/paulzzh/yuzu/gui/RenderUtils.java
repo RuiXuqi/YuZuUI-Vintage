@@ -1,13 +1,12 @@
 package com.paulzzh.yuzu.gui;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 
-import static com.paulzzh.yuzu.gui.YuZuUIGuiMainMenu.mc;
-
 public class RenderUtils {
     public static void blit(ResourceLocation texture, float x, float y, float width, float height) {
-        mc.getTextureManager().bindTexture(texture);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV(x, y + height, 0, 0, 1); // 左下角

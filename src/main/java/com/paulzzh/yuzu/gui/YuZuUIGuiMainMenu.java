@@ -1,5 +1,8 @@
 package com.paulzzh.yuzu.gui;
 
+import com.img.gui.Layer;
+import com.img.gui.TitleScreenButton;
+import com.img.gui.VirtualScreen;
 import com.paulzzh.yuzu.YuZuUI;
 import com.paulzzh.yuzu.config.YuZuUIConfig;
 import cpw.mods.fml.client.GuiModList;

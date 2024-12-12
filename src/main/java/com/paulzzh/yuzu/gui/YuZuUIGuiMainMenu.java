@@ -138,7 +138,8 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         drawRect(0, 0, screenWidth, screenHeight, 0xFF000000);
 
         // 开启裁剪
-        GL11.glScissor(currentX, currentY, (int) VIRTUAL_SCREEN.toPracticalX(1920), (int) VIRTUAL_SCREEN.toPracticalY(1080));
+        //GL11.glEnable(GL11.GL_SCISSOR_TEST);
+        //GL11.glScissor(currentX, currentY, (int) VIRTUAL_SCREEN.toPracticalX(1920), (int) VIRTUAL_SCREEN.toPracticalY(1080));
 
         // 开启混合处理半透明
         GL11.glEnable(GL11.GL_BLEND);
@@ -167,9 +168,8 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, headLayer.getAlpha());
-            drawRect(currentX, currentY, (int) VIRTUAL_SCREEN.toPracticalX(296), (int) VIRTUAL_SCREEN.toPracticalY(1080), 0xFFFFFFFF);
-            //RenderUtils.drawGradientRect((int) VIRTUAL_SCREEN.toPracticalX(296), currentY, (int) VIRTUAL_SCREEN.toPracticalX(600), (int) VIRTUAL_SCREEN.toPracticalY(1080), 0,0xFFFFFFFF, 0x00FFFFFF);
-
+            RenderUtils.drawRect(currentX, currentY, (int) VIRTUAL_SCREEN.toPracticalX(296), (int) VIRTUAL_SCREEN.toPracticalY(1080));
+            RenderUtils.drawGradientRect((int) VIRTUAL_SCREEN.toPracticalX(296), currentY, (int) VIRTUAL_SCREEN.toPracticalX(600), (int) VIRTUAL_SCREEN.toPracticalY(1080), 0xFFFFFF, headLayer.getAlpha(), 0.0F);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, headLayer.getAlpha());
@@ -206,8 +206,8 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
         tick();
 
-        GL11.glDisable(GL11.GL_SCISSOR_TEST);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        //GL11.glDisable(GL11.GL_SCISSOR_TEST);
+        //GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     private void tick() {

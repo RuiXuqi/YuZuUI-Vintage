@@ -13,4 +13,6 @@ minecraft 1.7.10 移植版
 依赖 [UniMixins](https://github.com/LegacyModdingMC/UniMixins) 和 [GTNHLib](https://github.com/GTNewHorizons/GTNHLib)
 
 ### 已知bug
-左侧按钮渐变透明底存在问题，只能正常绘制一次(进世界再回主菜单就会显示不正常)，查不出来原因，help wanted/
+左侧按钮渐变透明底存在问题，只能正常绘制一次(进世界再回主菜单就会显示不正常)
+
+查不出来原因，help wanted/

@@ -14,7 +14,7 @@ public class YuZuUI {
 
     public static final String MODID = "yuzu";
     public static final Logger LOG = LogManager.getLogger(MODID);
-    public static boolean inGamed = true;
+    public static boolean inGamed = false;
     public static boolean exit = false;
 
     @SidedProxy(clientSide = "com.paulzzh.yuzu.ClientProxy", serverSide = "com.paulzzh.yuzu.CommonProxy")

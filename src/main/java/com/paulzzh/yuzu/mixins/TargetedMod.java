@@ -3,7 +3,8 @@ package com.paulzzh.yuzu.mixins;
 import cpw.mods.fml.common.Mod;
 
 public enum TargetedMod {
-    VANILLA("Minecraft", null);
+    VANILLA("Minecraft", null),
+    GALACTICRAFT("GalacticraftCore", null, "GalacticraftCore");
     /**
      * The "name" in the {@link Mod @Mod} annotation
      */

@@ -4,7 +4,7 @@
     {
       "modid": "${modId}",
       "name": "${modName}",
-      "description": "YuZuUI",
+      "description": "Ciallo～(∠ · ω < )⌒★",
       "version": "${modVersion}",
       "mcversion": "${minecraftVersion}",
       "url": "https://github.com/paulzzh/YuZuUI-GTNH",
@@ -14,7 +14,7 @@
         "Paulzzh"
       ],
       "credits": "",
-      "logoFile": "",
+      "logoFile": "assets/yuzu/icon.png",
       "screenshots": [],
       "parent": "",
       "requiredMods": [],

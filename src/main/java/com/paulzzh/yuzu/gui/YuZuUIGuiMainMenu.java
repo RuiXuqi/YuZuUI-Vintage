@@ -73,8 +73,11 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     private static int dy = 100;
     private static Long delay = 1500L;
 
+    private PositionedSoundRecord ISOUND_TITLE;
+
     public YuZuUIGuiMainMenu() {
         mc = Minecraft.getMinecraft();
+        initWidgets();
     }
 
     @Override
@@ -211,6 +214,11 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     }
 
     private void tick() {
+        if (!exit && (ISOUND_TITLE == null || !mc.getSoundHandler().isSoundPlaying(ISOUND_TITLE))) {
+            ISOUND_TITLE = PositionedSoundRecord.func_147674_a(YUZU_TITLE_MUSIC, 1.0F);
+            mc.getSoundHandler().playSound(ISOUND_TITLE);
+        }
+
         if (yoshinoLayer != null) {
             yoshinoLayer.tick();
         }
@@ -309,6 +317,9 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
                         mc.shutdown();
                     });
                 } else {
+                    if (ISOUND_TITLE != null) {
+                        mc.getSoundHandler().stopSound(ISOUND_TITLE);
+                    }
                     mc.displayGuiScreen(null);
                 }
             });
@@ -326,6 +337,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
      * 初始化组件
      */
     private void initWidgets() {
+        mc.getSoundHandler().stopSounds();
         yoshinoLayer = new Layer(TITLE_YOSHINO, 504, 50, 973, 1058, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
             setDelay(delay);
             setDuration(590L);
@@ -410,7 +422,6 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             setAlphaFunction((t, now) -> {
                 float v = (1f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 0f;
                 if (v == 1f && now != 1f) {
-                    mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_MUSIC));
                     mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_SENREN));
 
                 }

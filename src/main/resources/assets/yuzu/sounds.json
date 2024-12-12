@@ -1,0 +1,83 @@
+{
+  "yuzu_title_music": {
+    "category": "music",
+    "sounds": [
+      {
+        "name": "yuzu:yuzu_title_music",
+        "stream": true
+      }
+    ]
+  },
+  "yuzu_title_button_on": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "yuzu:yuzu_title_button_on"
+      }
+    ]
+  },
+  "yuzu_title_button_click": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "yuzu:yuzu_title_button_click"
+      }
+    ]
+  },
+  "yuzu_title_button_new_game": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "yuzu:yuzu_title_button_new_game"
+      }
+    ]
+  },
+  "yuzu_title_button_select_world": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "yuzu:yuzu_title_button_select_world"
+      }
+    ]
+  },
+  "yuzu_title_button_options": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "yuzu:yuzu_title_button_options"
+      }
+    ]
+  },
+  "yuzu_title_button_quit_game": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "yuzu:yuzu_title_button_quit_game"
+      }
+    ]
+  },
+  "yuzu_title_senren": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "yuzu:yuzu_title_senren"
+      }
+    ]
+  },
+  "yuzu_title_button_realms": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "yuzu:yuzu_title_button_realms"
+      }
+    ]
+  },
+  "yuzu_title_button_mod_list": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "yuzu:yuzu_title_button_mod_list"
+      }
+    ]
+  }
+}

@@ -1,7 +1,6 @@
 package com.paulzzh.yuzu.mixins;
 
 import com.paulzzh.yuzu.YuZuUI;
-import com.paulzzh.yuzu.config.YuZuUIConfig;
 import cpw.mods.fml.relauncher.FMLLaunchHandler;
 
 import java.util.*;
@@ -9,7 +8,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public enum Mixins {
-    ;
+    MAIN(new Builder("Main").addTargetedMod(TargetedMod.VANILLA).setSide(Side.BOTH)
+        .setPhase(Phase.EARLY).addMixinClasses("minecraft.MinecraftMixin"));
 
     private final List<String> mixinClasses;
     private final Supplier<Boolean> applyIf;

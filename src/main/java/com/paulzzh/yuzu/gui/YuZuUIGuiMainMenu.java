@@ -173,17 +173,9 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             yoshinoLayer.render(mouseX, mouseY, delta);
         }
 
-        // 绘制左边的菜单 这里就不用Layer了
+        // 绘制左边的菜单
         if (headLayer != null) {
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, headLayer.getAlpha());
-            RenderUtils.drawRect(currentX, currentY, (int) VIRTUAL_SCREEN.toPracticalX(296), (int) VIRTUAL_SCREEN.toPracticalY(1080));
-            RenderUtils.drawGradientRect((int) VIRTUAL_SCREEN.toPracticalX(296), currentY, (int) VIRTUAL_SCREEN.toPracticalX(600), (int) VIRTUAL_SCREEN.toPracticalY(1080), 0xFFFFFF, headLayer.getAlpha(), 0.0F);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, headLayer.getAlpha());
-            RenderUtils.blit(TITLE_HEAD, currentX, (int) VIRTUAL_SCREEN.toPracticalY(334), (int) VIRTUAL_SCREEN.toPracticalWidth(12), (int) VIRTUAL_SCREEN.toPracticalHeight(687));
+            headLayer.render(mouseX, mouseY, delta);
         }
 
         // 绘制按钮
@@ -422,7 +414,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        headLayer = new Layer(TITLE_HEAD, 0, 0, 536, 1080, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
+        headLayer = new Layer(TITLE_HEAD, 0, 0, 600, 1080, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
             setDelay(delay + 1130L);
             setDuration(530L);
 

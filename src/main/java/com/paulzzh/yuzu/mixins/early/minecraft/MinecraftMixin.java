@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static com.paulzzh.yuzu.YuZuUI.INSTANCE;
 import static com.paulzzh.yuzu.YuZuUI.exit;
 
 @Mixin(value = Minecraft.class)
@@ -18,7 +19,10 @@ public class MinecraftMixin {
         if ((guiScreenIn instanceof GuiMainMenu
             || (guiScreenIn != null && "lumien.custommainmenu.gui.GuiCustom".equals(guiScreenIn.getClass().getCanonicalName())))
             && !exit) {
-            Minecraft.getMinecraft().displayGuiScreen(new YuZuUIGuiMainMenu());
+            if (INSTANCE == null) {
+                INSTANCE = new YuZuUIGuiMainMenu();
+            }
+            Minecraft.getMinecraft().displayGuiScreen(INSTANCE);
         }
     }
 }

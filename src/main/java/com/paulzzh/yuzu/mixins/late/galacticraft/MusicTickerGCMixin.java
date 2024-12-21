@@ -8,12 +8,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static com.paulzzh.yuzu.YuZuUI.exit;
 import static com.paulzzh.yuzu.YuZuUI.inGamed;
+import static com.paulzzh.yuzu.gui.YuZuUIGuiMainMenu.tickSound;
 
 @Mixin(value = MusicTickerGC.class)
 public class MusicTickerGCMixin {
     @Inject(method = "update", at = @At(value = "HEAD"), cancellable = true)
     public void inject(CallbackInfo ci) {
         if (!exit && !inGamed) {
+            tickSound();
             ci.cancel();
         }
     }

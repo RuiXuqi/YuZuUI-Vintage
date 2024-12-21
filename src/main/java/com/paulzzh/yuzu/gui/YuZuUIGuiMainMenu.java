@@ -74,7 +74,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     private static int dy = 100;
     private static Long delay = 1500L;
 
-    private PositionedSoundRecord ISOUND_TITLE;
+    private static PositionedSoundRecord ISOUND_TITLE;
 
     public YuZuUIGuiMainMenu() {
         mc = Minecraft.getMinecraft();
@@ -116,8 +116,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     }
 
     @Override
-    public void keyTyped(char typedChar, int keyCode)
-    {
+    public void keyTyped(char typedChar, int keyCode) {
         mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_BUTTON_ON));
     }
 
@@ -212,11 +211,15 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         //GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    private void tick() {
+    public static void tickSound() {
         if (!exit && (ISOUND_TITLE == null || !mc.getSoundHandler().isSoundPlaying(ISOUND_TITLE))) {
             ISOUND_TITLE = PositionedSoundRecord.func_147674_a(YUZU_TITLE_MUSIC, 1.0F);
             mc.getSoundHandler().playSound(ISOUND_TITLE);
         }
+    }
+
+    private void tick() {
+        tickSound();
 
         if (yoshinoLayer != null) {
             yoshinoLayer.tick();

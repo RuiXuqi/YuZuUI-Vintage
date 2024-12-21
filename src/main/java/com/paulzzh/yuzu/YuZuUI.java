@@ -1,6 +1,5 @@
 package com.paulzzh.yuzu;
 
-import com.paulzzh.yuzu.gui.YuZuUIGuiMainMenu;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -15,7 +14,6 @@ public class YuZuUI {
 
     public static final String MODID = "yuzu";
     public static final Logger LOG = LogManager.getLogger(MODID);
-    public static YuZuUIGuiMainMenu INSTANCE = null;
     public static boolean inGamed = false;
     public static boolean exit = false;
 

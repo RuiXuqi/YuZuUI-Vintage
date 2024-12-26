@@ -8,9 +8,11 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public enum Mixins {
-    MAIN(new Builder("Main").addTargetedMod(TargetedMod.VANILLA).setSide(Side.CLIENT)
-        .setPhase(Phase.EARLY).addMixinClasses("minecraft.MinecraftMixin", "minecraft.MusicTickerMixin")),
-    GC(new Builder("GC").addTargetedMod(TargetedMod.GALACTICRAFT).setSide(Side.CLIENT)
+    VANILLA(new Builder("GUI").addTargetedMod(TargetedMod.VANILLA).setSide(Side.CLIENT)
+        .setPhase(Phase.EARLY).addMixinClasses("minecraft.MinecraftMixin")),
+    MUSIC_VANILLA(new Builder("MUSIC_VANILLA").addTargetedMod(TargetedMod.VANILLA).setSide(Side.CLIENT)
+        .setPhase(Phase.EARLY).addMixinClasses("minecraft.MusicTickerMixin")),
+    MUSIC_GALACTICRAFT(new Builder("MUSIC_GALACTICRAFT").addTargetedMod(TargetedMod.GALACTICRAFT).setSide(Side.CLIENT)
         .setPhase(Phase.LATE).addMixinClasses("galacticraft.MusicTickerGCMixin"));
 
     private final List<String> mixinClasses;

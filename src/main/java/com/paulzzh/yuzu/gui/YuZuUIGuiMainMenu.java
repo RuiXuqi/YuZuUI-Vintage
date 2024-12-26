@@ -81,6 +81,13 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         initWidgets();
     }
 
+    public static void tickSound() {
+        if (!exit && (ISOUND_TITLE == null || !mc.getSoundHandler().isSoundPlaying(ISOUND_TITLE))) {
+            ISOUND_TITLE = PositionedSoundRecord.func_147674_a(YUZU_TITLE_MUSIC, 1.0F);
+            mc.getSoundHandler().playSound(ISOUND_TITLE);
+        }
+    }
+
     @Override
     public void initGui() {
         mc = Minecraft.getMinecraft();
@@ -211,15 +218,10 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         //GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    public static void tickSound() {
-        if (!exit && (ISOUND_TITLE == null || !mc.getSoundHandler().isSoundPlaying(ISOUND_TITLE))) {
-            ISOUND_TITLE = PositionedSoundRecord.func_147674_a(YUZU_TITLE_MUSIC, 1.0F);
-            mc.getSoundHandler().playSound(ISOUND_TITLE);
-        }
-    }
-
     private void tick() {
-        tickSound();
+        if (YuZuUIConfig.bgm) {
+            tickSound();
+        }
 
         if (yoshinoLayer != null) {
             yoshinoLayer.tick();
@@ -339,7 +341,9 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
      * 初始化组件
      */
     private void initWidgets() {
-        mc.getSoundHandler().stopSounds();
+        if (YuZuUIConfig.bgm) {
+            mc.getSoundHandler().stopSounds();
+        }
         yoshinoLayer = new Layer(TITLE_YOSHINO, 504, 50, 973, 1058, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
             setDelay(delay);
             setDuration(590L);

@@ -1,5 +1,6 @@
 package com.paulzzh.yuzu.mixins.early.minecraft;
 
+import com.paulzzh.yuzu.config.YuZuUIConfig;
 import net.minecraft.client.audio.MusicTicker;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,9 +15,11 @@ import static com.paulzzh.yuzu.gui.YuZuUIGuiMainMenu.tickSound;
 public class MusicTickerMixin {
     @Inject(method = "update", at = @At(value = "HEAD"), cancellable = true)
     public void inject(CallbackInfo ci) {
-        if (!exit && !inGamed) {
-            tickSound();
-            ci.cancel();
+        if (YuZuUIConfig.bgm) {
+            if (!exit && !inGamed) {
+                tickSound();
+                ci.cancel();
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static com.paulzzh.yuzu.YuZuUI.exit;
+import static com.paulzzh.yuzu.YuZuUI.inGamed;
 
 @Mixin(value = Minecraft.class)
 public class MinecraftMixin {
@@ -27,5 +28,12 @@ public class MinecraftMixin {
             }
             Minecraft.getMinecraft().displayGuiScreen(YuZuUI$INSTANCE);
         }
+    }
+
+    @Inject(
+        method = "Lnet/minecraft/client/Minecraft;loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundHandler;stopSounds()V"))
+    public void inject2(CallbackInfo ci) {
+        inGamed = true;
     }
 }

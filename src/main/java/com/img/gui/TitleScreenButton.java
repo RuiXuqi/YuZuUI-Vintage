@@ -58,16 +58,16 @@ public class TitleScreenButton {
         if (this.visible) {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, this.alpha);
             if (this.isHovered()) {
+                mc.getTextureManager().bindTexture(textureHover);
                 RenderUtils.blit(
-                    textureHover,
                     virtualScreen.toPracticalX(x),
                     virtualScreen.toPracticalY(y),
                     virtualScreen.toPracticalWidth(width),
                     virtualScreen.toPracticalHeight(height)
                 );
             } else {
+                mc.getTextureManager().bindTexture(texture);
                 RenderUtils.blit(
-                    texture,
                     virtualScreen.toPracticalX(x),
                     virtualScreen.toPracticalY(y),
                     virtualScreen.toPracticalWidth(width),

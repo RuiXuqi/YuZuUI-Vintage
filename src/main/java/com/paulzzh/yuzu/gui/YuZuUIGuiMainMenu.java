@@ -163,7 +163,8 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         // 绘制背景
-        RenderUtils.blit(BACKGROUND_TEXTURE, currentX, currentY, currentWidth, currentHeight);
+        mc.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+        RenderUtils.blit(currentX, currentY, currentWidth, currentHeight);
 
         // 绘制人物立绘
         if (lenaLayer != null) {
@@ -214,8 +215,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
         tick();
 
-        //GL11.glDisable(GL11.GL_SCISSOR_TEST);
-        //GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     private void tick() {

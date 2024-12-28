@@ -1,8 +1,8 @@
 package com.img.gui;
 
 import com.img.function.AnimationFunction;
+import com.paulzzh.yuzu.gui.RenderUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -62,10 +62,6 @@ public class Layer {
         // 绑定纹理
         mc.getTextureManager().bindTexture(texture);
 
-        // 准备绘制
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-
         // 计算实际绘制的位置和大小
         float drawX = virtualScreen.toPracticalX(x);
         float drawY = virtualScreen.toPracticalY(y);
@@ -78,14 +74,7 @@ public class Layer {
         float uEnd = (u + regionWidth) / (float) textureWidth;
         float vEnd = (v + regionHeight) / (float) textureHeight;
 
-        // 绘制四个顶点
-        tessellator.addVertexWithUV(drawX, drawY + drawHeight, 0, uStart, vEnd); // 左下
-        tessellator.addVertexWithUV(drawX + drawWidth, drawY + drawHeight, 0, uEnd, vEnd); // 右下
-        tessellator.addVertexWithUV(drawX + drawWidth, drawY, 0, uEnd, vStart); // 右上
-        tessellator.addVertexWithUV(drawX, drawY, 0, uStart, vStart); // 左上
-
-        // 提交绘制
-        tessellator.draw();
+        RenderUtils.blit(drawX, drawY, drawWidth, drawHeight);
     }
 
     public ResourceLocation getTexture() {

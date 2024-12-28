@@ -30,12 +30,12 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     private static final ResourceLocation YUZU_TITLE_BUTTON_REALMS = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_realms");
     private static final ResourceLocation YUZU_TITLE_BUTTON_MOD_LIST = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_mod_list");
     private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(YuZuUI.MODID, "textures/gui/background.png");
+    private static final ResourceLocation BACKGROUND_CHARALL_TEXTURE = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_charall.png");
     private static final ResourceLocation TITLE_YOSHINO = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_yoshino.png");
     private static final ResourceLocation TITLE_MURASAME = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_murasame.png");
     private static final ResourceLocation TITLE_MAKO = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_mako.png");
     private static final ResourceLocation TITLE_LENA = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_lena.png");
     private static final ResourceLocation TITLE_LOGO = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_logo.png");
-    private static final ResourceLocation TITLE_HEAD = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_head.png");
     private static final ResourceLocation TITLE_NEW_GAME_BUTTON_NORMAL = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_new_game_button_normal.png");
     private static final ResourceLocation TITLE_NEW_GAME_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_new_game_button_on.png");
     private static final ResourceLocation TITLE_SELECT_WORLD_BUTTON_NORMAL = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_select_world_button_normal.png");
@@ -60,8 +60,9 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     private static Layer lenaLayer;
     // logo
     private static Layer logoLayer;
-    // 左边菜单
-    private static Layer headLayer;
+    // bg
+    private static Layer stage0;
+    private static Layer stage1;
     // 按钮
     private static TitleScreenButton newGameButton;
     private static TitleScreenButton selectWorldButton;
@@ -75,9 +76,11 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     private static Long delay = 1500L;
 
     private static PositionedSoundRecord ISOUND_TITLE;
+    private int stage;
 
     public YuZuUIGuiMainMenu() {
         mc = Minecraft.getMinecraft();
+        stage = 0;
         initWidgets();
     }
 
@@ -162,27 +165,35 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
+        if (stage <= 1) {
+            // 绘制背景
+            if (stage0 != null) {
+                stage0.render(mouseX, mouseY, delta);
+            }
+
+            // 绘制人物立绘
+            if (lenaLayer != null) {
+                lenaLayer.render(mouseX, mouseY, delta);
+            }
+            if (makoLayer != null) {
+                makoLayer.render(mouseX, mouseY, delta);
+            }
+            if (murasameLayer != null) {
+                murasameLayer.render(mouseX, mouseY, delta);
+            }
+            if (yoshinoLayer != null) {
+                yoshinoLayer.render(mouseX, mouseY, delta);
+            }
+        }
+
         // 绘制背景
-        mc.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
-        RenderUtils.blit(currentX, currentY, currentWidth, currentHeight);
-
-        // 绘制人物立绘
-        if (lenaLayer != null) {
-            lenaLayer.render(mouseX, mouseY, delta);
-        }
-        if (makoLayer != null) {
-            makoLayer.render(mouseX, mouseY, delta);
-        }
-        if (murasameLayer != null) {
-            murasameLayer.render(mouseX, mouseY, delta);
-        }
-        if (yoshinoLayer != null) {
-            yoshinoLayer.render(mouseX, mouseY, delta);
+        if (stage1 != null) {
+            stage1.render(mouseX, mouseY, delta);
         }
 
-        // 绘制左边的菜单
-        if (headLayer != null) {
-            headLayer.render(mouseX, mouseY, delta);
+        // 绘制logo
+        if (logoLayer != null) {
+            logoLayer.render(mouseX, mouseY, delta);
         }
 
         // 绘制按钮
@@ -208,59 +219,20 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             modListButton.render(mouseX, mouseY, delta);
         }
 
-        // 绘制logo
-        if (logoLayer != null) {
-            logoLayer.render(mouseX, mouseY, delta);
+        // 绘制黑色背景
+        if (currentX == 0 && currentY != 0) {
+            drawRect(0, 0, screenWidth, currentY, 0xFF000000);
+            drawRect(0, currentY + currentHeight, screenWidth, screenHeight, 0xFF000000);
         }
-
-        tick();
+        if (currentY == 0 && currentX != 0) {
+            drawRect(0, 0, currentX, screenHeight, 0xFF000000);
+            drawRect(currentX + currentWidth, 0, screenWidth, screenHeight, 0xFF000000);
+        }
 
         GL11.glDisable(GL11.GL_BLEND);
-    }
 
-    private void tick() {
         if (YuZuUIConfig.bgm) {
             tickSound();
-        }
-
-        if (yoshinoLayer != null) {
-            yoshinoLayer.tick();
-        }
-        if (murasameLayer != null) {
-            murasameLayer.tick();
-        }
-        if (makoLayer != null) {
-            makoLayer.tick();
-        }
-        if (lenaLayer != null) {
-            lenaLayer.tick();
-        }
-        if (headLayer != null) {
-            headLayer.tick();
-        }
-        if (logoLayer != null) {
-            logoLayer.tick();
-        }
-        if (newGameButton != null) {
-            newGameButton.tick();
-        }
-        if (selectWorldButton != null) {
-            selectWorldButton.tick();
-        }
-        if (continueButton != null) {
-            continueButton.tick();
-        }
-        if (realmsButton != null) {
-            realmsButton.tick();
-        }
-        if (optionsButton != null) {
-            optionsButton.tick();
-        }
-        if (quitGameButton != null) {
-            quitGameButton.tick();
-        }
-        if (modListButton != null) {
-            modListButton.tick();
         }
     }
 
@@ -341,15 +313,53 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
      * 初始化组件
      */
     private void initWidgets() {
+        stage = 0;
+
         if (YuZuUIConfig.bgm) {
             mc.getSoundHandler().stopSounds();
         }
-        yoshinoLayer = new Layer(TITLE_YOSHINO, 504, 50, 973, 1058, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
+
+        stage0 = new Layer(BACKGROUND_TEXTURE, -64, -36, 1920, 1080, 1.067f, 0, 0, 256, 256, 256, 256, 1, VIRTUAL_SCREEN) {{
+            setDelay(delay);
+            setDuration(1120L);
+
+            setXFunction((t, now) -> {
+                return (64f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) - 64f;
+            });
+
+            setYFunction((t, now) -> {
+                return (36f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) - 36f;
+            });
+
+            setScaleFunction((t, now) -> {
+                float v = (1f - 1.067f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 1.067f;
+                if (v == 1f && now != 1f) {
+                    stage = 1;
+                }
+                return v;
+            });
+        }};
+
+        stage1 = new Layer(BACKGROUND_CHARALL_TEXTURE, 0, 0, 1920, 1080, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
+            setDelay(delay + 1130L);
+            setDuration(530L);
+
+            setAlphaFunction((t, now) -> {
+                float v = (1f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 0f;
+                if (v == 1f && now != 1f) {
+                    stage = 2;
+                    mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_SENREN));
+                }
+                return v;
+            });
+        }};
+
+        yoshinoLayer = new Layer(TITLE_YOSHINO, 517, 50, 973, 1058, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
             setDelay(delay);
             setDuration(590L);
 
             setYFunction((t, now) -> {
-                return (25f - 50f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 50f;
+                return (22f - 50f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 50f;
             });
 
             setAlphaFunction((t, now) -> {
@@ -357,12 +367,12 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        murasameLayer = new Layer(TITLE_MURASAME, 221, 90, 1045, 994, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
+        murasameLayer = new Layer(TITLE_MURASAME, 221, 86, 1045, 994, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
             setDelay(delay + 110L);
             setDuration(710L);
 
             setXFunction((t, now) -> {
-                return (173f - 221f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 221f;
+                return (175f - 221f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 221f;
             });
 
             setAlphaFunction((t, now) -> {
@@ -370,12 +380,12 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        makoLayer = new Layer(TITLE_MAKO, 805, 387, 1118, 694, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
+        makoLayer = new Layer(TITLE_MAKO, 805, 386, 1118, 694, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
             setDelay(delay + 280L);
             setDuration(680L);
 
             setXFunction((t, now) -> {
-                return (898f - 805f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 805f;
+                return (906f - 805f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 805f;
             });
 
             setAlphaFunction((t, now) -> {
@@ -388,7 +398,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             setDuration(680L);
 
             setXFunction((t, now) -> {
-                return (float) ((1065f - 1002f) * ((Math.pow(0.05, t) - 1) / (0.05 - 1)) + 1002f);
+                return (float) ((1074f - 1002f) * ((Math.pow(0.05, t) - 1) / (0.05 - 1)) + 1002f);
             });
 
             setYFunction((t, now) -> {
@@ -400,12 +410,12 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        logoLayer = new Layer(TITLE_LOGO, 17, 57, 442, 188, 1.067f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
+        logoLayer = new Layer(TITLE_LOGO, 17, 57, 437, 184, 1.067f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
             setDelay(delay + 300L);
             setDuration(570L);
 
             setXFunction((t, now) -> {
-                return (31f - 17f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 17f;
+                return (36f - 17f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 17f;
             });
 
             setYFunction((t, now) -> {
@@ -418,20 +428,6 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
             setScaleFunction((t, now) -> {
                 return (1f - 1.067f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 1.067f;
-            });
-        }};
-
-        headLayer = new Layer(TITLE_HEAD, 0, 0, 600, 1080, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
-            setDelay(delay + 1130L);
-            setDuration(530L);
-
-            setAlphaFunction((t, now) -> {
-                float v = (1f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 0f;
-                if (v == 1f && now != 1f) {
-                    mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_SENREN));
-
-                }
-                return v;
             });
         }};
 

@@ -57,23 +57,16 @@ public class TitleScreenButton {
     public void renderButton(int mouseX, int mouseY, float delta) {
         if (this.visible) {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, this.alpha);
+            float drawX = virtualScreen.toPracticalX(x);
+            float drawY = virtualScreen.toPracticalY(y);
+            float drawWidth = virtualScreen.toPracticalWidth(width);
+            float drawHeight = virtualScreen.toPracticalHeight(height);
             if (this.isHovered()) {
                 mc.getTextureManager().bindTexture(textureHover);
-                RenderUtils.blit(
-                    virtualScreen.toPracticalX(x),
-                    virtualScreen.toPracticalY(y),
-                    virtualScreen.toPracticalWidth(width),
-                    virtualScreen.toPracticalHeight(height)
-                );
             } else {
                 mc.getTextureManager().bindTexture(texture);
-                RenderUtils.blit(
-                    virtualScreen.toPracticalX(x),
-                    virtualScreen.toPracticalY(y),
-                    virtualScreen.toPracticalWidth(width),
-                    virtualScreen.toPracticalHeight(height)
-                );
             }
+            RenderUtils.blit(drawX, drawY, drawWidth, drawHeight);
         }
     }
 
@@ -85,6 +78,8 @@ public class TitleScreenButton {
             this.isHovered = this.isMouseOver(mouseX, mouseY);
             this.renderButton(mouseX, mouseY, delta);
         }
+
+        tick();
     }
 
     public void mousePressed(int mouseX, int mouseY) {

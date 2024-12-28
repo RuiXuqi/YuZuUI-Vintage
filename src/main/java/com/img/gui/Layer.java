@@ -75,6 +75,8 @@ public class Layer {
         float vEnd = (v + regionHeight) / (float) textureHeight;
 
         RenderUtils.blit(drawX, drawY, drawWidth, drawHeight);
+
+        tick();
     }
 
     public ResourceLocation getTexture() {

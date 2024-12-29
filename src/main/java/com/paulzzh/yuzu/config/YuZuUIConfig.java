@@ -12,6 +12,10 @@ public class YuZuUIConfig {
     @Config.DefaultBoolean(true)
     public static boolean bgm;
 
+    @Config.Comment("语音")
+    @Config.DefaultBoolean(true)
+    public static boolean voice;
+
     @Config.Comment("直接退出游戏？(否则返回到原主菜单)")
     @Config.DefaultBoolean(false)
     public static boolean just_exit;

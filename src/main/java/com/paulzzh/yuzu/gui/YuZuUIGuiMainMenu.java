@@ -91,6 +91,12 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         }
     }
 
+    private static void playVoice(ResourceLocation voice) {
+        if (YuZuUIConfig.voice) {
+            mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(voice));
+        }
+    }
+
     @Override
     public void initGui() {
         mc = Minecraft.getMinecraft();
@@ -252,7 +258,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
         if (selectWorldButton != null) {
             selectWorldButton.setOnClick((button) -> {
-                mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_BUTTON_SELECT_WORLD));
+                playVoice(YUZU_TITLE_BUTTON_SELECT_WORLD);
                 mc.displayGuiScreen(new GuiSelectWorld(this));
             });
         }
@@ -265,7 +271,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
         if (realmsButton != null) {
             realmsButton.setOnClick((button) -> {
-                mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_BUTTON_REALMS));
+                playVoice(YUZU_TITLE_BUTTON_REALMS);
                 //new RealmsBridge().switchToRealms(this);
                 mc.displayGuiScreen(new GuiLanguage(this, mc.gameSettings, mc.getLanguageManager()));
             });
@@ -273,7 +279,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
         if (optionsButton != null) {
             optionsButton.setOnClick((button) -> {
-                mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_BUTTON_OPTIONS));
+                playVoice(YUZU_TITLE_BUTTON_OPTIONS);
                 mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
             });
         }
@@ -281,7 +287,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         if (quitGameButton != null) {
             quitGameButton.setOnClick((button) -> {
                 exit = true;
-                mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_BUTTON_QUIT_GAME));
+                playVoice(YUZU_TITLE_BUTTON_QUIT_GAME);
                 if (YuZuUIConfig.just_exit) {
                     CompletableFuture.completedFuture(null).whenComplete((unused, e) -> {
                         try {
@@ -303,7 +309,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
         if (modListButton != null) {
             modListButton.setOnClick((button) -> {
-                mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_BUTTON_MOD_LIST));
+                playVoice(YUZU_TITLE_BUTTON_MOD_LIST);
                 mc.displayGuiScreen(new GuiModList(this));
             });
         }
@@ -348,7 +354,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
                 float v = (1f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 0f;
                 if (v == 1f && now != 1f) {
                     stage = 2;
-                    mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_SENREN));
+                    playVoice(YUZU_TITLE_SENREN);
                 }
                 return v;
             });

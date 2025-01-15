@@ -13,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.Constructor;
+import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
 import static com.paulzzh.yuzu.YuZuUI.exit;
@@ -75,6 +76,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     private static int y = 346;
     private static int dy = 100;
     private static Long delay = 1500L;
+    private static Long soundStartTime = null;
 
     private static PositionedSoundRecord ISOUND_TITLE;
     private static Constructor<?> GuiCreateCustomWorld;
@@ -93,8 +95,15 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
     public static void tickSound() {
         if (!exit && (ISOUND_TITLE == null || !mc.getSoundHandler().isSoundPlaying(ISOUND_TITLE))) {
-            ISOUND_TITLE = PositionedSoundRecord.func_147674_a(YUZU_TITLE_MUSIC, 1.0F);
-            mc.getSoundHandler().playSound(ISOUND_TITLE);
+            long currentTime = Instant.now().toEpochMilli();
+            if (soundStartTime == null) {
+                soundStartTime = currentTime;
+            }
+            if (currentTime - soundStartTime > delay) {
+                ISOUND_TITLE = PositionedSoundRecord.func_147674_a(YUZU_TITLE_MUSIC, 1.0F);
+                mc.getSoundHandler().playSound(ISOUND_TITLE);
+                soundStartTime = null;
+            }
         }
     }
 

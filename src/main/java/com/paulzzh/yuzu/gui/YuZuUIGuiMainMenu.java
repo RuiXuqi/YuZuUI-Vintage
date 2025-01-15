@@ -12,6 +12,7 @@ import net.minecraft.client.gui.*;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+import java.lang.reflect.Constructor;
 import java.util.concurrent.CompletableFuture;
 
 import static com.paulzzh.yuzu.YuZuUI.exit;
@@ -76,11 +77,17 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     private static Long delay = 1500L;
 
     private static PositionedSoundRecord ISOUND_TITLE;
+    private static Constructor<?> GuiCreateCustomWorld;
     private int stage;
 
     public YuZuUIGuiMainMenu() {
         mc = Minecraft.getMinecraft();
         stage = 0;
+        try {
+            Class<?> clazz = Class.forName("com.fireball1725.defaultworldgenerator.gui.GuiCreateCustomWorld");
+            GuiCreateCustomWorld = clazz.getConstructor(GuiScreen.class);
+        } catch (Exception ignored) {
+        }
         initWidgets();
     }
 
@@ -252,7 +259,17 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         // 设置按钮的点击事件
         if (newGameButton != null) {
             newGameButton.setOnClick((button) -> {
-                mc.displayGuiScreen(new GuiCreateWorld(this));
+                // 安装了 DefaultWorldGenerator
+                if (GuiCreateCustomWorld != null) {
+                    try {
+                        mc.displayGuiScreen((GuiScreen) GuiCreateCustomWorld.newInstance(this));
+                    } catch (Exception ignored) {
+                        // ..? 改为打开选择世界，避免锁定世界生成器失效
+                        mc.displayGuiScreen(new GuiSelectWorld(this));
+                    }
+                } else {
+                    mc.displayGuiScreen(new GuiCreateWorld(this));
+                }
             });
         }
 

@@ -1,6 +1,6 @@
 package com.paulzzh.yuzu.mixins.late.galacticraft;
 
-import com.paulzzh.yuzu.config.YuZuUIConfig;
+import com.paulzzh.yuzu.YuZuUIConfig;
 import micdoodle8.mods.galacticraft.core.client.sounds.MusicTickerGC;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

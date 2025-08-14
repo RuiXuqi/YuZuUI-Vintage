@@ -3,13 +3,18 @@ package com.paulzzh.yuzu.gui;
 import com.img.gui.Layer;
 import com.img.gui.TitleScreenButton;
 import com.img.gui.VirtualScreen;
-import com.paulzzh.yuzu.YuZuUI;
-import com.paulzzh.yuzu.config.YuZuUIConfig;
-import cpw.mods.fml.client.GuiModList;
+import com.paulzzh.yuzu.YuZuUIConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.*;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.gui.GuiCreateWorld;
+import net.minecraft.client.gui.GuiLanguage;
+import net.minecraft.client.gui.GuiMultiplayer;
+import net.minecraft.client.gui.GuiOptions;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiWorldSelection;
+import net.minecraft.realms.RealmsBridge;
+import net.minecraft.util.SoundEvent;
+import net.minecraftforge.fml.client.GuiModList;
 import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.Constructor;
@@ -18,40 +23,11 @@ import java.util.concurrent.CompletableFuture;
 
 import static com.paulzzh.yuzu.YuZuUI.exit;
 import static com.paulzzh.yuzu.YuZuUI.inGamed;
+import static com.paulzzh.yuzu.constant.TextureConst.*;
+import static com.paulzzh.yuzu.init.InitSounds.*;
 import static java.lang.Thread.sleep;
 
 public class YuZuUIGuiMainMenu extends GuiScreen {
-    private static final ResourceLocation YUZU_TITLE_MUSIC = new ResourceLocation(YuZuUI.MODID, "yuzu_title_music");
-    private static final ResourceLocation YUZU_TITLE_BUTTON_CLICK = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_click");
-    private static final ResourceLocation YUZU_TITLE_BUTTON_NEW_GAME = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_new_game");
-    private static final ResourceLocation YUZU_TITLE_BUTTON_SELECT_WORLD = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_select_world");
-    private static final ResourceLocation YUZU_TITLE_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_on");
-    private static final ResourceLocation YUZU_TITLE_BUTTON_OPTIONS = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_options");
-    private static final ResourceLocation YUZU_TITLE_BUTTON_QUIT_GAME = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_quit_game");
-    private static final ResourceLocation YUZU_TITLE_SENREN = new ResourceLocation(YuZuUI.MODID, "yuzu_title_senren");
-    private static final ResourceLocation YUZU_TITLE_BUTTON_REALMS = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_realms");
-    private static final ResourceLocation YUZU_TITLE_BUTTON_MOD_LIST = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_mod_list");
-    private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(YuZuUI.MODID, "textures/gui/background.png");
-    private static final ResourceLocation BACKGROUND_CHARALL_TEXTURE = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_charall.png");
-    private static final ResourceLocation TITLE_YOSHINO = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_yoshino.png");
-    private static final ResourceLocation TITLE_MURASAME = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_murasame.png");
-    private static final ResourceLocation TITLE_MAKO = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_mako.png");
-    private static final ResourceLocation TITLE_LENA = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_lena.png");
-    private static final ResourceLocation TITLE_LOGO = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_logo.png");
-    private static final ResourceLocation TITLE_NEW_GAME_BUTTON_NORMAL = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_new_game_button_normal.png");
-    private static final ResourceLocation TITLE_NEW_GAME_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_new_game_button_on.png");
-    private static final ResourceLocation TITLE_SELECT_WORLD_BUTTON_NORMAL = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_select_world_button_normal.png");
-    private static final ResourceLocation TITLE_SELECT_WORLD_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_select_world_button_on.png");
-    private static final ResourceLocation TITLE_OPTIONS_BUTTON_NORMAL = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_options_button_normal.png");
-    private static final ResourceLocation TITLE_OPTIONS_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_options_button_on.png");
-    private static final ResourceLocation TITLE_QUIT_GAME_BUTTON_NORMAL = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_quit_game_button_normal.png");
-    private static final ResourceLocation TITLE_QUIT_GAME_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_quit_game_button_on.png");
-    private static final ResourceLocation TITLE_CONTINUE_BUTTON_NORMAL = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_continue_button_normal.png");
-    private static final ResourceLocation TITLE_CONTINUE_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_continue_button_on.png");
-    private static final ResourceLocation TITLE_REAMLS_BUTTON_NORMAL = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_realms_button_normal.png");
-    private static final ResourceLocation TITLE_REAMLS_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_realms_button_on.png");
-    private static final ResourceLocation TITLE_MOD_LIST_BUTTON_NORMAL = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_mod_list_button_normal.png");
-    private static final ResourceLocation TITLE_MOD_LIST_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "textures/gui/title_mod_list_button_on.png");
     private static final VirtualScreen VIRTUAL_SCREEN = new VirtualScreen(1920, 1080);
     private static final double a = 0.06;
     protected static Minecraft mc;
@@ -73,8 +49,8 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     private static TitleScreenButton modListButton;
     private static TitleScreenButton optionsButton;
     private static TitleScreenButton quitGameButton;
-    private static int y = 346;
-    private static int dy = 100;
+    private static final int y = 346;
+    private static final int dy = 100;
     private static Long delay = 1500L;
     private static Long soundStartTime = null;
 
@@ -100,16 +76,16 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
                 soundStartTime = currentTime;
             }
             if (currentTime - soundStartTime > delay) {
-                ISOUND_TITLE = PositionedSoundRecord.func_147674_a(YUZU_TITLE_MUSIC, 1.0F);
+                ISOUND_TITLE = PositionedSoundRecord.getMasterRecord(YUZU_TITLE_MUSIC, 1.0F);
                 mc.getSoundHandler().playSound(ISOUND_TITLE);
                 soundStartTime = null;
             }
         }
     }
 
-    private static void playVoice(ResourceLocation voice) {
+    private static void playVoice(SoundEvent voice) {
         if (YuZuUIConfig.voice) {
-            mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(voice));
+            mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(voice, 1.0F));
         }
     }
 
@@ -122,7 +98,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) {
         if (button == 0) {
-            mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_BUTTON_CLICK));
+            mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(YUZU_TITLE_BUTTON_CLICK, 1.0F));
             if (newGameButton != null) {
                 newGameButton.mousePressed(mouseX, mouseY);
             }
@@ -149,7 +125,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
     @Override
     public void keyTyped(char typedChar, int keyCode) {
-        mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_BUTTON_ON));
+        mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(YUZU_TITLE_BUTTON_ON, 1.0F));
     }
 
     @Override
@@ -268,13 +244,14 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         // 设置按钮的点击事件
         if (newGameButton != null) {
             newGameButton.setOnClick((button) -> {
+                playVoice(YUZU_TITLE_BUTTON_NEW_GAME);
                 // 安装了 DefaultWorldGenerator
                 if (GuiCreateCustomWorld != null) {
                     try {
                         mc.displayGuiScreen((GuiScreen) GuiCreateCustomWorld.newInstance(this));
                     } catch (Exception ignored) {
                         // ..? 改为打开选择世界，避免锁定世界生成器失效
-                        mc.displayGuiScreen(new GuiSelectWorld(this));
+                        mc.displayGuiScreen(new GuiWorldSelection(this));
                     }
                 } else {
                     mc.displayGuiScreen(new GuiCreateWorld(this));
@@ -285,7 +262,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         if (selectWorldButton != null) {
             selectWorldButton.setOnClick((button) -> {
                 playVoice(YUZU_TITLE_BUTTON_SELECT_WORLD);
-                mc.displayGuiScreen(new GuiSelectWorld(this));
+                mc.displayGuiScreen(new GuiWorldSelection(this));
             });
         }
 
@@ -298,8 +275,11 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         if (realmsButton != null) {
             realmsButton.setOnClick((button) -> {
                 playVoice(YUZU_TITLE_BUTTON_REALMS);
-                //new RealmsBridge().switchToRealms(this);
-                mc.displayGuiScreen(new GuiLanguage(this, mc.gameSettings, mc.getLanguageManager()));
+                if (YuZuUIConfig.replaceRealms){
+                    mc.displayGuiScreen(new GuiLanguage(this, mc.gameSettings, mc.getLanguageManager()));
+                } else {
+                    new RealmsBridge().switchToRealms(this);
+                }
             });
         }
 
@@ -314,7 +294,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             quitGameButton.setOnClick((button) -> {
                 exit = true;
                 playVoice(YUZU_TITLE_BUTTON_QUIT_GAME);
-                if (YuZuUIConfig.just_exit) {
+                if (YuZuUIConfig.justExit) {
                     CompletableFuture.completedFuture(null).whenComplete((unused, e) -> {
                         try {
                             // 等待音效播放完成
@@ -372,7 +352,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        stage1 = new Layer(BACKGROUND_CHARALL_TEXTURE, 0, 0, 1920, 1080, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
+        stage1 = new Layer(TITLE_CHARALL, 0, 0, 1920, 1080, 1f, 0, 0, 256, 256, 256, 256, 0, VIRTUAL_SCREEN) {{
             setDelay(delay + 1130L);
             setDuration(530L);
 

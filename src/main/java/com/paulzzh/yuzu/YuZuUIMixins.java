@@ -1,22 +1,17 @@
 package com.paulzzh.yuzu;
 
-import com.gtnewhorizon.gtnhmixins.ILateMixinLoader;
-import com.gtnewhorizon.gtnhmixins.LateMixin;
-import com.paulzzh.yuzu.mixins.Mixins;
+import net.minecraftforge.fml.common.Loader;
+import zone.rong.mixinbooter.ILateMixinLoader;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
-@LateMixin
+@SuppressWarnings("unused")
 public class YuZuUIMixins implements ILateMixinLoader {
-    @Override
-    public String getMixinConfig() {
-        return "mixins.yuzu.late.json";
-    }
 
     @Override
-    public List<String> getMixins(Set<String> loadedMods) {
-        return Mixins.getLateMixins(loadedMods);
+    public List<String> getMixinConfigs() {
+        return Loader.isModLoaded("galacticraft") ? Collections.singletonList("mixins.yuzu.late.json") : Collections.emptyList();
     }
 
 }

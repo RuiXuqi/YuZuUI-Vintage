@@ -1,6 +1,6 @@
 package com.paulzzh.yuzu.mixins.early.minecraft;
 
-import com.paulzzh.yuzu.config.YuZuUIConfig;
+import com.paulzzh.yuzu.YuZuUIConfig;
 import net.minecraft.client.audio.MusicTicker;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,15 +1,16 @@
 package com.paulzzh.yuzu;
 
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import com.paulzzh.yuzu.init.InitSounds;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = YuZuUI.MODID, version = Tags.VERSION, name = "YuZuUI", acceptedMinecraftVersions = "[1.7.10]")
+@Mod(modid = YuZuUI.MODID, version = Tags.VERSION, name = "YuZuUI", acceptedMinecraftVersions = "[1.12.2]")
 public class YuZuUI {
 
     public static final String MODID = "yuzu";
@@ -17,31 +18,21 @@ public class YuZuUI {
     public static boolean inGamed = false;
     public static boolean exit = false;
 
-    @SidedProxy(clientSide = "com.paulzzh.yuzu.ClientProxy", serverSide = "com.paulzzh.yuzu.CommonProxy")
-    public static CommonProxy proxy;
-
     @Mod.EventHandler
-    // preInit "Run before anything else. Read your config, create blocks, items, etc, and register them with the
-    // GameRegistry." (Remove if not needed)
     public void preInit(FMLPreInitializationEvent event) {
-        proxy.preInit(event);
+        YuZuUI.LOG.info(YuZuUIConfig.greeting);
+        YuZuUI.LOG.info("I am YuZuUI at version " + Tags.VERSION);
     }
 
     @Mod.EventHandler
-    // load "Do your mod setup. Build whatever data structures you care about. Register recipes." (Remove if not needed)
-    public void init(FMLInitializationEvent event) {
-        proxy.init(event);
+    public void Init(FMLInitializationEvent event) {
+        InitSounds.registerSounds();
     }
 
-    @Mod.EventHandler
-    // postInit "Handle interaction with other mods, complete your setup based on this." (Remove if not needed)
-    public void postInit(FMLPostInitializationEvent event) {
-        proxy.postInit(event);
+    @SubscribeEvent
+    public void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
+        inGamed = true;
+        exit = false;
     }
 
-    @Mod.EventHandler
-    // register server commands in this event handler (Remove if not needed)
-    public void serverStarting(FMLServerStartingEvent event) {
-        proxy.serverStarting(event);
-    }
 }

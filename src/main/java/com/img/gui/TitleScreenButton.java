@@ -1,22 +1,23 @@
 package com.img.gui;
 
 import com.img.function.AnimationFunction;
-import com.paulzzh.yuzu.YuZuUI;
 import com.paulzzh.yuzu.gui.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import java.time.Instant;
 import java.util.function.Consumer;
 
+import static com.paulzzh.yuzu.init.InitSounds.YUZU_TITLE_BUTTON_ON;
+
 /**
  * @author : IMG
  * @create : 2024/10/26
  */
 public class TitleScreenButton {
-    private static final ResourceLocation YUZU_TITLE_BUTTON_ON = new ResourceLocation(YuZuUI.MODID, "yuzu_title_button_on");
     private final ResourceLocation texture;
     private final ResourceLocation textureHover;
     private final VirtualScreen virtualScreen;
@@ -73,7 +74,7 @@ public class TitleScreenButton {
     public void render(int mouseX, int mouseY, float delta) {
         if (this.visible) {
             if (!isHovered() && isMouseOver(mouseX, mouseY)) {
-                mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(YUZU_TITLE_BUTTON_ON));
+                mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(YUZU_TITLE_BUTTON_ON, 1.0F));
             }
             this.isHovered = this.isMouseOver(mouseX, mouseY);
             this.renderButton(mouseX, mouseY, delta);
@@ -88,7 +89,7 @@ public class TitleScreenButton {
                 onClick.accept(this);
             }
             // 播放点击声音
-            mc.getSoundHandler().playSound(PositionedSoundRecord.func_147673_a(new ResourceLocation("random.click")));
+            mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
         }
     }
 

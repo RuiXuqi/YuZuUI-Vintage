@@ -1,8 +1,5 @@
 package com.paulzzh.yuzu.gui;
 
-import com.img.gui.Layer;
-import com.img.gui.TitleScreenButton;
-import com.img.gui.VirtualScreen;
 import com.paulzzh.yuzu.YuZuUIConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -76,7 +73,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
                 soundStartTime = currentTime;
             }
             if (currentTime - soundStartTime > delay) {
-                ISOUND_TITLE = PositionedSoundRecord.getMasterRecord(YUZU_TITLE_MUSIC, 1.0F);
+                ISOUND_TITLE = PositionedSoundRecord.getMusicRecord(YUZU_TITLE_MUSIC);
                 mc.getSoundHandler().playSound(ISOUND_TITLE);
                 soundStartTime = null;
             }

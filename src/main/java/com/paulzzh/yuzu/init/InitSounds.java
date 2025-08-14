@@ -6,7 +6,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class InitSounds {
-    public static SoundEvent YUZU_TITLE_MUSIC; // 不要设置为 Music，太响了
+    public static SoundEvent YUZU_TITLE_MUSIC;
     public static SoundEvent YUZU_TITLE_BUTTON_CLICK;
     public static SoundEvent YUZU_TITLE_BUTTON_NEW_GAME;
     public static SoundEvent YUZU_TITLE_BUTTON_SELECT_WORLD;

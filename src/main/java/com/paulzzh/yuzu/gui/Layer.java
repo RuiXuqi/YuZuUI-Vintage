@@ -1,7 +1,6 @@
-package com.img.gui;
+package com.paulzzh.yuzu.gui;
 
-import com.img.function.AnimationFunction;
-import com.paulzzh.yuzu.gui.RenderUtils;
+import com.paulzzh.yuzu.function.AnimationFunction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;

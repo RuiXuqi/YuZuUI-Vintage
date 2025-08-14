@@ -1,4 +1,4 @@
-package com.img.gui;
+package com.paulzzh.yuzu.gui;
 
 /**
  * @author : IMG

@@ -16,6 +16,8 @@ public class InitSounds {
     public static SoundEvent YUZU_TITLE_SENREN;
     public static SoundEvent YUZU_TITLE_BUTTON_REALMS;
     public static SoundEvent YUZU_TITLE_BUTTON_MOD_LIST;
+    public static SoundEvent YUZU_TITLE_BUTTON_SINGLEPLAYER;
+    public static SoundEvent YUZU_TITLE_BUTTON_MUTIPLAYER;
 
     public static void registerSounds() {
         YUZU_TITLE_MUSIC = registerSound("yuzu_title_music");
@@ -28,6 +30,8 @@ public class InitSounds {
         YUZU_TITLE_SENREN = registerSound("yuzu_title_senren");
         YUZU_TITLE_BUTTON_REALMS = registerSound("yuzu_title_button_realms");
         YUZU_TITLE_BUTTON_MOD_LIST = registerSound("yuzu_title_button_mod_list");
+        YUZU_TITLE_BUTTON_SINGLEPLAYER = registerSound("yuzu_title_button_singleplayer");
+        YUZU_TITLE_BUTTON_MUTIPLAYER = registerSound("yuzu_title_button_mutiplayer");
     }
 
     private static SoundEvent registerSound(String name) {

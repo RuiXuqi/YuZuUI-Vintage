@@ -79,5 +79,21 @@
         "name": "yuzu:yuzu_title_button_mod_list"
       }
     ]
+  },
+  "yuzu_title_button_singleplayer": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "yuzu:yuzu_title_button_singleplayer"
+      }
+    ]
+  },
+  "yuzu_title_button_mutiplayer": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "yuzu:yuzu_title_button_mutiplayer"
+      }
+    ]
   }
 }

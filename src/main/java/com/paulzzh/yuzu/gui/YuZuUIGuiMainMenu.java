@@ -95,7 +95,6 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) {
         if (button == 0) {
-            mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(YUZU_TITLE_BUTTON_CLICK, 1.0F));
             if (newGameButton != null) {
                 newGameButton.mousePressed(mouseX, mouseY);
             }
@@ -440,7 +439,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        newGameButton = new TitleScreenButton(60, y, 207, 54, TITLE_NEW_GAME_BUTTON_NORMAL, TITLE_NEW_GAME_BUTTON_ON, VIRTUAL_SCREEN, 0f) {{
+        newGameButton = new TitleScreenButton(60, y, 207, 54, TITLE_NEW_GAME_BUTTON_NORMAL, TITLE_NEW_GAME_BUTTON_ON, VIRTUAL_SCREEN, 0f, 1) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -449,7 +448,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        selectWorldButton = new TitleScreenButton(60, y + dy, 206, 55, TITLE_SELECT_WORLD_BUTTON_NORMAL, TITLE_SELECT_WORLD_BUTTON_ON, VIRTUAL_SCREEN, 0f) {{
+        selectWorldButton = new TitleScreenButton(60, y + dy, 206, 55, TITLE_SELECT_WORLD_BUTTON_NORMAL, TITLE_SELECT_WORLD_BUTTON_ON, VIRTUAL_SCREEN, 0f, 1) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -458,7 +457,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        continueButton = new TitleScreenButton(66, y + dy * 2, 313, 56, TITLE_CONTINUE_BUTTON_NORMAL, TITLE_CONTINUE_BUTTON_ON, VIRTUAL_SCREEN, 0f) {{
+        continueButton = new TitleScreenButton(66, y + dy * 2, 313, 56, TITLE_CONTINUE_BUTTON_NORMAL, TITLE_CONTINUE_BUTTON_ON, VIRTUAL_SCREEN, 0f, 2) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -467,7 +466,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        realmsButton = new TitleScreenButton(66, y + dy * 3, 164, 54, TITLE_REAMLS_BUTTON_NORMAL, TITLE_REAMLS_BUTTON_ON, VIRTUAL_SCREEN, 0f) {{
+        realmsButton = new TitleScreenButton(66, y + dy * 3, 164, 54, TITLE_REAMLS_BUTTON_NORMAL, TITLE_REAMLS_BUTTON_ON, VIRTUAL_SCREEN, 0f, 0) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -476,7 +475,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        modListButton = new TitleScreenButton(58, y + dy * 4, 211, 54, TITLE_MOD_LIST_BUTTON_NORMAL, TITLE_MOD_LIST_BUTTON_ON, VIRTUAL_SCREEN, 0f) {{
+        modListButton = new TitleScreenButton(58, y + dy * 4, 211, 54, TITLE_MOD_LIST_BUTTON_NORMAL, TITLE_MOD_LIST_BUTTON_ON, VIRTUAL_SCREEN, 0f, 0) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -485,7 +484,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        optionsButton = new TitleScreenButton(59, y + dy * 5, 253, 56, TITLE_OPTIONS_BUTTON_NORMAL, TITLE_OPTIONS_BUTTON_ON, VIRTUAL_SCREEN, 0f) {{
+        optionsButton = new TitleScreenButton(59, y + dy * 5, 253, 56, TITLE_OPTIONS_BUTTON_NORMAL, TITLE_OPTIONS_BUTTON_ON, VIRTUAL_SCREEN, 0f, 0) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -494,7 +493,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        quitGameButton = new TitleScreenButton(60, y + dy * 6, 233, 54, TITLE_QUIT_GAME_BUTTON_NORMAL, TITLE_QUIT_GAME_BUTTON_ON, VIRTUAL_SCREEN, 0f) {{
+        quitGameButton = new TitleScreenButton(60, y + dy * 6, 233, 54, TITLE_QUIT_GAME_BUTTON_NORMAL, TITLE_QUIT_GAME_BUTTON_ON, VIRTUAL_SCREEN, 0f, 0) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 

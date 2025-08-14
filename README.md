@@ -17,3 +17,5 @@ Minecraft 1.12.2 移植版。
 兼容 Custom Main Menu。（因为是直接新建了一个界面而不是替换）
 
 依赖 [MixinBooter](https://github.com/CleanroomMC/MixinBooter)。
+
+反射不会写，所以与 Default World Generator 的联动暂时不可用（

@@ -3,14 +3,14 @@ package com.paulzzh.yuzu.gui;
 import com.paulzzh.yuzu.function.AnimationFunction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import org.lwjgl.opengl.GL11;
 
 import java.time.Instant;
 import java.util.function.Consumer;
 
-import static com.paulzzh.yuzu.init.InitSounds.YUZU_TITLE_BUTTON_ON;
+import static com.paulzzh.yuzu.init.InitSounds.*;
 
 /**
  * @author : IMG
@@ -30,6 +30,10 @@ public class TitleScreenButton {
     private boolean isHovered = false;
     private boolean isFocused = false;
     private Consumer<TitleScreenButton> onClick;
+
+    private int soundIndex;
+    private SoundEvent sound;
+
     /**
      * 动画相关
      */
@@ -38,7 +42,7 @@ public class TitleScreenButton {
     private Long delay;
     private AnimationFunction<Float> alphaFunction;
 
-    public TitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover, VirtualScreen virtualScreen, float alpha) {
+    public TitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover, VirtualScreen virtualScreen, float alpha, int index) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -47,6 +51,7 @@ public class TitleScreenButton {
         this.textureHover = textureHover;
         this.virtualScreen = virtualScreen;
         this.alpha = alpha;
+        this.soundIndex = index;
         this.mc = Minecraft.getMinecraft();
     }
 
@@ -87,8 +92,17 @@ public class TitleScreenButton {
             if (onClick != null) {
                 onClick.accept(this);
             }
-            // 播放点击声音
-            mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            switch (soundIndex) {
+                case 1:
+                    this.sound = YUZU_TITLE_BUTTON_SINGLEPLAYER;
+                    break;
+                case 2:
+                    this.sound = YUZU_TITLE_BUTTON_MUTIPLAYER;
+                    break;
+                default:
+                    this.sound = YUZU_TITLE_BUTTON_CLICK;
+            };
+            mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(sound, 1.0F));
         }
     }
 

@@ -14,7 +14,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.client.GuiModList;
 import org.lwjgl.opengl.GL11;
 
-import java.lang.reflect.Constructor;
+//import java.lang.reflect.Constructor;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
@@ -52,17 +52,17 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     private static Long soundStartTime = null;
 
     private static PositionedSoundRecord ISOUND_TITLE;
-    private static Constructor<?> GuiCreateCustomWorld;
+//    private static Constructor<?> GuiCreateCustomWorld;
     private int stage;
 
     public YuZuUIGuiMainMenu() {
         mc = Minecraft.getMinecraft();
         stage = 0;
-        try {
-            Class<?> clazz = Class.forName("com.fireball1725.defaultworldgenerator.gui.GuiCreateCustomWorld");
-            GuiCreateCustomWorld = clazz.getConstructor(GuiScreen.class);
-        } catch (Exception ignored) {
-        }
+//        try {
+//            Class<?> clazz = Class.forName("com.fireball1725.defaultworldgenerator.gui.GuiCreateCustomWorld");
+//            GuiCreateCustomWorld = clazz.getConstructor(GuiScreen.class);
+//        } catch (Exception ignored) {
+//        }
         initWidgets();
     }
 
@@ -241,17 +241,17 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         if (newGameButton != null) {
             newGameButton.setOnClick((button) -> {
                 playVoice(YUZU_TITLE_BUTTON_NEW_GAME);
-                // 安装了 DefaultWorldGenerator
-                if (GuiCreateCustomWorld != null) {
-                    try {
-                        mc.displayGuiScreen((GuiScreen) GuiCreateCustomWorld.newInstance(this));
-                    } catch (Exception ignored) {
-                        // ..? 改为打开选择世界，避免锁定世界生成器失效
-                        mc.displayGuiScreen(new GuiWorldSelection(this));
-                    }
-                } else {
+//                // 安装了 DefaultWorldGenerator
+//                if (GuiCreateCustomWorld != null) {
+//                    try {
+//                        mc.displayGuiScreen((GuiScreen) GuiCreateCustomWorld.newInstance(this));
+//                    } catch (Exception ignored) {
+//                        // ..? 改为打开选择世界，避免锁定世界生成器失效
+//                        mc.displayGuiScreen(new GuiWorldSelection(this));
+//                    }
+//                } else {
                     mc.displayGuiScreen(new GuiCreateWorld(this));
-                }
+//                }
             });
         }
 

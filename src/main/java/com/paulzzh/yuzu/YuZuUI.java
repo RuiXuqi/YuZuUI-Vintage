@@ -9,7 +9,9 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = YuZuUI.MODID, version = Tags.VERSION, name = "YuZuUI", acceptedMinecraftVersions = "[1.12.2]")
+import java.util.Objects;
+
+@Mod(modid = YuZuUI.MODID, version = Tags.VERSION, name = "YuZuUI", dependencies = "required-after:mixinbooter")
 public class YuZuUI {
 
     public static final String MODID = "yuzu";
@@ -19,8 +21,10 @@ public class YuZuUI {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        YuZuUI.LOG.info(YuZuUIConfig.greeting);
-        YuZuUI.LOG.info("I am YuZuUI at version " + Tags.VERSION);
+        if (!Objects.equals(YuZuUIConfig.greeting, "")){
+            YuZuUI.LOG.info(YuZuUIConfig.greeting);
+            YuZuUI.LOG.info("I am YuZuUI at version " + Tags.VERSION);
+        }
     }
 
     @Mod.EventHandler

@@ -9,7 +9,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Config(modid = YuZuUI.MODID)
 @Mod.EventBusSubscriber(modid = YuZuUI.MODID)
 public class YuZuUIConfig {
-    @Config.Comment("How shall I greet?")
+    @Config.Comment({
+        "启动时打印启动信息，留空以禁用。",
+        "How shall I greet?"
+    })
     @Config.Name("Greeting")
     public static String greeting = "Ciallo～(∠ · ω < )⌒★";
 
@@ -17,7 +20,7 @@ public class YuZuUIConfig {
     @Config.Name("BGM")
     public static boolean bgm = true;
 
-    @Config.Comment("将后日谈按钮打开的界面改为语言切换界面")
+    @Config.Comment("“后日谈”按钮打开语言界面，而不是 Realms 界面。")
     @Config.Name("Replace Realms")
     public static boolean replaceRealms = true;
 
@@ -25,9 +28,9 @@ public class YuZuUIConfig {
     @Config.Name("Voice")
     public static boolean voice = true;
 
-    @Config.Comment("直接退出游戏？(否则返回到原主菜单)")
+    @Config.Comment("直接退出游戏，而不是回到主菜单。")
     @Config.Name("Just Exit")
-    public static boolean justExit = false;
+    public static boolean justExit = true;
 
     @SubscribeEvent
     public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {

@@ -66,4 +66,5 @@ dependencies {
     //     transitive = false
     // }
     compileOnly rfg.deobf('curse.maven:galacticraft-legacy-564236:6364107')
+    runtimeOnly 'curse.maven:default-world-generator-port:241140:2499252'
 }

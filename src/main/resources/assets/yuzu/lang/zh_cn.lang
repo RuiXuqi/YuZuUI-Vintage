@@ -1,0 +1,5 @@
+yuzu.config.greeting=How shall I greet?
+yuzu.config.bgm=BGM
+yuzu.config.replace_realms=替换 Realms 按钮
+yuzu.config.voice=语音
+yuzu.config.just_exit=直接退出

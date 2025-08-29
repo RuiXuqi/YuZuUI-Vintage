@@ -11,17 +11,17 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Objects;
 
-@Mod(modid = YuZuUI.MODID, version = Tags.VERSION, name = "YuZuUI", dependencies = "required-after:mixinbooter")
+@Mod(modid = YuZuUI.MODID, version = Tags.VERSION, name = Tags.MOD_NAME, dependencies = "required-after:mixinbooter")
 public class YuZuUI {
 
     public static final String MODID = "yuzu";
-    public static final Logger LOG = LogManager.getLogger(MODID);
+    public static final Logger LOG = LogManager.getLogger(Tags.MOD_NAME);
     public static boolean inGamed = false;
     public static boolean exit = false;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        if (!Objects.equals(YuZuUIConfig.greeting, "")){
+        if (!YuZuUIConfig.greeting.isEmpty()){
             YuZuUI.LOG.info(YuZuUIConfig.greeting);
             YuZuUI.LOG.info("I am YuZuUI at version " + Tags.VERSION);
         }

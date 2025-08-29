@@ -1,0 +1,5 @@
+yuzu.config.greeting=How shall I greet?
+yuzu.config.bgm=BGM
+yuzu.config.replace_realms=Replace Realms
+yuzu.config.voice=Voice
+yuzu.config.just_exit=Just Exit

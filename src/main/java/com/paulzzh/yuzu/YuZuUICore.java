@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-@IFMLLoadingPlugin.Name(YuZuUI.MODID)
+@IFMLLoadingPlugin.Name(Tags.MOD_ID)
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 public class YuZuUICore implements IFMLLoadingPlugin, IEarlyMixinLoader {
 

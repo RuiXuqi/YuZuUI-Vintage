@@ -1,38 +1,68 @@
 package com.paulzzh.yuzu;
 
+import com.paulzzh.yuzu.sound.VoiceManager;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Config(modid = YuZuUI.MODID)
-@Mod.EventBusSubscriber(modid = YuZuUI.MODID)
+@Config(modid = Tags.MOD_ID)
+@Mod.EventBusSubscriber(modid = Tags.MOD_ID)
 public class YuZuUIConfig {
+    private static final String PREFIX = Tags.MOD_ID + ".config.";
+
     @Config.Comment("启动时打印启动信息，留空以禁用。")
-    @Config.LangKey("yuzu.config.greeting")
+    @Config.LangKey(PREFIX + "greeting")
     public static String greeting = "Ciallo～(∠ · ω < )⌒★";
 
     @Config.Comment("背景音乐。")
-    @Config.LangKey("yuzu.config.bgm")
+    @Config.LangKey(PREFIX + "bgm")
     public static boolean bgm = true;
 
     @Config.Comment("“后日谈”按钮打开语言界面，而不是 Realms 界面。")
-    @Config.LangKey("yuzu.config.replace_realms")
+    @Config.LangKey(PREFIX + "replace_realms")
     public static boolean replaceRealms = true;
 
-    @Config.Comment("人物语音。")
-    @Config.LangKey("yuzu.config.voice")
+    @Config.Comment("直接退出游戏，而不是回到主菜单。")
+    @Config.LangKey(PREFIX + "just_exit")
+    public static boolean justExit = true;
+
+    @Config.Comment("控制是否启用人物语音。")
+    @Config.LangKey(PREFIX + "voice")
     public static boolean voice = true;
 
-    @Config.Comment("直接退出游戏，而不是回到主菜单。")
-    @Config.LangKey("yuzu.config.just_exit")
-    public static boolean justExit = true;
+    private static final String VOICE_LIST_KEY = PREFIX + "voice_list";
+    @Config.LangKey(VOICE_LIST_KEY)
+    public static final VoiceList VoiceList = new VoiceList();
+    public static class VoiceList {
+        @Config.LangKey(VOICE_LIST_KEY + ".lena")
+        public boolean lena = false;
+        @Config.LangKey(VOICE_LIST_KEY + ".mako")
+        public boolean mako = false;
+        @Config.LangKey(VOICE_LIST_KEY + ".murasame")
+        public boolean murasame = true;
+        @Config.LangKey(VOICE_LIST_KEY + ".yoshino")
+        public boolean yoshino = false;
+        @Config.LangKey(VOICE_LIST_KEY + ".koharu")
+        public boolean koharu = false;
+        @Config.LangKey(VOICE_LIST_KEY + ".roka")
+        public boolean roka = false;
+        @Config.LangKey(VOICE_LIST_KEY + ".rentarou")
+        public boolean rentarou = false;
+        @Config.LangKey(VOICE_LIST_KEY + ".mizuha")
+        public boolean mizuha = false;
+        @Config.LangKey(VOICE_LIST_KEY + ".yasuharu")
+        public boolean yasuharu = false;
+        @Config.LangKey(VOICE_LIST_KEY + ".genjurou")
+        public boolean genjurou = false;
+    }
 
     @SubscribeEvent
     public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.getModID().equals(YuZuUI.MODID)) {
-            ConfigManager.sync(YuZuUI.MODID, Config.Type.INSTANCE);
+        if (event.getModID().equals(Tags.MOD_ID)) {
+            ConfigManager.sync(Tags.MOD_ID, Config.Type.INSTANCE);
+            VoiceManager.updateCharacterStatus();
         }
     }
 

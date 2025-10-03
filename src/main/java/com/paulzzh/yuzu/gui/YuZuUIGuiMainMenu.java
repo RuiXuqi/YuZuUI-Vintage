@@ -1,6 +1,7 @@
 package com.paulzzh.yuzu.gui;
 
 import com.paulzzh.yuzu.YuZuUIConfig;
+import com.paulzzh.yuzu.sound.VoiceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiCreateWorld;
@@ -21,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 import static com.paulzzh.yuzu.YuZuUI.exit;
 import static com.paulzzh.yuzu.YuZuUI.inGamed;
 import static com.paulzzh.yuzu.constant.TextureConst.*;
-import static com.paulzzh.yuzu.init.InitSounds.*;
+import static com.paulzzh.yuzu.sound.InitSounds.*;
 import static java.lang.Thread.sleep;
 
 public class YuZuUIGuiMainMenu extends GuiScreen {
@@ -80,9 +81,16 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         }
     }
 
-    private static void playVoice(SoundEvent voice) {
-        if (YuZuUIConfig.voice) {
+    private static boolean playVoice(VoiceManager.VoiceType voice) {
+        return playVoice(VoiceManager.getVoice(voice));
+    }
+
+    private static boolean playVoice(SoundEvent voice) {
+        if (YuZuUIConfig.voice && voice != null) {
             mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(voice, 1.0F));
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -257,7 +265,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
         if (selectWorldButton != null) {
             selectWorldButton.setOnClick((button) -> {
-                playVoice(YUZU_TITLE_BUTTON_SELECT_WORLD);
+                playVoice(VoiceManager.VoiceType.SELECT_WORLD);
                 mc.displayGuiScreen(new GuiWorldSelection(this));
             });
         }
@@ -270,7 +278,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
         if (realmsButton != null) {
             realmsButton.setOnClick((button) -> {
-                playVoice(YUZU_TITLE_BUTTON_REALMS);
+                playVoice(VoiceManager.VoiceType.REALMS);
                 if (YuZuUIConfig.replaceRealms){
                     mc.displayGuiScreen(new GuiLanguage(this, mc.gameSettings, mc.getLanguageManager()));
                 } else {
@@ -281,7 +289,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
         if (optionsButton != null) {
             optionsButton.setOnClick((button) -> {
-                playVoice(YUZU_TITLE_BUTTON_OPTIONS);
+                playVoice(VoiceManager.VoiceType.OPTIONS);
                 mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
             });
         }
@@ -289,8 +297,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         if (quitGameButton != null) {
             quitGameButton.setOnClick((button) -> {
                 exit = true;
-                playVoice(YUZU_TITLE_BUTTON_QUIT_GAME);
-                if (YuZuUIConfig.justExit) {
+                if (playVoice(VoiceManager.VoiceType.QUIT_GAME) && YuZuUIConfig.justExit) {
                     CompletableFuture.completedFuture(null).whenComplete((unused, e) -> {
                         try {
                             // 等待音效播放完成
@@ -311,7 +318,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 
         if (modListButton != null) {
             modListButton.setOnClick((button) -> {
-                playVoice(YUZU_TITLE_BUTTON_MOD_LIST);
+                playVoice(VoiceManager.VoiceType.MOD_LIST);
                 mc.displayGuiScreen(new GuiModList(this));
             });
         }
@@ -356,7 +363,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
                 float v = (1f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 0f;
                 if (v == 1f && now != 1f) {
                     stage = 2;
-                    playVoice(YUZU_TITLE_SENREN);
+                    playVoice(VoiceManager.VoiceType.SENREN);
                 }
                 return v;
             });
@@ -466,7 +473,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
             });
         }};
 
-        realmsButton = new TitleScreenButton(66, y + dy * 3, 164, 54, TITLE_REAMLS_BUTTON_NORMAL, TITLE_REAMLS_BUTTON_ON, VIRTUAL_SCREEN, 0f, 0) {{
+        realmsButton = new TitleScreenButton(66, y + dy * 3, 164, 54, TITLE_REALMS_BUTTON_NORMAL, TITLE_REALMS_BUTTON_ON, VIRTUAL_SCREEN, 0f, 0) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 

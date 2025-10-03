@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 import java.time.Instant;
 import java.util.function.Consumer;
 
-import static com.paulzzh.yuzu.init.InitSounds.*;
+import static com.paulzzh.yuzu.sound.InitSounds.*;
 
 /**
  * @author : IMG

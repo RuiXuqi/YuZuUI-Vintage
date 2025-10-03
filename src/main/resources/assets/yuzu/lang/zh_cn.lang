@@ -3,3 +3,14 @@ yuzu.config.bgm=BGM
 yuzu.config.replace_realms=替换 Realms 按钮
 yuzu.config.voice=语音
 yuzu.config.just_exit=直接退出
+
+yuzu.config.voice_list.lena=蕾娜·列支敦瑙尔
+yuzu.config.voice_list.mako=常陆茉子
+yuzu.config.voice_list.murasame=丛雨
+yuzu.config.voice_list.yoshino=朝武芳乃
+yuzu.config.voice_list.koharu=鞍马小春
+yuzu.config.voice_list.roka=马庭芦花
+yuzu.config.voice_list.rentarou=鞍马廉太郎
+yuzu.config.voice_list.mizuha=驹川美津叶
+yuzu.config.voice_list.yasuharu=朝武安晴
+yuzu.config.voice_list.genjurou=鞍马玄十郎

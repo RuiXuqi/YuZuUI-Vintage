@@ -61,6 +61,7 @@ public class VoiceManager {
                 VOICE_MAP.get(character).put(type, sound);
             }
         }
+        updateCharacterStatus();
     }
 
     /**

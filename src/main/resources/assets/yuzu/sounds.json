@@ -327,37 +327,37 @@
   "yuzu_title_senren_yasuharu": {
     "category": "master",
     "sounds": [{
-      "name": "yuzu:voice/yasuharuuha/yuzu_title_senren"
+      "name": "yuzu:voice/yasuharu/yuzu_title_senren"
     }]
   },
   "yuzu_title_button_mod_list_yasuharu": {
     "category": "master",
     "sounds": [{
-      "name": "yuzu:voice/yasuharuuha/yuzu_title_button_mod_list"
+      "name": "yuzu:voice/yasuharu/yuzu_title_button_mod_list"
     }]
   },
   "yuzu_title_button_options_yasuharu": {
     "category": "master",
     "sounds": [{
-      "name": "yuzu:voice/yasuharuuha/yuzu_title_button_options"
+      "name": "yuzu:voice/yasuharu/yuzu_title_button_options"
     }]
   },
   "yuzu_title_button_quit_game_yasuharu": {
     "category": "master",
     "sounds": [{
-      "name": "yuzu:voice/yasuharuuha/yuzu_title_button_quit_game"
+      "name": "yuzu:voice/yasuharu/yuzu_title_button_quit_game"
     }]
   },
   "yuzu_title_button_realms_yasuharu": {
     "category": "master",
     "sounds": [{
-      "name": "yuzu:voice/yasuharuuha/yuzu_title_button_realms"
+      "name": "yuzu:voice/yasuharu/yuzu_title_button_realms"
     }]
   },
   "yuzu_title_button_select_world_yasuharu": {
     "category": "master",
     "sounds": [{
-      "name": "yuzu:voice/yasuharuuha/yuzu_title_button_select_world"
+      "name": "yuzu:voice/yasuharu/yuzu_title_button_select_world"
     }]
   },
   "yuzu_title_senren_genjurou": {

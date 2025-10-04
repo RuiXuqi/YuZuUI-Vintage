@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Tags.MOD_ID, version = Tags.VERSION, name = Tags.MOD_NAME, dependencies = "required-after:mixinbooter")
+@Mod(modid = Tags.MOD_ID, version = Tags.VERSION, name = Tags.MOD_NAME, dependencies = "required-after:mixinbooter", clientSideOnly = true, acceptableRemoteVersions = "*")
 public class YuZuUI {
 
     public static final Logger LOG = LogManager.getLogger(Tags.MOD_NAME);

@@ -20,7 +20,7 @@ public class YuZuUIConfig {
     @Config.LangKey(PREFIX + "bgm")
     public static boolean bgm = true;
 
-    @Config.Comment("“后日谈”按钮打开语言界面，而不是 Realms 界面。")
+    @Config.Comment("“后日谈”按钮打开语言设置界面，而不是 Realms 界面。")
     @Config.LangKey(PREFIX + "replace_realms")
     public static boolean replaceRealms = true;
 
@@ -28,7 +28,7 @@ public class YuZuUIConfig {
     @Config.LangKey(PREFIX + "just_exit")
     public static boolean justExit = true;
 
-    @Config.Comment("控制是否启用人物语音。")
+    @Config.Comment("点击按钮时播放语音。")
     @Config.LangKey(PREFIX + "voice")
     public static boolean voice = true;
 

@@ -18,7 +18,7 @@ public class YuZuUI {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        if (!YuZuUIConfig.greeting.isEmpty()){
+        if (!YuZuUIConfig.greeting.isEmpty()) {
             YuZuUI.LOG.info(YuZuUIConfig.greeting);
             YuZuUI.LOG.info("I am YuZuUI at version " + Tags.VERSION);
         }

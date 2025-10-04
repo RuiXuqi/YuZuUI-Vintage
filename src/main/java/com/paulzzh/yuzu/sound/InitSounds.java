@@ -1,7 +1,6 @@
 package com.paulzzh.yuzu.sound;
 
 import com.paulzzh.yuzu.Tags;
-import com.paulzzh.yuzu.YuZuUI;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;

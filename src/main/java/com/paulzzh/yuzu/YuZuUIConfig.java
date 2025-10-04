@@ -35,6 +35,7 @@ public class YuZuUIConfig {
     private static final String VOICE_LIST_KEY = PREFIX + "voice_list";
     @Config.LangKey(VOICE_LIST_KEY)
     public static final VoiceList VoiceList = new VoiceList();
+
     public static class VoiceList {
         @Config.LangKey(VOICE_LIST_KEY + ".lena")
         public boolean lena = false;

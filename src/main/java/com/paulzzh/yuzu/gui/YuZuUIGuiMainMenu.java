@@ -4,18 +4,12 @@ import com.paulzzh.yuzu.YuZuUIConfig;
 import com.paulzzh.yuzu.sound.VoiceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.GuiCreateWorld;
-import net.minecraft.client.gui.GuiLanguage;
-import net.minecraft.client.gui.GuiMultiplayer;
-import net.minecraft.client.gui.GuiOptions;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiWorldSelection;
+import net.minecraft.client.gui.*;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.client.GuiModList;
 import org.lwjgl.opengl.GL11;
 
-//import java.lang.reflect.Constructor;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
@@ -53,7 +47,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
     private static Long soundStartTime = null;
 
     private static PositionedSoundRecord ISOUND_TITLE;
-//    private static Constructor<?> GuiCreateCustomWorld;
+    //    private static Constructor<?> GuiCreateCustomWorld;
     private int stage;
 
     public YuZuUIGuiMainMenu() {
@@ -258,7 +252,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
 //                        mc.displayGuiScreen(new GuiWorldSelection(this));
 //                    }
 //                } else {
-                    mc.displayGuiScreen(new GuiCreateWorld(this));
+                mc.displayGuiScreen(new GuiCreateWorld(this));
 //                }
             });
         }
@@ -279,7 +273,7 @@ public class YuZuUIGuiMainMenu extends GuiScreen {
         if (realmsButton != null) {
             realmsButton.setOnClick((button) -> {
                 playVoice(VoiceManager.VoiceType.REALMS);
-                if (YuZuUIConfig.replaceRealms){
+                if (YuZuUIConfig.replaceRealms) {
                     mc.displayGuiScreen(new GuiLanguage(this, mc.gameSettings, mc.getLanguageManager()));
                 } else {
                     new RealmsBridge().switchToRealms(this);

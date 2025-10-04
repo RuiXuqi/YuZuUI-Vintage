@@ -101,7 +101,8 @@ public class TitleScreenButton {
                     break;
                 default:
                     this.sound = YUZU_TITLE_BUTTON_CLICK;
-            };
+            }
+            ;
             mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(sound, 1.0F));
         }
     }

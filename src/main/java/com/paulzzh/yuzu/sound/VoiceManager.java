@@ -3,7 +3,10 @@ package com.paulzzh.yuzu.sound;
 import com.paulzzh.yuzu.YuZuUIConfig;
 import net.minecraft.util.SoundEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class VoiceManager {

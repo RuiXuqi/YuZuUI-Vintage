@@ -12,10 +12,10 @@
       "name": "yuzu:yuzu_title_button_click"
     }]
   },
-  "yuzu_title_button_mutiplayer": {
+  "yuzu_title_button_multiplayer": {
     "category": "master",
     "sounds": [{
-      "name": "yuzu:yuzu_title_button_mutiplayer"
+      "name": "yuzu:yuzu_title_button_multiplayer"
     }]
   },
   "yuzu_title_button_new_game": {

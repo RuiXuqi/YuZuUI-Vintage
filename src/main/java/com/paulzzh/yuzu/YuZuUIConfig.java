@@ -1,6 +1,6 @@
 package com.paulzzh.yuzu;
 
-import com.paulzzh.yuzu.sound.VoiceManager;
+import com.paulzzh.yuzu.sound.SoundManager;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -63,7 +63,7 @@ public class YuZuUIConfig {
     public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
         if (event.getModID().equals(Tags.MOD_ID)) {
             ConfigManager.sync(Tags.MOD_ID, Config.Type.INSTANCE);
-            VoiceManager.updateCharacterStatus();
+            SoundManager.updateCharacterStatus();
         }
     }
 

@@ -1,57 +1,18 @@
 package com.paulzzh.yuzu.sound;
 
 import com.paulzzh.yuzu.YuZuUIConfig;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.SoundEvent;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class VoiceManager {
-
-    public enum Character {
-        LENA("lena"),
-        MAKO("mako"),
-        MURASAME("murasame"),
-        YOSHINO("yoshino"),
-        KOHARU("koharu"),
-        ROKA("roka"),
-        RENTAROU("rentarou"),
-        MIZUHA("mizuha"),
-        YASUHARU("yasuharu"),
-        GENJUROU("genjurou");
-
-        private final String key;
-
-        Character(String key) {
-            this.key = key;
-        }
-
-        public String toString() {
-            return this.key;
-        }
-    }
-
-    public enum VoiceType {
-        SENREN("senren"),
-        MOD_LIST("button_mod_list"),
-        OPTIONS("button_options"),
-        QUIT_GAME("button_quit_game"),
-        REALMS("button_realms"),
-        SELECT_WORLD("button_select_world");
-
-        private final String key;
-
-        VoiceType(String key) {
-            this.key = key;
-        }
-
-        public String toString() {
-            return this.key;
-        }
-    }
+public class SoundManager {
 
     private static final Map<Character, Map<VoiceType, SoundEvent>> VOICE_MAP = new EnumMap<>(Character.class);
     private static final List<Character> CHARACTER_ENABLED = new ArrayList<>();
@@ -136,4 +97,23 @@ public class VoiceManager {
         }
     }
 
+    public static boolean getIsVoiceAvailable(SoundEvent voice) {
+        return YuZuUIConfig.voice && voice != null;
+    }
+
+    public static void playSound(Minecraft mc, SoundEvent sound) {
+        mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(sound, 1.0F));
+    }
+
+    public static void playVoice(Minecraft mc, @Nullable SoundEvent voice) {
+        if (getIsVoiceAvailable(voice)) {
+            playSound(mc, voice);
+        }
+    }
+
+    public static SoundEvent playVoice(Minecraft mc, VoiceType voiceType) {
+        SoundEvent voice = getVoice(voiceType);
+        playVoice(mc, voice);
+        return voice;
+    }
 }

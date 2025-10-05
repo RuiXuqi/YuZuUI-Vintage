@@ -1,6 +1,6 @@
-package com.paulzzh.yuzu.mixins.early.minecraft;
+package com.paulzzh.yuzu.mixin.early.minecraft;
 
-import com.paulzzh.yuzu.gui.YuZuUIGuiMainMenu;
+import com.paulzzh.yuzu.gui.screen.SenrenBankaTitleScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
@@ -16,7 +16,7 @@ import static com.paulzzh.yuzu.YuZuUI.inGamed;
 @Mixin(value = Minecraft.class)
 public class MinecraftMixin {
     @Unique
-    private static YuZuUIGuiMainMenu YuZuUI$INSTANCE = null;
+    private static SenrenBankaTitleScreen YuZuUI$INSTANCE = null;
 
     @Inject(method = "displayGuiScreen", at = @At(value = "RETURN"))
     public void inject(GuiScreen guiScreenIn, CallbackInfo ci) {
@@ -24,7 +24,7 @@ public class MinecraftMixin {
             || (guiScreenIn != null && "lumien.custommainmenu.gui.GuiCustom".equals(guiScreenIn.getClass().getCanonicalName())))
             && !exit) {
             if (YuZuUI$INSTANCE == null) {
-                YuZuUI$INSTANCE = new YuZuUIGuiMainMenu();
+                YuZuUI$INSTANCE = new SenrenBankaTitleScreen();
             }
             Minecraft.getMinecraft().displayGuiScreen(YuZuUI$INSTANCE);
         }

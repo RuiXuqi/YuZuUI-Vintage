@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8.5",
-  "package": "com.paulzzh.yuzu.mixins.early",
+  "package": "com.paulzzh.yuzu.mixin.early",
   "refmap": "mixins.yuzu.refmap.json",
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",

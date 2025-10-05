@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 public class InitSounds {
     public static SoundEvent YUZU_TITLE_MUSIC;
     public static SoundEvent YUZU_TITLE_BUTTON_CLICK;
-    public static SoundEvent YUZU_TITLE_BUTTON_MUTIPLAYER;
+    public static SoundEvent YUZU_TITLE_BUTTON_MULTIPLAYER;
     public static SoundEvent YUZU_TITLE_BUTTON_NEW_GAME;
     public static SoundEvent YUZU_TITLE_BUTTON_ON;
     public static SoundEvent YUZU_TITLE_BUTTON_SINGLEPLAYER;
@@ -16,11 +16,11 @@ public class InitSounds {
     public static void registerSounds() {
         YUZU_TITLE_MUSIC = registerSound("music");
         YUZU_TITLE_BUTTON_CLICK = registerSound("button_click");
-        YUZU_TITLE_BUTTON_MUTIPLAYER = registerSound("button_mutiplayer");
+        YUZU_TITLE_BUTTON_MULTIPLAYER = registerSound("button_multiplayer");
         YUZU_TITLE_BUTTON_NEW_GAME = registerSound("button_new_game");
         YUZU_TITLE_BUTTON_ON = registerSound("button_on");
         YUZU_TITLE_BUTTON_SINGLEPLAYER = registerSound("button_singleplayer");
-        VoiceManager.init();
+        SoundManager.init();
     }
 
     public static SoundEvent registerSound(String name) {

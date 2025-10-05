@@ -13,6 +13,13 @@ import org.apache.logging.log4j.Logger;
 public class YuZuUI {
 
     public static final Logger LOG = LogManager.getLogger(Tags.MOD_NAME);
+    /**
+     * 是否已经展示过 UI。第一次等待时间较长。
+     */
+    public static boolean isShowed = false;
+    /**
+     * 是否在再次打开 UI 前进行了游戏。防止 UI 反复加载。
+     */
     public static boolean inGamed = false;
     public static boolean exit = false;
 

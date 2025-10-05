@@ -1,4 +1,4 @@
-package com.paulzzh.yuzu.constant;
+package com.paulzzh.yuzu.texture;
 
 import com.paulzzh.yuzu.Tags;
 import net.minecraft.util.ResourceLocation;
@@ -15,6 +15,7 @@ public class TextureConst {
     public static final ResourceLocation TITLE_MAKO = newGuiResource("title_mako.png");
     public static final ResourceLocation TITLE_LENA = newGuiResource("title_lena.png");
     public static final ResourceLocation TITLE_LOGO = newGuiResource("title_logo.png");
+    public static final ResourceLocation TITLE_HEAD = newGuiResource("title_head.png");
 
     public static final ResourceLocation TITLE_NEW_GAME_BUTTON_NORMAL = newGuiResource("title_new_game_button_normal.png");
     public static final ResourceLocation TITLE_NEW_GAME_BUTTON_ON = newGuiResource("title_new_game_button_on.png");

@@ -2,7 +2,6 @@
  * It is advised that you do not edit anything in the build.gradle; unless you are sure of what you are doing
  */
 import com.gtnewhorizons.retrofuturagradle.mcp.InjectTagsTask
-import org.jetbrains.changelog.Changelog
 import org.jetbrains.gradle.ext.Gradle
 
 plugins {
@@ -12,8 +11,7 @@ plugins {
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.9'
     id 'com.gtnewhorizons.retrofuturagradle' version '1.4.1'
     id 'com.matthewprenger.cursegradle' version '1.4.0' apply false
-    id 'com.modrinth.minotaur' version '2.+' apply false
-    id 'org.jetbrains.changelog' version '2.2.1'
+    id 'com.diffplug.spotless' version '7.2.1'
 }
 
 apply from: 'gradle/scripts/helpers.gradle'
@@ -25,6 +23,7 @@ assertProperty 'mod_id'
 assertProperty 'mod_name'
 
 assertSubProperties 'use_tags', 'tag_class_name'
+assertSubProperties 'use_lombok_ap', 'lombok_version'
 assertSubProperties 'use_access_transformer', 'access_transformer_locations'
 assertSubProperties 'use_mixins', 'mixin_booter_version', 'mixin_refmap'
 assertSubProperties 'is_coremod', 'coremod_includes_mod', 'coremod_plugin_class_name'
@@ -78,7 +77,7 @@ minecraft {
     useDependencyAccessTransformers.set(propertyBool('use_dependency_at_files'))
 
     username.set(propertyString('minecraft_username'))
-
+    
     // Add any additional tweaker classes here
     extraTweakClasses.addAll(propertyStringList('extra_tweak_classes'))
 
@@ -125,8 +124,18 @@ dependencies {
             transitive = false // We only care about the 1 annotation class
         }
     }
+    if (propertyBool('use_lombok_ap')) {
+        compileOnly "org.projectlombok:lombok:${propertyString('lombok_version')}"
+        annotationProcessor "org.projectlombok:lombok:${propertyString('lombok_version')}"
+
+        testCompileOnly "org.projectlombok:lombok:${propertyString('lombok_version')}"
+        testAnnotationProcessor "org.projectlombok:lombok:${propertyString('lombok_version')}"
+    }
     if (propertyBool('use_asset_mover')) {
         implementation "com.cleanroommc:assetmover:${propertyString('asset_mover_version')}"
+    }
+    if (propertyBool('use_config_any_time')) {
+        implementation "com.cleanroommc:configanytime:${propertyString('config_any_time_version')}"
     }
     if (propertyBool('use_mixins')) {
         String mixin = modUtils.enableMixins("zone.rong:mixinbooter:${propertyString('mixin_booter_version')}", propertyString('mixin_refmap'))
@@ -166,6 +175,7 @@ processResources {
     inputs.property 'mod_id', propertyString('mod_id')
     inputs.property 'mod_name', propertyString('mod_name')
     inputs.property 'mod_version', propertyString('mod_version')
+    inputs.property 'mod_description', propertyString('mod_description')
     inputs.property 'mod_authors', "${propertyStringList('mod_authors', ',').join(', ')}"
     inputs.property 'mod_credits', propertyString('mod_credits')
     inputs.property 'mod_url', propertyString('mod_url')
@@ -183,6 +193,7 @@ processResources {
                 'mod_id': propertyString('mod_id'),
                 'mod_name': propertyString('mod_name'),
                 'mod_version': propertyString('mod_version'),
+                'mod_description': propertyString('mod_description'),
                 'mod_authors': "${propertyStringList('mod_authors', ',').join(', ')}",
                 'mod_credits': propertyString('mod_credits'),
                 'mod_url': propertyString('mod_url'),
@@ -228,6 +239,9 @@ idea {
     project {
         settings {
             runConfigurations {
+                "0. Apply Spotless"(Gradle) {
+                    taskNames = ["spotlessApply"]
+                }
                 "1. Run Client"(Gradle) {
                     taskNames = ["runClient"]
                 }
@@ -239,6 +253,9 @@ idea {
                 }
                 "4. Run Obfuscated Server"(Gradle) {
                     taskNames = ["runObfServer"]
+                }
+                "5. Build Mod"(Gradle) {
+                    taskNames = ["build"]
                 }
             }
             compiler.javac {
@@ -267,19 +284,6 @@ test {
             showStandardStreams = true
         }
     }
-}
-
-String parserChangelog() {
-    if (!file('CHANGELOG.md').exists()) {
-        throw new GradleException('publish_with_changelog is true, but CHANGELOG.md does not exist in the workspace!')
-    }
-    String parsedChangelog = changelog.renderItem(
-            changelog.get(propertyString('mod_version')).withHeader(false).withEmptySections(false),
-            Changelog.OutputType.MARKDOWN)
-    if (parsedChangelog.isEmpty()) {
-        throw new GradleException('publish_with_changelog is true, but the changelog for the latest version is empty!')
-    }
-    return parsedChangelog
 }
 
 tasks.register('generateMixinJson') {

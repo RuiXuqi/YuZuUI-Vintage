@@ -10,7 +10,6 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
-import javax.annotation.Nullable;
 import java.time.Instant;
 import java.util.function.Consumer;
 
@@ -30,11 +29,11 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
     /**
      * 按钮点击声音。
      */
-    private final SoundEvent sound;
+    private SoundEvent sound;
     /**
      * 特定的语音种类。
      */
-    private final VoiceType voiceType;
+    private VoiceType voiceType;
     /**
      * 随机到的语音，会在播放后刷新。
      */
@@ -53,7 +52,7 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
 
     private AnimationFunction<Float> alphaFunction;
 
-    public TitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover, VirtualScreen virtualScreen, float alpha, @Nullable SoundEvent sound, @Nullable VoiceType voiceType) {
+    public TitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover, VirtualScreen virtualScreen) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -61,22 +60,10 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
         this.texture = texture;
         this.textureHover = textureHover;
         this.virtualScreen = virtualScreen;
-        this.alpha = alpha;
-        this.sound = sound;
-        this.voiceType = voiceType;
+        this.sound = YUZU_TITLE_BUTTON_CLICK;
+        this.voiceType = null;
         this.visible = true;
-    }
-
-    public TitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover, VirtualScreen virtualScreen, float alpha, @Nullable SoundEvent sound) {
-        this(x, y, width, height, texture, textureHover, virtualScreen, alpha, sound, null);
-    }
-
-    public TitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover, VirtualScreen virtualScreen, float alpha, @Nullable VoiceType voiceType) {
-        this(x, y, width, height, texture, textureHover, virtualScreen, alpha, YUZU_TITLE_BUTTON_CLICK, voiceType);
-    }
-
-    public TitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover, VirtualScreen virtualScreen, float alpha) {
-        this(x, y, width, height, texture, textureHover, virtualScreen, alpha, YUZU_TITLE_BUTTON_CLICK, null);
+        this.alpha = 0f;
     }
 
     @Override
@@ -164,5 +151,13 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
 
     public void setAlphaFunction(AnimationFunction<Float> alphaFunction) {
         this.alphaFunction = alphaFunction;
+    }
+
+    public void setSound(SoundEvent sound) {
+        this.sound = sound;
+    }
+
+    public void setVoiceType(VoiceType voiceType) {
+        this.voiceType = voiceType;
     }
 }

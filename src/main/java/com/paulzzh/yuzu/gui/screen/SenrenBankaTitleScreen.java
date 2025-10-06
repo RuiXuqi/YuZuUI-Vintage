@@ -293,7 +293,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         int dy = 100;
 
         // 新建世界
-        TitleScreenButton newGameButton = new TitleScreenButton(60, y, 207, 54, TextureConst.TITLE_NEW_GAME_BUTTON_NORMAL, TextureConst.TITLE_NEW_GAME_BUTTON_ON, VIRTUAL_SCREEN, 0f) {{
+        TitleScreenButton newGameButton = new TitleScreenButton(60, y, 207, 54, TextureConst.TITLE_NEW_GAME_BUTTON_NORMAL, TextureConst.TITLE_NEW_GAME_BUTTON_ON, VIRTUAL_SCREEN) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -319,13 +319,15 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
 
         // 选择世界
-        TitleScreenButton selectWorldButton = new TitleScreenButton(60, y + dy, 206, 55, TextureConst.TITLE_SELECT_WORLD_BUTTON_NORMAL, TextureConst.TITLE_SELECT_WORLD_BUTTON_ON, VIRTUAL_SCREEN, 0f, InitSounds.YUZU_TITLE_BUTTON_SINGLEPLAYER) {{
+        TitleScreenButton selectWorldButton = new TitleScreenButton(60, y + dy, 206, 55, TextureConst.TITLE_SELECT_WORLD_BUTTON_NORMAL, TextureConst.TITLE_SELECT_WORLD_BUTTON_ON, VIRTUAL_SCREEN) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
             setAlphaFunction((t, now) -> {
                 return (1f - 0f) * t + 0f;
             });
+
+            setSound(InitSounds.YUZU_TITLE_BUTTON_SINGLEPLAYER);
         }};
 
         selectWorldButton.setOnClick((button) -> {
@@ -334,13 +336,15 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
 
         // 多人游戏
-        TitleScreenButton continueButton = new TitleScreenButton(66, y + dy * 2, 313, 56, TextureConst.TITLE_CONTINUE_BUTTON_NORMAL, TextureConst.TITLE_CONTINUE_BUTTON_ON, VIRTUAL_SCREEN, 0f, InitSounds.YUZU_TITLE_BUTTON_MULTIPLAYER) {{
+        TitleScreenButton continueButton = new TitleScreenButton(66, y + dy * 2, 313, 56, TextureConst.TITLE_CONTINUE_BUTTON_NORMAL, TextureConst.TITLE_CONTINUE_BUTTON_ON, VIRTUAL_SCREEN) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
             setAlphaFunction((t, now) -> {
                 return (1f - 0f) * t + 0f;
             });
+
+            setSound(InitSounds.YUZU_TITLE_BUTTON_MULTIPLAYER);
         }};
 
         continueButton.setOnClick((button) -> {
@@ -349,13 +353,15 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
 
         // realms
-        TitleScreenButton realmsButton = new TitleScreenButton(66, y + dy * 3, 164, 54, TextureConst.TITLE_REALMS_BUTTON_NORMAL, TextureConst.TITLE_REALMS_BUTTON_ON, VIRTUAL_SCREEN, 0f, VoiceType.REALMS) {{
+        TitleScreenButton realmsButton = new TitleScreenButton(66, y + dy * 3, 164, 54, TextureConst.TITLE_REALMS_BUTTON_NORMAL, TextureConst.TITLE_REALMS_BUTTON_ON, VIRTUAL_SCREEN) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
             setAlphaFunction((t, now) -> {
                 return (1f - 0f) * t + 0f;
             });
+
+            setVoiceType(VoiceType.REALMS);
         }};
 
         realmsButton.setOnClick((button) -> {
@@ -368,13 +374,15 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
 
         // 模组列表
-        TitleScreenButton modListButton = new TitleScreenButton(58, y + dy * 4, 211, 54, TextureConst.TITLE_MOD_LIST_BUTTON_NORMAL, TextureConst.TITLE_MOD_LIST_BUTTON_ON, VIRTUAL_SCREEN, 0f, VoiceType.MOD_LIST) {{
+        TitleScreenButton modListButton = new TitleScreenButton(58, y + dy * 4, 211, 54, TextureConst.TITLE_MOD_LIST_BUTTON_NORMAL, TextureConst.TITLE_MOD_LIST_BUTTON_ON, VIRTUAL_SCREEN) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
             setAlphaFunction((t, now) -> {
                 return (1f - 0f) * t + 0f;
             });
+
+            setVoiceType(VoiceType.MOD_LIST);
         }};
 
         modListButton.setOnClick((button) -> {
@@ -383,13 +391,15 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
 
         // 设置
-        TitleScreenButton optionsButton = new TitleScreenButton(59, y + dy * 5, 253, 56, TextureConst.TITLE_OPTIONS_BUTTON_NORMAL, TextureConst.TITLE_OPTIONS_BUTTON_ON, VIRTUAL_SCREEN, 0f, VoiceType.OPTIONS) {{
+        TitleScreenButton optionsButton = new TitleScreenButton(59, y + dy * 5, 253, 56, TextureConst.TITLE_OPTIONS_BUTTON_NORMAL, TextureConst.TITLE_OPTIONS_BUTTON_ON, VIRTUAL_SCREEN) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
             setAlphaFunction((t, now) -> {
                 return (1f - 0f) * t + 0f;
             });
+
+            setVoiceType(VoiceType.OPTIONS);
         }};
 
         optionsButton.setOnClick((button) -> {
@@ -398,13 +408,15 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
 
         // 退出游戏
-        TitleScreenButton quitGameButton = new TitleScreenButton(60, y + dy * 6, 233, 54, TextureConst.TITLE_QUIT_GAME_BUTTON_NORMAL, TextureConst.TITLE_QUIT_GAME_BUTTON_ON, VIRTUAL_SCREEN, 0f, VoiceType.QUIT_GAME) {{
+        TitleScreenButton quitGameButton = new TitleScreenButton(60, y + dy * 6, 233, 54, TextureConst.TITLE_QUIT_GAME_BUTTON_NORMAL, TextureConst.TITLE_QUIT_GAME_BUTTON_ON, VIRTUAL_SCREEN) {{
             setDelay(delay + 1670L);
             setDuration(570L);
 
             setAlphaFunction((t, now) -> {
                 return (1f - 0f) * t + 0f;
             });
+
+            setVoiceType(VoiceType.QUIT_GAME);
         }};
 
         quitGameButton.setOnClick((button) -> {

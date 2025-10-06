@@ -1,5 +1,6 @@
 package com.paulzzh.yuzu;
 
+import com.paulzzh.yuzu.gui.screen.SenrenBankaTitleScreen;
 import com.paulzzh.yuzu.sound.SoundManager;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -31,6 +32,10 @@ public class YuZuUIConfig {
     @Config.Comment("点击按钮时播放语音。")
     @Config.LangKey(PREFIX + "voice")
     public static boolean voice = true;
+
+    @Config.Comment("在下段语音播放前停止正播放的语音。")
+    @Config.LangKey(PREFIX + "prevent_mixing_voice")
+    public static boolean preventMixingVoice = true;
 
     private static final String VOICE_LIST_KEY = PREFIX + "voice_list";
     @Config.LangKey(VOICE_LIST_KEY)
@@ -64,6 +69,9 @@ public class YuZuUIConfig {
         if (event.getModID().equals(Tags.MOD_ID)) {
             ConfigManager.sync(Tags.MOD_ID, Config.Type.INSTANCE);
             SoundManager.updateCharacterStatus();
+            if (!bgm) {
+                SenrenBankaTitleScreen.stopBGM();
+            }
         }
     }
 

@@ -8,6 +8,8 @@ yuzu.config.just_exit=Just Exit
 yuzu.config.just_exit.tooltip=Quit game directly instead of quitting to Minecraft main menu.
 yuzu.config.voice=Voice
 yuzu.config.voice.tooltip=Play voice when clicking buttons.
+yuzu.config.prevent_mixing_voice=Prevent Mixing Voice
+yuzu.config.prevent_mixing_voice.tooltip=Stop the voice being played before playing new voice.
 
 yuzu.config.voice_list=Voice List
 yuzu.config.voice_list.tooltip=The list of enabled voice.

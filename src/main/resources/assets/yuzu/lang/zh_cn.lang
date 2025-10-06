@@ -8,6 +8,8 @@ yuzu.config.just_exit=直接退出
 yuzu.config.just_exit.tooltip=直接退出游戏，而不是回到主菜单。
 yuzu.config.voice=语音
 yuzu.config.voice.tooltip=点击按钮时播放语音。
+yuzu.config.prevent_mixing_voice=阻止语音混合
+yuzu.config.prevent_mixing_voice.tooltip=在下段语音播放前停止正播放的语音。
 
 yuzu.config.voice_list=语音列表
 yuzu.config.voice_list.tooltip=被启用的语音的列表。

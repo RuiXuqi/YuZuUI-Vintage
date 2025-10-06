@@ -16,6 +16,7 @@ public class SoundManager {
 
     private static final Map<Character, Map<VoiceType, SoundEvent>> VOICE_MAP = new EnumMap<>(Character.class);
     private static final List<Character> CHARACTER_ENABLED = new ArrayList<>();
+    private static PositionedSoundRecord playedVoiceRecord;
 
     public static void init() {
         for (Character character : Character.values()) {
@@ -101,13 +102,19 @@ public class SoundManager {
         return YuZuUIConfig.voice && voice != null;
     }
 
-    public static void playSound(Minecraft mc, SoundEvent sound) {
-        mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(sound, 1.0F));
+    public static PositionedSoundRecord playSound(Minecraft mc, SoundEvent sound) {
+        PositionedSoundRecord record = PositionedSoundRecord.getMasterRecord(sound, 1.0F);
+        mc.getSoundHandler().playSound(record);
+        return record;
     }
 
     public static void playVoice(Minecraft mc, @Nullable SoundEvent voice) {
         if (getIsVoiceAvailable(voice)) {
-            playSound(mc, voice);
+            // 不用检查语音有没有在播放或者 null，方法本身自带检查
+            if (YuZuUIConfig.preventMixingVoice) {
+                mc.getSoundHandler().stopSound(playedVoiceRecord);
+            }
+            playedVoiceRecord = playSound(mc, voice);
         }
     }
 

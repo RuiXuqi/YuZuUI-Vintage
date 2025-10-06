@@ -42,6 +42,15 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     private static final VirtualScreen VIRTUAL_SCREEN = new VirtualScreen(1920, 1080);
     private static long delay = 0L;
     private static Long soundStartTime = null;
+    /**
+     * 存储关于跳过退出语音延迟的信息。
+     * <pre>
+     * -1	初始状态。
+     * 0	点击退出按钮，开始延迟。
+     * 1	又一次点击了屏幕任意位置。
+     * 2	又又一次点击屏幕，立即关闭游戏。
+     * <pre>
+     */
     private static short passExitSound = -1;
     private static final ExecutorService executor;
     private static final List<Element> ELEMENTS = new ArrayList<>();
@@ -457,10 +466,8 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) {
         if (button != 0) return;
-        if (passExitSound == 0) {
-            passExitSound = 1;
-        } else if (passExitSound == 1) {
-            passExitSound = 2;
+        if (passExitSound == 0 || passExitSound == 1) {
+            passExitSound ++;
         }
         for (Clickable clickable : CLICKABLES) {
             if (clickable.mousePressed(this.mc, mouseX, mouseY)) {
@@ -472,5 +479,12 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     @Override
     public void keyTyped(char typedChar, int keyCode) {
         playSound(this.mc, YUZU_TITLE_BUTTON_ON);
+    }
+
+    public static void stopBGM() {
+        SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
+        if (!exit && ISOUND_TITLE != null && soundHandler.isSoundPlaying(ISOUND_TITLE)) {
+            soundHandler.stopSound(ISOUND_TITLE);
+        }
     }
 }

@@ -7,6 +7,7 @@ import com.paulzzh.yuzu.gui.widget.Clickable;
 import com.paulzzh.yuzu.gui.widget.Element;
 import com.paulzzh.yuzu.gui.widget.Layer;
 import com.paulzzh.yuzu.gui.widget.TitleScreenButton;
+import com.paulzzh.yuzu.reflection.DWGHelper;
 import com.paulzzh.yuzu.sound.InitSounds;
 import com.paulzzh.yuzu.sound.VoiceType;
 import com.paulzzh.yuzu.texture.TextureConst;
@@ -17,6 +18,7 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraftforge.fml.client.GuiModList;
+import net.minecraftforge.fml.common.Loader;
 import org.lwjgl.opengl.GL11;
 
 import java.time.Instant;
@@ -57,18 +59,12 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     private static final List<Clickable> CLICKABLES = new ArrayList<>();
 
     private static PositionedSoundRecord ISOUND_TITLE;
-    //private static Constructor<?> GuiCreateCustomWorld;
 
     static {
         executor = Executors.newFixedThreadPool(1);
     }
 
     public SenrenBankaTitleScreen() {
-/*        try {
-            Class<?> clazz = Class.forName("com.ezrol.terry.minecraft.defaultworldgenerator.gui.GuiCreateCustomWorld");
-            GuiCreateCustomWorld = clazz.getConstructor(GuiScreen.class);
-        } catch (Exception ignored) {
-        }*/
     }
 
     @Override
@@ -303,17 +299,14 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         }};
 
         newGameButton.setOnClick((button) -> {
-/*            // 安装了 DefaultWorldGenerator
-            if (GuiCreateCustomWorld != null) {
-                try {
-                    this.mc.displayGuiScreen((GuiScreen) GuiCreateCustomWorld.newInstance(this));
-                } catch (Exception ignored) {
-                    // ..? 改为打开选择世界，避免锁定世界生成器失效
-                    this.mc.displayGuiScreen(new GuiWorldSelection(this));
+            // 安装了 DefaultWorldGenerator
+            if (Loader.isModLoaded("defaultworldgenerator-port")) {
+                GuiScreen screen = DWGHelper.getDWGGui(this);
+                if (screen != null) {
+                    this.mc.displayGuiScreen(screen);
+                    return;
                 }
-            } else {
-                this.mc.displayGuiScreen(new GuiCreateWorld(this));
-            }*/
+            }
             this.mc.displayGuiScreen(new GuiCreateWorld(this));
         });
 
@@ -479,7 +472,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     protected void mouseClicked(int mouseX, int mouseY, int button) {
         if (button != 0) return;
         if (passExitSound == 0 || passExitSound == 1) {
-            passExitSound ++;
+            passExitSound++;
         }
         for (Clickable clickable : CLICKABLES) {
             if (clickable.mousePressed(this.mc, mouseX, mouseY)) {

@@ -1,8 +1,8 @@
 package com.paulzzh.yuzu.function;
 
 /**
- * @author : IMG
- * @create : 2024/10/26
+ * @author IMG
+ * @since 2024/10/26
  */
 @FunctionalInterface
 public interface AnimationFunction<T> {

@@ -17,7 +17,8 @@ public class MusicTickerMixin {
     public void inject(CallbackInfo ci) {
         if (YuZuUIConfig.bgm) {
             if (!exit && !inGamed) {
-                tickSound();
+                MusicTicker self = (MusicTicker)(Object)this;
+                tickSound(self.mc);
                 ci.cancel();
             }
         }

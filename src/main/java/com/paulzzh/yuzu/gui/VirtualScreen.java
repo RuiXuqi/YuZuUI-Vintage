@@ -1,8 +1,8 @@
 package com.paulzzh.yuzu.gui;
 
 /**
- * @author : IMG
- * @create : 2024/10/26
+ * @author IMG
+ * @since 2024/10/26
  */
 @SuppressWarnings("unused")
 public class VirtualScreen {

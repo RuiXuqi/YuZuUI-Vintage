@@ -8,12 +8,12 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * @author : IMG
- * @create : 2024/10/26
+ * @author IMG
+ * @since 2024/10/26
  */
-@SuppressWarnings({"unused", "FieldMayBeFinal"})
+@SuppressWarnings({"unused"})
 public class Layer extends AnimatedElement {
-    private ResourceLocation texture;
+    private final ResourceLocation texture;
     private float scale;
 
     public Layer(ResourceLocation texture, float x, float y, float width, float height, float scale, float alpha, VirtualScreen virtualScreen) {

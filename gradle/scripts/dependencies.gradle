@@ -65,6 +65,6 @@ dependencies {
     // implementation ('com.google.code.gson:gson:2.8.6') {
     //     transitive = false
     // }
-    compileOnly rfg.deobf('curse.maven:galacticraft-legacy-564236:6364107')
-    runtimeOnly rfg.deobf('curse.maven:default-world-generator-port-241140:2499252')
+    implementation rfg.deobf('curse.maven:galacticraft-legacy-564236:6364107')
+    implementation rfg.deobf('curse.maven:default-world-generator-port-241140:2499252')
 }

@@ -3,9 +3,11 @@
 
 Minecraft 1.12.2 移植版。
 
---修改自[1.7.10 by paulzzh](https://github.com/paulzzh/YuZuUI-GTNH)
+--本仓库修改自[1.7.10 by paulzzh](https://github.com/paulzzh/YuZuUI-GTNH)
 
---原分支修改自[1.20.1 by IMG](https://github.com/ming-sc/YuZuUI-Forge)
+--原仓库修改自[IMG 原版](https://github.com/ming-sc/YuZuUI-Forge)
+
+--本仓库同时也参考了[fgfgui 修改版](https://github.com/link-fgfgui/SenrenBanka-UI)
 
 推荐将**音乐**音量调节至20%获得最佳体验。
 
@@ -19,8 +21,8 @@ Minecraft 1.12.2 移植版。
 ## 注意事项
 测试兼容 java 8 和 java 21。（Cleanroom）
 
-兼容 Custom Main Menu。（因为是直接新建了一个界面而不是替换）
-
 依赖 [MixinBooter](https://github.com/CleanroomMC/MixinBooter)。
 
-反射不会写，所以与 Default World Generator 的联动暂时不可用（
+兼容 Custom Main Menu。（因为是直接新建了一个界面而不是替换）
+
+与 Default World Generator 存在联动，会适配其新加的创建世界界面。

@@ -34,6 +34,7 @@ public class SoundManager {
      *
      * @param type The type of voice needed.
      */
+    @Nullable
     public static SoundEvent getVoice(VoiceType type) {
         if (CHARACTER_ENABLED.isEmpty()) return null;
 
@@ -66,35 +67,10 @@ public class SoundManager {
 
     public static void updateCharacterStatus() {
         CHARACTER_ENABLED.clear();
-        if (YuZuUIConfig.VoiceList.lena) {
-            CHARACTER_ENABLED.add(Character.LENA);
-        }
-        if (YuZuUIConfig.VoiceList.mako) {
-            CHARACTER_ENABLED.add(Character.MAKO);
-        }
-        if (YuZuUIConfig.VoiceList.murasame) {
-            CHARACTER_ENABLED.add(Character.MURASAME);
-        }
-        if (YuZuUIConfig.VoiceList.yoshino) {
-            CHARACTER_ENABLED.add(Character.YOSHINO);
-        }
-        if (YuZuUIConfig.VoiceList.koharu) {
-            CHARACTER_ENABLED.add(Character.KOHARU);
-        }
-        if (YuZuUIConfig.VoiceList.roka) {
-            CHARACTER_ENABLED.add(Character.ROKA);
-        }
-        if (YuZuUIConfig.VoiceList.rentarou) {
-            CHARACTER_ENABLED.add(Character.RENTAROU);
-        }
-        if (YuZuUIConfig.VoiceList.mizuha) {
-            CHARACTER_ENABLED.add(Character.MIZUHA);
-        }
-        if (YuZuUIConfig.VoiceList.yasuharu) {
-            CHARACTER_ENABLED.add(Character.YASUHARU);
-        }
-        if (YuZuUIConfig.VoiceList.genjurou) {
-            CHARACTER_ENABLED.add(Character.GENJUROU);
+        for (Character character : Character.values()) {
+            if (character.getConfigSupplier().getAsBoolean()) {
+                CHARACTER_ENABLED.add(character);
+            }
         }
     }
 

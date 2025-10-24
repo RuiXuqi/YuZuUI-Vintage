@@ -1,18 +1,17 @@
 package com.paulzzh.yuzu;
 
-import com.paulzzh.yuzu.reflection.DWGHelper;
+import com.paulzzh.yuzu.integration.DWGIntegration;
 import com.paulzzh.yuzu.sound.InitSounds;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Tags.MOD_ID, version = Tags.VERSION, name = Tags.MOD_NAME, dependencies = "required-after:mixinbooter", clientSideOnly = true, acceptableRemoteVersions = "*")
+@Mod(modid = Tags.MOD_ID, version = Tags.VERSION, name = Tags.MOD_NAME, clientSideOnly = true, acceptableRemoteVersions = "*",
+    dependencies = "required-after:mixinbooter@[8.0,);after:" + DWGIntegration.DWG_MODID)
 public class YuZuUI {
 
     public static final Logger LOG = LogManager.getLogger(Tags.MOD_NAME);
@@ -39,17 +38,9 @@ public class YuZuUI {
         InitSounds.registerSounds();
     }
 
-    @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        if (Loader.isModLoaded("defaultworldgenerator-port")) {
-            DWGHelper.init();
-        }
-    }
-
     @SubscribeEvent
     public void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
         inGamed = true;
         exit = false;
     }
-
 }

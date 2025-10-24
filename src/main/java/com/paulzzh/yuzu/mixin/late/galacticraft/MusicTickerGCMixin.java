@@ -11,13 +11,14 @@ import static com.paulzzh.yuzu.YuZuUI.exit;
 import static com.paulzzh.yuzu.YuZuUI.inGamed;
 import static com.paulzzh.yuzu.gui.screen.SenrenBankaTitleScreen.tickSound;
 
-@Mixin(value = MusicTickerGC.class)
+@Mixin(value = MusicTickerGC.class, remap = false)
 public class MusicTickerGCMixin {
     @Inject(method = "update", at = @At(value = "HEAD"), cancellable = true)
     public void inject(CallbackInfo ci) {
         if (YuZuUIConfig.bgm) {
             if (!exit && !inGamed) {
-                tickSound();
+                MusicTickerGC self = (MusicTickerGC)(Object)this;
+                tickSound(self.mc);
                 ci.cancel();
             }
         }

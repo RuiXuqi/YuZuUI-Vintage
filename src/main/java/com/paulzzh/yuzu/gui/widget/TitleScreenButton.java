@@ -19,10 +19,9 @@ import static com.paulzzh.yuzu.sound.SoundManager.playSound;
 import static com.paulzzh.yuzu.sound.SoundManager.playVoice;
 
 /**
- * @author : IMG
- * @create : 2024/10/26
+ * @author IMG
+ * @since 2024/10/26
  */
-@SuppressWarnings("FieldMayBeFinal")
 public class TitleScreenButton extends AnimatedElement implements Clickable {
     private final ResourceLocation texture;
     private final ResourceLocation textureHover;
@@ -47,6 +46,7 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
      * 本帧是否悬停。
      */
     private boolean isHovered;
+    @SuppressWarnings("FieldMayBeFinal")
     private boolean visible;
     private boolean clickable;
 

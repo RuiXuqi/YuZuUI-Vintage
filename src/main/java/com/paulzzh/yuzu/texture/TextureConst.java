@@ -4,8 +4,8 @@ import com.paulzzh.yuzu.Tags;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * @author : IMG
- * @create : 2025/2/16
+ * @author IMG
+ * @since 2025/2/16
  */
 public class TextureConst {
     public static final ResourceLocation TITLE_CHARALL = newGuiResource("title_charall.png");

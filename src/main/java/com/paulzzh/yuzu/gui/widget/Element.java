@@ -15,7 +15,7 @@ public abstract class Element {
     public abstract void render(Minecraft mc, int mouseX, int mouseY, float delta);
 
     public float getX() {
-        return x;
+        return this.x;
     }
 
     public void setX(float x) {
@@ -23,7 +23,7 @@ public abstract class Element {
     }
 
     public float getY() {
-        return y;
+        return this.y;
     }
 
     public void setY(float y) {
@@ -31,7 +31,7 @@ public abstract class Element {
     }
 
     public float getWidth() {
-        return width;
+        return this.width;
     }
 
     public void setWidth(float width) {
@@ -39,7 +39,7 @@ public abstract class Element {
     }
 
     public float getHeight() {
-        return height;
+        return this.height;
     }
 
     public void setHeight(float height) {

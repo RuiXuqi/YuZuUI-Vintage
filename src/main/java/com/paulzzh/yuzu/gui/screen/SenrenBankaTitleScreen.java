@@ -7,7 +7,7 @@ import com.paulzzh.yuzu.gui.widget.Clickable;
 import com.paulzzh.yuzu.gui.widget.Element;
 import com.paulzzh.yuzu.gui.widget.Layer;
 import com.paulzzh.yuzu.gui.widget.TitleScreenButton;
-import com.paulzzh.yuzu.reflection.DWGHelper;
+import com.paulzzh.yuzu.integration.DWGIntegration;
 import com.paulzzh.yuzu.sound.InitSounds;
 import com.paulzzh.yuzu.sound.VoiceType;
 import com.paulzzh.yuzu.texture.TextureConst;
@@ -17,10 +17,12 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.realms.RealmsBridge;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.GuiModList;
 import net.minecraftforge.fml.common.Loader;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nonnull;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +38,8 @@ import static com.paulzzh.yuzu.sound.SoundManager.playVoice;
 import static java.lang.Thread.sleep;
 
 /**
- * @author : IMG
- * @create : 2025/2/16
+ * @author IMG
+ * @since 2025/2/16
  */
 @SuppressWarnings({"CodeBlock2Expr", "PointlessArithmeticExpression"})
 public class SenrenBankaTitleScreen extends GuiScreen {
@@ -110,12 +112,12 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         if (YuZuUIConfig.bgm) {
-            tickSound();
+            tickSound(this.mc);
         }
     }
 
-    public static void tickSound() {
-        SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
+    public static void tickSound(@Nonnull Minecraft mc) {
+        SoundHandler soundHandler = mc.getSoundHandler();
         if (!exit && (ISOUND_TITLE == null || !soundHandler.isSoundPlaying(ISOUND_TITLE))) {
             long currentTime = Instant.now().toEpochMilli();
             if (soundStartTime == null) {
@@ -289,129 +291,67 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         int dy = 100;
 
         // 新建世界
-        TitleScreenButton newGameButton = new TitleScreenButton(60, y, 207, 54, TextureConst.TITLE_NEW_GAME_BUTTON_NORMAL, TextureConst.TITLE_NEW_GAME_BUTTON_ON, VIRTUAL_SCREEN) {{
-            setDelay(delay + 1670L);
-            setDuration(570L);
-
-            setAlphaFunction((t, now) -> {
-                return (1f - 0f) * t + 0f;
-            });
-        }};
-
+        TitleScreenButton newGameButton = createTitleScreenButton(60, y, 207, 54,
+            TextureConst.TITLE_NEW_GAME_BUTTON_NORMAL, TextureConst.TITLE_NEW_GAME_BUTTON_ON);
         newGameButton.setOnClick((button) -> {
             // 安装了 DefaultWorldGenerator
-            if (Loader.isModLoaded("defaultworldgenerator-port")) {
-                GuiScreen screen = DWGHelper.getDWGGui(this);
-                if (screen != null) {
-                    this.mc.displayGuiScreen(screen);
-                    return;
-                }
+            // 判定不能丢，不然找不到方法
+            if (Loader.isModLoaded(DWGIntegration.DWG_MODID)) {
+                GuiScreen screen = DWGIntegration.getDWGGui(this);
+                this.mc.displayGuiScreen(screen);
+                return;
             }
             this.mc.displayGuiScreen(new GuiCreateWorld(this));
         });
 
-
         // 选择世界
-        TitleScreenButton selectWorldButton = new TitleScreenButton(60, y + dy, 206, 55, TextureConst.TITLE_SELECT_WORLD_BUTTON_NORMAL, TextureConst.TITLE_SELECT_WORLD_BUTTON_ON, VIRTUAL_SCREEN) {{
-            setDelay(delay + 1670L);
-            setDuration(570L);
-
-            setAlphaFunction((t, now) -> {
-                return (1f - 0f) * t + 0f;
-            });
-
-            setSound(InitSounds.YUZU_TITLE_BUTTON_SINGLEPLAYER);
-        }};
-
+        TitleScreenButton selectWorldButton = createTitleScreenButton(60, y + dy, 206, 55,
+            TextureConst.TITLE_SELECT_WORLD_BUTTON_NORMAL, TextureConst.TITLE_SELECT_WORLD_BUTTON_ON);
+        selectWorldButton.setSound(InitSounds.YUZU_TITLE_BUTTON_SINGLEPLAYER);
         selectWorldButton.setOnClick((button) -> {
             this.mc.displayGuiScreen(new GuiWorldSelection(this));
         });
 
-
         // 多人游戏
-        TitleScreenButton continueButton = new TitleScreenButton(66, y + dy * 2, 313, 56, TextureConst.TITLE_CONTINUE_BUTTON_NORMAL, TextureConst.TITLE_CONTINUE_BUTTON_ON, VIRTUAL_SCREEN) {{
-            setDelay(delay + 1670L);
-            setDuration(570L);
-
-            setAlphaFunction((t, now) -> {
-                return (1f - 0f) * t + 0f;
-            });
-
-            setSound(InitSounds.YUZU_TITLE_BUTTON_MULTIPLAYER);
-        }};
-
+        TitleScreenButton continueButton = createTitleScreenButton(66, y + dy * 2, 313, 56,
+            TextureConst.TITLE_CONTINUE_BUTTON_NORMAL, TextureConst.TITLE_CONTINUE_BUTTON_ON);
+        continueButton.setSound(InitSounds.YUZU_TITLE_BUTTON_MULTIPLAYER);
         continueButton.setOnClick((button) -> {
             this.mc.displayGuiScreen(new GuiMultiplayer(this));
         });
 
-
-        // realms
-        TitleScreenButton realmsButton = new TitleScreenButton(66, y + dy * 3, 164, 54, TextureConst.TITLE_REALMS_BUTTON_NORMAL, TextureConst.TITLE_REALMS_BUTTON_ON, VIRTUAL_SCREEN) {{
-            setDelay(delay + 1670L);
-            setDuration(570L);
-
-            setAlphaFunction((t, now) -> {
-                return (1f - 0f) * t + 0f;
-            });
-
-            setVoiceType(VoiceType.REALMS);
-        }};
-
+        // Realms
+        TitleScreenButton realmsButton = createTitleScreenButton(66, y + dy * 3, 164, 54,
+            TextureConst.TITLE_REALMS_BUTTON_NORMAL, TextureConst.TITLE_REALMS_BUTTON_ON);
+        realmsButton.setVoiceType(VoiceType.REALMS);
         realmsButton.setOnClick((button) -> {
             if (YuZuUIConfig.replaceRealms) {
-                mc.displayGuiScreen(new GuiLanguage(this, mc.gameSettings, mc.getLanguageManager()));
+                this.mc.displayGuiScreen(new GuiLanguage(this, this.mc.gameSettings, this.mc.getLanguageManager()));
             } else {
                 new RealmsBridge().switchToRealms(this);
             }
         });
 
-
         // 模组列表
-        TitleScreenButton modListButton = new TitleScreenButton(58, y + dy * 4, 211, 54, TextureConst.TITLE_MOD_LIST_BUTTON_NORMAL, TextureConst.TITLE_MOD_LIST_BUTTON_ON, VIRTUAL_SCREEN) {{
-            setDelay(delay + 1670L);
-            setDuration(570L);
-
-            setAlphaFunction((t, now) -> {
-                return (1f - 0f) * t + 0f;
-            });
-
-            setVoiceType(VoiceType.MOD_LIST);
-        }};
-
+        TitleScreenButton modListButton = createTitleScreenButton(58, y + dy * 4, 211, 54,
+            TextureConst.TITLE_MOD_LIST_BUTTON_NORMAL, TextureConst.TITLE_MOD_LIST_BUTTON_ON);
+        modListButton.setVoiceType(VoiceType.MOD_LIST);
         modListButton.setOnClick((button) -> {
             this.mc.displayGuiScreen(new GuiModList(this));
         });
 
-
         // 设置
-        TitleScreenButton optionsButton = new TitleScreenButton(59, y + dy * 5, 253, 56, TextureConst.TITLE_OPTIONS_BUTTON_NORMAL, TextureConst.TITLE_OPTIONS_BUTTON_ON, VIRTUAL_SCREEN) {{
-            setDelay(delay + 1670L);
-            setDuration(570L);
-
-            setAlphaFunction((t, now) -> {
-                return (1f - 0f) * t + 0f;
-            });
-
-            setVoiceType(VoiceType.OPTIONS);
-        }};
-
+        TitleScreenButton optionsButton = createTitleScreenButton(59, y + dy * 5, 253, 56,
+            TextureConst.TITLE_OPTIONS_BUTTON_NORMAL, TextureConst.TITLE_OPTIONS_BUTTON_ON);
+        optionsButton.setVoiceType(VoiceType.OPTIONS);
         optionsButton.setOnClick((button) -> {
-            this.mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
+            this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
         });
 
-
         // 退出游戏
-        TitleScreenButton quitGameButton = new TitleScreenButton(60, y + dy * 6, 233, 54, TextureConst.TITLE_QUIT_GAME_BUTTON_NORMAL, TextureConst.TITLE_QUIT_GAME_BUTTON_ON, VIRTUAL_SCREEN) {{
-            setDelay(delay + 1670L);
-            setDuration(570L);
-
-            setAlphaFunction((t, now) -> {
-                return (1f - 0f) * t + 0f;
-            });
-
-            setVoiceType(VoiceType.QUIT_GAME);
-        }};
-
+        TitleScreenButton quitGameButton = createTitleScreenButton(60, y + dy * 6, 233, 54,
+            TextureConst.TITLE_QUIT_GAME_BUTTON_NORMAL, TextureConst.TITLE_QUIT_GAME_BUTTON_ON);
+        quitGameButton.setVoiceType(VoiceType.QUIT_GAME);
         quitGameButton.setOnClick((button) -> {
             exit = true;
             if (YuZuUIConfig.justExit) {
@@ -452,6 +392,17 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         this.addChild(modListButton);
         this.addChild(optionsButton);
         this.addChild(quitGameButton);
+    }
+
+    private static TitleScreenButton createTitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover) {
+        return new TitleScreenButton(x, y, width, height, texture, textureHover, VIRTUAL_SCREEN) {{
+            setDelay(delay + 1670L);
+            setDuration(570L);
+
+            setAlphaFunction((t, now) -> {
+                return (1f - 0f) * t + 0f;
+            });
+        }};
     }
 
     protected <T> void addChild(T child) {

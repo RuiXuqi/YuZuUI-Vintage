@@ -10,7 +10,7 @@ public abstract class AnimatedElement extends Element {
     Long delay;
 
     public Long getDuration() {
-        return duration;
+        return this.duration;
     }
 
     public void setDuration(Long duration) {
@@ -18,7 +18,7 @@ public abstract class AnimatedElement extends Element {
     }
 
     public Long getStartTime() {
-        return startTime;
+        return this.startTime;
     }
 
     public void setStartTime(Long startTime) {
@@ -26,7 +26,7 @@ public abstract class AnimatedElement extends Element {
     }
 
     public Long getDelay() {
-        return delay;
+        return this.delay;
     }
 
     public void setDelay(Long delay) {

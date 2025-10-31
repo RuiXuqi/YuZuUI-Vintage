@@ -3,6 +3,7 @@ package com.paulzzh.yuzu.gui.widget;
 import com.paulzzh.yuzu.function.AnimationFunction;
 import com.paulzzh.yuzu.gui.RenderUtils;
 import com.paulzzh.yuzu.gui.VirtualScreen;
+import com.paulzzh.yuzu.sound.InitSounds;
 import com.paulzzh.yuzu.sound.SoundManager;
 import com.paulzzh.yuzu.sound.VoiceType;
 import net.minecraft.client.Minecraft;
@@ -10,19 +11,16 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
+import javax.annotation.Nullable;
 import java.time.Instant;
 import java.util.function.Consumer;
-
-import static com.paulzzh.yuzu.sound.InitSounds.YUZU_TITLE_BUTTON_CLICK;
-import static com.paulzzh.yuzu.sound.InitSounds.YUZU_TITLE_BUTTON_ON;
-import static com.paulzzh.yuzu.sound.SoundManager.playSound;
-import static com.paulzzh.yuzu.sound.SoundManager.playVoice;
+import java.util.function.Supplier;
 
 /**
  * @author IMG
  * @since 2024/10/26
  */
-public class TitleScreenButton extends AnimatedElement implements Clickable {
+public class TitleScreenButton extends AnimatedElement implements Clickable, TooltipDrawable {
     private final ResourceLocation texture;
     private final ResourceLocation textureHover;
     /**
@@ -33,10 +31,6 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
      * 特定的语音种类。
      */
     private VoiceType voiceType;
-    /**
-     * 随机到的语音，会在播放后刷新。
-     */
-    private SoundEvent voice;
     private Consumer<TitleScreenButton> onClick;
     /**
      * 上一帧是否悬停。
@@ -49,6 +43,7 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
     @SuppressWarnings("FieldMayBeFinal")
     private boolean visible;
     private boolean clickable;
+    private @Nullable Supplier<String> tooltipSupplier;
 
     private AnimationFunction<Float> alphaFunction;
 
@@ -60,7 +55,7 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
         this.texture = texture;
         this.textureHover = textureHover;
         this.virtualScreen = virtualScreen;
-        this.sound = YUZU_TITLE_BUTTON_CLICK;
+        this.sound = InitSounds.YUZU_TITLE_BUTTON_CLICK;
         this.voiceType = null;
         this.visible = true;
         this.alpha = 0f;
@@ -72,7 +67,7 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
         if (this.visible) {
             this.isHovered = isMouseOver(mouseX, mouseY) && this.clickable;
             if (!this.wasHovered && this.isHovered) {
-                mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(YUZU_TITLE_BUTTON_ON, 1.0F));
+                mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(InitSounds.YUZU_TITLE_BUTTON_ON, 1.0F));
             }
             this.wasHovered = this.isHovered;
             this.renderButton(mc);
@@ -80,7 +75,7 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
         tick();
     }
 
-    public void renderButton(Minecraft mc) {
+    private void renderButton(Minecraft mc) {
         if (this.visible) {
             if (this.isHovered) {
                 mc.getTextureManager().bindTexture(textureHover);
@@ -119,10 +114,10 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
         if (this.clickable && this.isHovered) {
             if (sound != null) {
-                playSound(mc, sound);
+                SoundManager.playSound(mc, sound);
             }
             if (voiceType != null) {
-                voice = playVoice(mc, voiceType);
+                SoundManager.playVoice(mc, voiceType);
             }
             if (onClick != null) {
                 onClick.accept(this);
@@ -141,10 +136,6 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
         return virtualX >= 0 && virtualX < width && virtualY >= 0 && virtualY < height;
     }
 
-    public boolean isVoiceAvailable() {
-        return SoundManager.getIsVoiceAvailable(voice);
-    }
-
     public void setOnClick(Consumer<TitleScreenButton> onClick) {
         this.onClick = onClick;
     }
@@ -159,5 +150,23 @@ public class TitleScreenButton extends AnimatedElement implements Clickable {
 
     public void setVoiceType(VoiceType voiceType) {
         this.voiceType = voiceType;
+    }
+
+    public void setTooltip(@Nullable String tooltipText) {
+        this.tooltipSupplier = () -> tooltipText;
+    }
+
+    public void setTooltipSupplier(@Nullable Supplier<String> tooltipSupplier) {
+        this.tooltipSupplier = tooltipSupplier;
+    }
+
+    @Override
+    public boolean shouldDraw() {
+        return this.isHovered;
+    }
+
+    @Override
+    public @Nullable String getTooltip() {
+        return this.tooltipSupplier != null ? this.tooltipSupplier.get() : null;
     }
 }

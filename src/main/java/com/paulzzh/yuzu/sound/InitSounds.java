@@ -23,6 +23,11 @@ public class InitSounds {
         SoundManager.init();
     }
 
+    /**
+     * 注册语音。
+     *
+     * @param name 简写的名字。会自动添加 yuzu_title_ 前缀。
+     */
     public static SoundEvent registerSound(String name) {
         ResourceLocation location = new ResourceLocation(Tags.MOD_ID, "yuzu_title_" + name);
         SoundEvent event = new SoundEvent(location).setRegistryName(location);

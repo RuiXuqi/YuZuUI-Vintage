@@ -17,18 +17,27 @@ public class YuZuUIConfig {
     @Config.LangKey(PREFIX + "greeting")
     public static String greeting = "Ciallo～(∠ · ω < )⌒★";
 
-    @Config.Comment("背景音乐。")
+    @Config.Comment("是否播放背景音乐。")
     @Config.LangKey(PREFIX + "bgm")
     public static boolean bgm = true;
+
+    @Config.Comment("是否显示工具提示。")
+    @Config.LangKey(PREFIX + "tooltip")
+    public static boolean tooltip = false;
 
     @Config.Comment("“后日谈”按钮打开语言设置界面，而不是 Realms 界面。")
     @Config.LangKey(PREFIX + "replace_realms")
     public static boolean replaceRealms = true;
 
-    @Config.Comment("直接退出游戏，而不是回到主菜单。")
+    @Config.Comment("直接退出游戏，而不是回到标题界面。")
     @Config.LangKey(PREFIX + "just_exit")
     public static boolean justExit = true;
 
+    /**
+     * 不应该直接调用！使用 SoundManager.getIsVoiceAvailable() 。
+     */
+    @Deprecated
+    @SuppressWarnings("DeprecatedIsStillUsed")
     @Config.Comment("点击按钮时播放语音。")
     @Config.LangKey(PREFIX + "voice")
     public static boolean voice = true;
@@ -74,5 +83,4 @@ public class YuZuUIConfig {
             }
         }
     }
-
 }

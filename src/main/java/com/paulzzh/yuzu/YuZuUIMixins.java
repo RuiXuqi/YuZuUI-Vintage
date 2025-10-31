@@ -8,10 +8,8 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class YuZuUIMixins implements ILateMixinLoader {
-
     @Override
     public List<String> getMixinConfigs() {
         return Loader.isModLoaded("galacticraft") ? Collections.singletonList("mixins.yuzu.late.json") : Collections.emptyList();
     }
-
 }

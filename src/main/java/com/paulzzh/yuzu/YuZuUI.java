@@ -2,11 +2,10 @@ package com.paulzzh.yuzu;
 
 import com.paulzzh.yuzu.integration.DWGIntegration;
 import com.paulzzh.yuzu.sound.InitSounds;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,16 +30,11 @@ public class YuZuUI {
             YuZuUI.LOG.info(YuZuUIConfig.greeting);
             YuZuUI.LOG.info("I am YuZuUI at version " + Tags.VERSION);
         }
+        MinecraftForge.EVENT_BUS.register(new YuZuUIEventHandler());
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         InitSounds.registerSounds();
-    }
-
-    @SubscribeEvent
-    public void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
-        inGamed = true;
-        exit = false;
     }
 }

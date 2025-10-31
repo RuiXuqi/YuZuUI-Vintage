@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.SoundEvent;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -30,14 +30,11 @@ public class SoundManager {
     }
 
     /**
-     * Get a specified type of voice randomly from all the enabled characters' voices.
+     * 随机从所有启用人物的语音中获取特定种类的一种语音。
      *
-     * @param type The type of voice needed.
+     * @param type 所需的语音种类。
      */
-    @Nullable
     public static SoundEvent getVoice(VoiceType type) {
-        if (CHARACTER_ENABLED.isEmpty()) return null;
-
         Character character = CHARACTER_ENABLED.get(
             ThreadLocalRandom.current().nextInt(CHARACTER_ENABLED.size())
         );
@@ -45,21 +42,21 @@ public class SoundManager {
         return getVoice(character, type);
     }
 
-    /**
-     * Get a voice from a specified character randomly.
-     *
-     * @param character The author of voice.
-     */
-    public static SoundEvent getVoice(Character character) {
-        Map<VoiceType, SoundEvent> characterVoices = VOICE_MAP.get(character);
-
-        List<VoiceType> availableTypes = new ArrayList<>(characterVoices.keySet());
-        VoiceType randomType = availableTypes.get(
-            ThreadLocalRandom.current().nextInt(availableTypes.size())
-        );
-
-        return characterVoices.get(randomType);
-    }
+//    /**
+//     * 随机获取一位特定人物的语音。
+//     *
+//     * @param character 语音声源。
+//     */
+//    public static SoundEvent getVoice(Character character) {
+//        Map<VoiceType, SoundEvent> characterVoices = VOICE_MAP.get(character);
+//
+//        List<VoiceType> availableTypes = new ArrayList<>(characterVoices.keySet());
+//        VoiceType randomType = availableTypes.get(
+//            ThreadLocalRandom.current().nextInt(availableTypes.size())
+//        );
+//
+//        return characterVoices.get(randomType);
+//    }
 
     private static SoundEvent getVoice(Character character, VoiceType type) {
         return VOICE_MAP.get(character).get(type);
@@ -74,29 +71,36 @@ public class SoundManager {
         }
     }
 
-    public static boolean getIsVoiceAvailable(SoundEvent voice) {
-        return YuZuUIConfig.voice && voice != null;
+    /**
+     * 获取语音是否可用。
+     */
+    @SuppressWarnings("deprecation")
+    public static boolean getIsVoiceAvailable() {
+        return YuZuUIConfig.voice && !CHARACTER_ENABLED.isEmpty();
     }
 
-    public static PositionedSoundRecord playSound(Minecraft mc, SoundEvent sound) {
+    /**
+     * 通用的播放声音方法。
+     *
+     * @return 获取到的 PositionedSoundRecord。
+     */
+    public static PositionedSoundRecord playSound(@Nonnull Minecraft mc, @Nonnull SoundEvent sound) {
         PositionedSoundRecord record = PositionedSoundRecord.getMasterRecord(sound, 1.0F);
         mc.getSoundHandler().playSound(record);
         return record;
     }
 
-    public static void playVoice(Minecraft mc, @Nullable SoundEvent voice) {
-        if (getIsVoiceAvailable(voice)) {
+    /**
+     * 语音专用的播放方法，会停止当前正在播放的语音并刷新 playedVoiceRecord。
+     */
+    public static void playVoice(@Nonnull Minecraft mc, VoiceType VoiceType) {
+        if (getIsVoiceAvailable()) {
             // 不用检查语音有没有在播放或者 null，方法本身自带检查
             if (YuZuUIConfig.preventMixingVoice) {
                 mc.getSoundHandler().stopSound(playedVoiceRecord);
             }
-            playedVoiceRecord = playSound(mc, voice);
+            SoundEvent soundEvent = getVoice(VoiceType);
+            playedVoiceRecord = playSound(mc, soundEvent);
         }
-    }
-
-    public static SoundEvent playVoice(Minecraft mc, VoiceType voiceType) {
-        SoundEvent voice = getVoice(voiceType);
-        playVoice(mc, voice);
-        return voice;
     }
 }

@@ -1,11 +1,15 @@
+yuzu.menu.quit_to_title=返回标题界面
+
 yuzu.config.greeting=How shall I greet?
 yuzu.config.greeting.tooltip=启动时打印启动信息，留空以禁用。
 yuzu.config.bgm=BGM
-yuzu.config.bgm.tooltip=背景音乐。
+yuzu.config.bgm.tooltip=是否播放背景音乐。
+yuzu.config.tooltip=工具提示
+yuzu.config.tooltip.tooltip=是否显示工具提示。
 yuzu.config.replace_realms=替换 Realms 按钮
 yuzu.config.replace_realms.tooltip=“后日谈”按钮打开语言设置界面，而不是 Realms 界面。
 yuzu.config.just_exit=直接退出
-yuzu.config.just_exit.tooltip=直接退出游戏，而不是回到主菜单。
+yuzu.config.just_exit.tooltip=直接退出游戏，而不是回到标题界面。
 yuzu.config.voice=语音
 yuzu.config.voice.tooltip=点击按钮时播放语音。
 yuzu.config.prevent_mixing_voice=阻止语音混合

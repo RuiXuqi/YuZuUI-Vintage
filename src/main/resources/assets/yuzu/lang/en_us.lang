@@ -1,11 +1,15 @@
+yuzu.menu.quit_to_title=Quit To Title
+
 yuzu.config.greeting=How shall I greet?
 yuzu.config.greeting.tooltip=Print boot info when booting. Set blank to disable.
 yuzu.config.bgm=BGM
-yuzu.config.bgm.tooltip=Background music.
+yuzu.config.bgm.tooltip=Whether play background music or not.
+yuzu.config.tooltip=Tooltip
+yuzu.config.tooltip.tooltip=Whether show tooltip or not.
 yuzu.config.replace_realms=Replace Realms
 yuzu.config.replace_realms.tooltip=AFTER button will open language setting gui instead of realms.
 yuzu.config.just_exit=Just Exit
-yuzu.config.just_exit.tooltip=Quit game directly instead of quitting to Minecraft main menu.
+yuzu.config.just_exit.tooltip=Quit game directly instead of quitting to Title Screen.
 yuzu.config.voice=Voice
 yuzu.config.voice.tooltip=Play voice when clicking buttons.
 yuzu.config.prevent_mixing_voice=Prevent Mixing Voice

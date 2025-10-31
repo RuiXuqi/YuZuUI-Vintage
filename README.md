@@ -23,6 +23,6 @@ Minecraft 1.12.2 移植版。
 
 依赖 [MixinBooter](https://github.com/CleanroomMC/MixinBooter)。
 
-兼容 Custom Main Menu。（因为是直接新建了一个界面而不是替换）
+主动兼容 Custom Main Menu。未对 Fancy Menu 主动适配，但经测试未见问题。
 
 与 Default World Generator 存在联动，会适配其新加的创建世界界面。

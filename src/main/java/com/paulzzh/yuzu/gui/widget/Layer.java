@@ -1,6 +1,5 @@
 package com.paulzzh.yuzu.gui.widget;
 
-import com.paulzzh.yuzu.function.AnimationFunction;
 import com.paulzzh.yuzu.gui.RenderUtils;
 import com.paulzzh.yuzu.gui.VirtualScreen;
 import net.minecraft.client.Minecraft;

@@ -2,7 +2,9 @@ package com.paulzzh.yuzu.sound;
 
 import com.paulzzh.yuzu.YuZuUIConfig;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 
 import javax.annotation.Nonnull;
@@ -22,7 +24,7 @@ public class SoundManager {
         for (Character character : Character.values()) {
             VOICE_MAP.put(character, new EnumMap<>(VoiceType.class));
             for (VoiceType type : VoiceType.values()) {
-                SoundEvent sound = InitSounds.registerSound(type.toString() + "_" + character.toString());
+                SoundEvent sound = SoundRegister.registerSound(type.toString() + "_" + character.toString());
                 VOICE_MAP.get(character).put(type, sound);
             }
         }
@@ -75,32 +77,36 @@ public class SoundManager {
      * 获取语音是否可用。
      */
     @SuppressWarnings("deprecation")
-    public static boolean getIsVoiceAvailable() {
-        return YuZuUIConfig.voice && !CHARACTER_ENABLED.isEmpty();
+    public static boolean getIsVoiceAvailable(Minecraft mc) {
+        return YuZuUIConfig.voice && !CHARACTER_ENABLED.isEmpty()
+            && mc.gameSettings.getSoundLevel(SoundCategory.VOICE) != 0;
     }
 
     /**
      * 通用的播放声音方法。
-     *
-     * @return 获取到的 PositionedSoundRecord。
      */
-    public static PositionedSoundRecord playSound(@Nonnull Minecraft mc, @Nonnull SoundEvent sound) {
+    public static void playSound(@Nonnull Minecraft mc, @Nonnull SoundEvent sound) {
         PositionedSoundRecord record = PositionedSoundRecord.getMasterRecord(sound, 1.0F);
         mc.getSoundHandler().playSound(record);
-        return record;
     }
 
     /**
      * 语音专用的播放方法，会停止当前正在播放的语音并刷新 playedVoiceRecord。
      */
     public static void playVoice(@Nonnull Minecraft mc, VoiceType VoiceType) {
-        if (getIsVoiceAvailable()) {
+        if (getIsVoiceAvailable(mc)) {
             // 不用检查语音有没有在播放或者 null，方法本身自带检查
             if (YuZuUIConfig.preventMixingVoice) {
                 mc.getSoundHandler().stopSound(playedVoiceRecord);
             }
             SoundEvent soundEvent = getVoice(VoiceType);
-            playedVoiceRecord = playSound(mc, soundEvent);
+            // 原版竟然没用 VOICE 类别？？？没搜到用法
+            playedVoiceRecord = new PositionedSoundRecord(
+                soundEvent.getSoundName(), SoundCategory.VOICE,
+                1.0F, 1.0F, false, 0,
+                ISound.AttenuationType.NONE,
+                0.0F, 0.0F, 0.0F);
+            mc.getSoundHandler().playSound(playedVoiceRecord);
         }
     }
 }

@@ -6,13 +6,11 @@ import com.paulzzh.yuzu.gui.RenderUtils;
 import com.paulzzh.yuzu.gui.VirtualScreen;
 import com.paulzzh.yuzu.gui.widget.*;
 import com.paulzzh.yuzu.integration.DWGIntegration;
-import com.paulzzh.yuzu.sound.InitSounds;
+import com.paulzzh.yuzu.mixininterface.MusicTickerInterface;
 import com.paulzzh.yuzu.sound.SoundManager;
+import com.paulzzh.yuzu.sound.SoundRegister;
 import com.paulzzh.yuzu.sound.VoiceType;
 import com.paulzzh.yuzu.texture.TextureConst;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -22,8 +20,6 @@ import net.minecraftforge.fml.client.GuiModList;
 import net.minecraftforge.fml.common.Loader;
 import org.lwjgl.opengl.GL11;
 
-import javax.annotation.Nonnull;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -36,9 +32,15 @@ import java.util.concurrent.Executors;
  */
 @SuppressWarnings({"CodeBlock2Expr", "PointlessArithmeticExpression"})
 public class SenrenBankaTitleScreen extends GuiScreen {
+    /*
+    客观存在的一些属性。不需要跟着实例走。
+     */
     private static final VirtualScreen VIRTUAL_SCREEN = new VirtualScreen(1920, 1080);
+    private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(1);
+    private static final List<Element> ELEMENTS = new ArrayList<>();
+    private static final List<Clickable> CLICKABLES = new ArrayList<>();
+    private static final List<TooltipDrawable> TOOLTIP_DRAWABLES = new ArrayList<>();
     private static long delay = 0L;
-    private static Long soundStartTime = null;
     /**
      * 存储关于跳过退出语音延迟的信息。
      * <pre>
@@ -48,17 +50,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
      * 2	又又一次点击屏幕，立即关闭游戏。
      * <pre>
      */
-    private static short passExitSound = -1;
-    private static final ExecutorService executor;
-    private static final List<Element> ELEMENTS = new ArrayList<>();
-    private static final List<Clickable> CLICKABLES = new ArrayList<>();
-    private static final List<TooltipDrawable> TOOLTIP_DRAWABLES = new ArrayList<>();
-
-    private static PositionedSoundRecord ISOUND_TITLE;
-
-    static {
-        executor = Executors.newFixedThreadPool(1);
-    }
+    private short passExitSound = -1;
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float delta) {
@@ -102,10 +94,6 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-        if (YuZuUIConfig.bgm) {
-            tickSound(this.mc);
-        }
-
         if (YuZuUIConfig.tooltip) {
             String activeTooltip = null;
             for (TooltipDrawable tooltipDrawable : TOOLTIP_DRAWABLES) {
@@ -116,21 +104,6 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
             if (activeTooltip != null) {
                 this.drawHoveringText(activeTooltip, mouseX, mouseY);
-            }
-        }
-    }
-
-    public static void tickSound(@Nonnull Minecraft mc) {
-        SoundHandler soundHandler = mc.getSoundHandler();
-        if (!YuZuUI.exit && (ISOUND_TITLE == null || !soundHandler.isSoundPlaying(ISOUND_TITLE))) {
-            long currentTime = Instant.now().toEpochMilli();
-            if (soundStartTime == null) {
-                soundStartTime = currentTime;
-            }
-            if (currentTime - soundStartTime > delay) {
-                ISOUND_TITLE = PositionedSoundRecord.getMusicRecord(InitSounds.YUZU_TITLE_MUSIC);
-                soundHandler.playSound(ISOUND_TITLE);
-                soundStartTime = null;
             }
         }
     }
@@ -157,7 +130,8 @@ public class SenrenBankaTitleScreen extends GuiScreen {
      */
     public void initWidgets() {
         if (YuZuUIConfig.bgm) {
-            Minecraft.getMinecraft().getSoundHandler().stopSounds();
+            this.mc.getSoundHandler().stopSounds();
+            ((MusicTickerInterface) this.mc.getMusicTicker()).yuZuUI$updateSoundStartTime();
         }
         this.clearWidgets();
 
@@ -295,9 +269,9 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         int dy = 100;
 
         // 新建世界
-        TitleScreenButton newGameButton = createTitleScreenButton(60, y, 207, 54,
+        TitleScreenButton newGameButton = this.createTitleScreenButton(60, y, 207, 54,
             TextureConst.TITLE_NEW_GAME_BUTTON_NORMAL, TextureConst.TITLE_NEW_GAME_BUTTON_ON);
-        newGameButton.setTooltip(I18n.format("selectWorld.create"));
+        newGameButton.setTooltipSupplier(() -> I18n.format("selectWorld.create"));
         newGameButton.setOnClick((button) -> {
             // 安装了 DefaultWorldGenerator
             // 判定不能丢，不然找不到方法
@@ -310,25 +284,25 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         });
 
         // 选择世界
-        TitleScreenButton selectWorldButton = createTitleScreenButton(60, y + dy, 206, 55,
+        TitleScreenButton selectWorldButton = this.createTitleScreenButton(60, y + dy, 206, 55,
             TextureConst.TITLE_SELECT_WORLD_BUTTON_NORMAL, TextureConst.TITLE_SELECT_WORLD_BUTTON_ON);
-        selectWorldButton.setTooltip(I18n.format("menu.singleplayer"));
-        selectWorldButton.setSound(InitSounds.YUZU_TITLE_BUTTON_SINGLEPLAYER);
+        selectWorldButton.setTooltipSupplier(() -> I18n.format("menu.singleplayer"));
+        selectWorldButton.setSound(SoundRegister.YUZU_TITLE_BUTTON_SINGLEPLAYER);
         selectWorldButton.setOnClick((button) -> {
             this.mc.displayGuiScreen(new GuiWorldSelection(this));
         });
 
         // 多人游戏
-        TitleScreenButton continueButton = createTitleScreenButton(66, y + dy * 2, 313, 56,
+        TitleScreenButton continueButton = this.createTitleScreenButton(66, y + dy * 2, 313, 56,
             TextureConst.TITLE_CONTINUE_BUTTON_NORMAL, TextureConst.TITLE_CONTINUE_BUTTON_ON);
-        continueButton.setTooltip(I18n.format("menu.multiplayer"));
-        continueButton.setSound(InitSounds.YUZU_TITLE_BUTTON_MULTIPLAYER);
+        continueButton.setTooltipSupplier(() -> I18n.format("menu.multiplayer"));
+        continueButton.setSound(SoundRegister.YUZU_TITLE_BUTTON_MULTIPLAYER);
         continueButton.setOnClick((button) -> {
             this.mc.displayGuiScreen(new GuiMultiplayer(this));
         });
 
         // Realms
-        TitleScreenButton realmsButton = createTitleScreenButton(66, y + dy * 3, 164, 54,
+        TitleScreenButton realmsButton = this.createTitleScreenButton(66, y + dy * 3, 164, 54,
             TextureConst.TITLE_REALMS_BUTTON_NORMAL, TextureConst.TITLE_REALMS_BUTTON_ON);
         realmsButton.setTooltipSupplier(() -> I18n.format(YuZuUIConfig.replaceRealms ? "options.language" : "menu.online"));
         realmsButton.setVoiceType(VoiceType.REALMS);
@@ -341,43 +315,43 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         });
 
         // 模组列表
-        TitleScreenButton modListButton = createTitleScreenButton(58, y + dy * 4, 211, 54,
+        TitleScreenButton modListButton = this.createTitleScreenButton(58, y + dy * 4, 211, 54,
             TextureConst.TITLE_MOD_LIST_BUTTON_NORMAL, TextureConst.TITLE_MOD_LIST_BUTTON_ON);
-        modListButton.setTooltip(I18n.format("fml.menu.mods"));
+        modListButton.setTooltipSupplier(() -> I18n.format("fml.menu.mods"));
         modListButton.setVoiceType(VoiceType.MOD_LIST);
         modListButton.setOnClick((button) -> {
             this.mc.displayGuiScreen(new GuiModList(this));
         });
 
         // 设置
-        TitleScreenButton optionsButton = createTitleScreenButton(59, y + dy * 5, 253, 56,
+        TitleScreenButton optionsButton = this.createTitleScreenButton(59, y + dy * 5, 253, 56,
             TextureConst.TITLE_OPTIONS_BUTTON_NORMAL, TextureConst.TITLE_OPTIONS_BUTTON_ON);
-        optionsButton.setTooltip(I18n.format("menu.options"));
+        optionsButton.setTooltipSupplier(() -> I18n.format("menu.options"));
         optionsButton.setVoiceType(VoiceType.OPTIONS);
         optionsButton.setOnClick((button) -> {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
         });
 
         // 退出游戏
-        TitleScreenButton quitGameButton = createTitleScreenButton(60, y + dy * 6, 233, 54,
+        TitleScreenButton quitGameButton = this.createTitleScreenButton(60, y + dy * 6, 233, 54,
             TextureConst.TITLE_QUIT_GAME_BUTTON_NORMAL, TextureConst.TITLE_QUIT_GAME_BUTTON_ON);
         quitGameButton.setTooltipSupplier(() -> I18n.format(YuZuUIConfig.justExit ? "menu.quit" : "yuzu.menu.quit_to_title"));
         quitGameButton.setVoiceType(VoiceType.QUIT_GAME);
         quitGameButton.setOnClick((button) -> {
             YuZuUI.exit = true;
             if (YuZuUIConfig.justExit) {
-                if (passExitSound == -1) {
-                    passExitSound = 0;
+                if (this.passExitSound == -1) {
+                    this.passExitSound = 0;
                 }
                 CompletableFuture.completedFuture(null).whenComplete((unused, e) -> {
-                    executor.execute(() -> {
+                    EXECUTOR.execute(() -> {
                         // 没语音就不要等了
-                        if (SoundManager.getIsVoiceAvailable()) {
+                        if (SoundManager.getIsVoiceAvailable(this.mc)) {
                             try {
                                 // 等待音效播放完成
                                 for (int i = 0; i < 150; i++) {
                                     Thread.sleep(10);
-                                    if (passExitSound == 2) {
+                                    if (this.passExitSound == 2) {
                                         break;
                                     }
                                 }
@@ -389,9 +363,6 @@ public class SenrenBankaTitleScreen extends GuiScreen {
                     });
                 });
             } else {
-                if (ISOUND_TITLE != null) {
-                    this.mc.getSoundHandler().stopSound(ISOUND_TITLE);
-                }
                 this.mc.displayGuiScreen(null);
             }
         });
@@ -405,7 +376,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         this.addChild(quitGameButton);
     }
 
-    private static TitleScreenButton createTitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover) {
+    private TitleScreenButton createTitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover) {
         return new TitleScreenButton(x, y, width, height, texture, textureHover, VIRTUAL_SCREEN) {{
             setDelay(delay + 1670L);
             setDuration(570L);
@@ -437,8 +408,8 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) {
         if (button != 0) return;
-        if (passExitSound == 0 || passExitSound == 1) {
-            passExitSound++;
+        if (this.passExitSound == 0 || this.passExitSound == 1) {
+            this.passExitSound++;
         }
         for (Clickable clickable : CLICKABLES) {
             if (clickable.mousePressed(this.mc, mouseX, mouseY)) {
@@ -449,13 +420,10 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
     @Override
     public void keyTyped(char typedChar, int keyCode) {
-        SoundManager.playSound(this.mc, InitSounds.YUZU_TITLE_BUTTON_ON);
+        SoundManager.playSound(this.mc, SoundRegister.YUZU_TITLE_BUTTON_ON);
     }
 
-    public static void stopBGM() {
-        SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
-        if (!YuZuUI.exit && ISOUND_TITLE != null && soundHandler.isSoundPlaying(ISOUND_TITLE)) {
-            soundHandler.stopSound(ISOUND_TITLE);
-        }
+    public static long getDelay() {
+        return delay;
     }
 }

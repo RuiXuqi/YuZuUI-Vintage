@@ -17,7 +17,7 @@ public class DWGIntegration {
     public static final String DWG_MODID = "defaultworldgenerator-port";
 
     /**
-     * A copy of {@link com.ezrol.terry.minecraft.defaultworldgenerator.events.GuiEvents#TriggerNewWorld(GuiWorldSelection)}}
+     * 复制于 {@link com.ezrol.terry.minecraft.defaultworldgenerator.events.GuiEvents#TriggerNewWorld(GuiWorldSelection)}。
      */
     @Nonnull
     @SuppressWarnings("JavadocReference")

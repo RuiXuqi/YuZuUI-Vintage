@@ -1,13 +1,12 @@
 package com.paulzzh.yuzu.gui.widget;
 
-import com.paulzzh.yuzu.function.AnimationFunction;
+import com.paulzzh.yuzu.YuZuUI;
 import com.paulzzh.yuzu.gui.RenderUtils;
 import com.paulzzh.yuzu.gui.VirtualScreen;
-import com.paulzzh.yuzu.sound.InitSounds;
 import com.paulzzh.yuzu.sound.SoundManager;
+import com.paulzzh.yuzu.sound.SoundRegister;
 import com.paulzzh.yuzu.sound.VoiceType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
@@ -55,7 +54,7 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
         this.texture = texture;
         this.textureHover = textureHover;
         this.virtualScreen = virtualScreen;
-        this.sound = InitSounds.YUZU_TITLE_BUTTON_CLICK;
+        this.sound = SoundRegister.YUZU_TITLE_BUTTON_CLICK;
         this.voiceType = null;
         this.visible = true;
         this.alpha = 0f;
@@ -63,11 +62,11 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
 
     @Override
     public void render(Minecraft mc, int mouseX, int mouseY, float delta) {
-        this.clickable = this.alpha != 0.0F && this.visible;
+        this.clickable = this.alpha != 0.0F && this.visible && !YuZuUI.exit;
         if (this.visible) {
-            this.isHovered = isMouseOver(mouseX, mouseY) && this.clickable;
-            if (!this.wasHovered && this.isHovered) {
-                mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(InitSounds.YUZU_TITLE_BUTTON_ON, 1.0F));
+            this.isHovered = isMouseOver(mouseX, mouseY);
+            if (this.clickable && !this.wasHovered && this.isHovered) {
+                SoundManager.playSound(mc, SoundRegister.YUZU_TITLE_BUTTON_ON);
             }
             this.wasHovered = this.isHovered;
             this.renderButton(mc);
@@ -77,7 +76,7 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
 
     private void renderButton(Minecraft mc) {
         if (this.visible) {
-            if (this.isHovered) {
+            if (this.clickable && this.isHovered) {
                 mc.getTextureManager().bindTexture(textureHover);
             } else {
                 mc.getTextureManager().bindTexture(texture);
@@ -131,7 +130,7 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
      * 实时的悬停检测。不受其他变量影响。
      */
     public boolean isMouseOver(double mouseX, double mouseY) {
-        float virtualX = virtualScreen.toVirtualX((float) mouseX) - x;
+        float virtualX = this.virtualScreen.toVirtualX((float) mouseX) - x;
         float virtualY = virtualScreen.toVirtualY((float) mouseY) - y;
         return virtualX >= 0 && virtualX < width && virtualY >= 0 && virtualY < height;
     }
@@ -152,17 +151,13 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
         this.voiceType = voiceType;
     }
 
-    public void setTooltip(@Nullable String tooltipText) {
-        this.tooltipSupplier = () -> tooltipText;
-    }
-
     public void setTooltipSupplier(@Nullable Supplier<String> tooltipSupplier) {
         this.tooltipSupplier = tooltipSupplier;
     }
 
     @Override
     public boolean shouldDraw() {
-        return this.isHovered;
+        return this.visible && this.clickable && this.isHovered;
     }
 
     @Override

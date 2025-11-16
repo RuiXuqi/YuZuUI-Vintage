@@ -9,6 +9,8 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import javax.annotation.Nonnull;
+
 public class RenderUtils {
     public static void blit(float x, float y, float width, float height) {
         GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
@@ -29,7 +31,7 @@ public class RenderUtils {
     /**
      * Creates a scissor test using minecraft screen coordinates instead of pixel coordinates.
      */
-    public static void scissor(Minecraft mc, int screenX, int screenY, int boxWidth, int boxHeight) {
+    public static void scissor(@Nonnull Minecraft mc, int screenX, int screenY, int boxWidth, int boxHeight) {
         ScaledResolution scaledRes = new ScaledResolution(mc);
         int scale = scaledRes.getScaleFactor();
 

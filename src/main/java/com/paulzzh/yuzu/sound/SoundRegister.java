@@ -1,11 +1,15 @@
 package com.paulzzh.yuzu.sound;
 
 import com.paulzzh.yuzu.Tags;
+import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-public class InitSounds {
+public class SoundRegister {
+    public static MusicTicker.MusicType YUZU_TITLE;
+
     public static SoundEvent YUZU_TITLE_MUSIC;
     public static SoundEvent YUZU_TITLE_BUTTON_CLICK;
     public static SoundEvent YUZU_TITLE_BUTTON_MULTIPLAYER;
@@ -15,6 +19,13 @@ public class InitSounds {
 
     public static void registerSounds() {
         YUZU_TITLE_MUSIC = registerSound("music");
+        YUZU_TITLE = EnumHelper.addEnum(
+            MusicTicker.MusicType.class,
+            "YUZU_TITLE",
+            new Class[]{SoundEvent.class, int.class, int.class},
+            YUZU_TITLE_MUSIC, 0, 0
+        );
+
         YUZU_TITLE_BUTTON_CLICK = registerSound("button_click");
         YUZU_TITLE_BUTTON_MULTIPLAYER = registerSound("button_multiplayer");
         YUZU_TITLE_BUTTON_NEW_GAME = registerSound("button_new_game");

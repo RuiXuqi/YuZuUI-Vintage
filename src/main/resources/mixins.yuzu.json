@@ -1,14 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8.5",
-  "package": "com.paulzzh.yuzu.mixin.early",
+  "package": "com.paulzzh.yuzu.mixin",
   "refmap": "mixins.yuzu.refmap.json",
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [],
   "client": [
-    "minecraft.MinecraftMixin",
-    "minecraft.MusicTickerMixin"
+    "MinecraftMixin",
+    "MusicTickerMixin"
   ],
   "server": []
 }

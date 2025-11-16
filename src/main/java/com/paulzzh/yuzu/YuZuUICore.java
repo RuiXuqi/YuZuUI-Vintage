@@ -11,17 +11,18 @@ import java.util.Map;
 @IFMLLoadingPlugin.Name(Tags.MOD_NAME)
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 public class YuZuUICore implements IFMLLoadingPlugin, IEarlyMixinLoader {
-
     @Override
     public List<String> getMixinConfigs() {
-        return Collections.singletonList("mixins.yuzu.early.json");
+        return Collections.singletonList("mixins.yuzu.json");
     }
 
+    @Nullable
     @Override
     public String[] getASMTransformerClass() {
-        return new String[0];
+        return null;
     }
 
+    @Nullable
     @Override
     public String getModContainerClass() {
         return null;
@@ -37,6 +38,7 @@ public class YuZuUICore implements IFMLLoadingPlugin, IEarlyMixinLoader {
     public void injectData(Map<String, Object> data) {
     }
 
+    @Nullable
     @Override
     public String getAccessTransformerClass() {
         return null;

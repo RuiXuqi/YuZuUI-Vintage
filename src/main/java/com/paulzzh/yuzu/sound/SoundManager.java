@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * 辅助一些声音相关的调用。
+ */
 public class SoundManager {
 
     private static final Map<Character, Map<VoiceType, SoundEvent>> VOICE_MAP = new EnumMap<>(Character.class);
@@ -83,7 +86,7 @@ public class SoundManager {
     }
 
     /**
-     * 通用的播放声音方法。
+     * 播放一些音效用的方法。音量：0.25
      */
     public static void playSound(@Nonnull Minecraft mc, @Nonnull SoundEvent sound) {
         PositionedSoundRecord record = PositionedSoundRecord.getMasterRecord(sound, 1.0F);
@@ -91,7 +94,7 @@ public class SoundManager {
     }
 
     /**
-     * 语音专用的播放方法，会停止当前正在播放的语音并刷新 playedVoiceRecord。
+     * 语音专用的播放方法，会停止当前正在播放的语音并刷新 playedVoiceRecord。音量：1.0
      */
     public static void playVoice(@Nonnull Minecraft mc, VoiceType VoiceType) {
         if (getIsVoiceAvailable(mc)) {
@@ -101,12 +104,12 @@ public class SoundManager {
             }
             SoundEvent soundEvent = getVoice(VoiceType);
             // 原版竟然没用 VOICE 类别？？？没搜到用法
-            playedVoiceRecord = new PositionedSoundRecord(
-                soundEvent.getSoundName(), SoundCategory.VOICE,
-                1.0F, 1.0F, false, 0,
-                ISound.AttenuationType.NONE,
-                0.0F, 0.0F, 0.0F);
+            playedVoiceRecord = getSoundRecord(soundEvent, SoundCategory.VOICE, 1.0F, 1.0F);
             mc.getSoundHandler().playSound(playedVoiceRecord);
         }
+    }
+
+    public static @Nonnull PositionedSoundRecord getSoundRecord(@Nonnull SoundEvent event, @Nonnull SoundCategory category, float volume, float pitchIn) {
+        return new PositionedSoundRecord(event.getSoundName(), category, volume, pitchIn, false, 0, ISound.AttenuationType.NONE, 0.0F, 0.0F, 0.0F);
     }
 }

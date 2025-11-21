@@ -32,11 +32,11 @@ public class YuZuUI {
             YuZuUI.LOG.info(YuZuUIConfig.greeting);
             YuZuUI.LOG.info("I am YuZuUI at version " + Tags.VERSION);
         }
-        MinecraftForge.EVENT_BUS.register(new YuZuUIEventHandler());
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        MinecraftForge.EVENT_BUS.register(new YuZuUIEventHandler());
         SoundRegister.registerSounds();
     }
 }

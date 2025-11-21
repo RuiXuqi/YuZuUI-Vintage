@@ -1,8 +1,19 @@
 package com.paulzzh.yuzu;
 
+import com.paulzzh.yuzu.sound.SoundManager;
+import com.paulzzh.yuzu.sound.SoundRegister;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import javax.annotation.Nonnull;
 
 @Config(modid = Tags.MOD_ID)
+@Mod.EventBusSubscriber(modid = Tags.MOD_ID)
 public class YuZuUIConfig {
     private static final String PREFIX = Tags.MOD_ID + ".config.";
 
@@ -64,5 +75,13 @@ public class YuZuUIConfig {
         public boolean yasuharu = false;
         @Config.LangKey(VOICE_LIST_KEY + ".genjurou")
         public boolean genjurou = false;
+    }
+
+    @SubscribeEvent
+    public static void onConfigChanged(@Nonnull ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.getModID().equals(Tags.MOD_ID)) {
+            ConfigManager.sync(Tags.MOD_ID, Config.Type.INSTANCE);
+            SoundManager.updateCharacterStatus();
+        }
     }
 }

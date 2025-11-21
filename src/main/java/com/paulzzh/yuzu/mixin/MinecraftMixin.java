@@ -23,14 +23,18 @@ public class MinecraftMixin {
         YuZuUI.inGamed = true;
     }
 
+    /**
+     * bgm 启用时返回 YUZU_TITLE_TYPE。若不启用则正常返回 MENU （刷新 {@link MusicTicker#currentMusic} 用）。
+     */
+    @SuppressWarnings("JavadocReference")
     @Inject(method = "getAmbientMusicType", at = @At("RETURN"), cancellable = true)
     private void setTitleMusicType(@Nonnull CallbackInfoReturnable<MusicTicker.MusicType> cir) {
         if (
-            SoundRegister.YUZU_TITLE != null
+            SoundRegister.YUZU_TITLE_TYPE != null
                 && cir.getReturnValue() == MusicTicker.MusicType.MENU
                 && YuZuUIConfig.bgm && !YuZuUI.exit && !YuZuUI.inGamed
         ) {
-            cir.setReturnValue(SoundRegister.YUZU_TITLE);
+            cir.setReturnValue(SoundRegister.YUZU_TITLE_TYPE);
         }
     }
 }

@@ -8,7 +8,6 @@ import com.paulzzh.yuzu.sound.SoundRegister;
 import com.paulzzh.yuzu.sound.VoiceType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 
 import javax.annotation.Nullable;
 import java.time.Instant;
@@ -25,7 +24,7 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
     /**
      * 按钮点击声音。
      */
-    private SoundEvent sound;
+    private ResourceLocation sound;
     /**
      * 特定的语音种类。
      */
@@ -143,7 +142,7 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
         this.alphaFunction = alphaFunction;
     }
 
-    public void setSound(SoundEvent sound) {
+    public void setSound(ResourceLocation sound) {
         this.sound = sound;
     }
 

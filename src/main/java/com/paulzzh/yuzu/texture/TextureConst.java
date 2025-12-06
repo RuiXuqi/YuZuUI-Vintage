@@ -1,6 +1,6 @@
 package com.paulzzh.yuzu.texture;
 
-import com.paulzzh.yuzu.Tags;
+import com.paulzzh.yuzu.YuZuUI;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -39,6 +39,6 @@ public class TextureConst {
     public static final ResourceLocation TITLE_MOD_LIST_BUTTON_ON = newGuiResource("title_mod_list_button_on.png");
 
     private static ResourceLocation newGuiResource(String path) {
-        return new ResourceLocation(Tags.MOD_ID, "textures/gui/" + path);
+        return new ResourceLocation(YuZuUI.MOD_ID, "textures/gui/" + path);
     }
 }

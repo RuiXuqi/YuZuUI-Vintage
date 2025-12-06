@@ -6,21 +6,21 @@ import com.paulzzh.yuzu.gui.RenderUtils;
 import com.paulzzh.yuzu.gui.VirtualScreen;
 import com.paulzzh.yuzu.gui.widget.*;
 import com.paulzzh.yuzu.integration.DWGIntegration;
-import com.paulzzh.yuzu.mixininterface.MusicTickerInterface;
 import com.paulzzh.yuzu.sound.SoundManager;
 import com.paulzzh.yuzu.sound.SoundRegister;
+import com.paulzzh.yuzu.sound.TitleScreenMusicTicker;
 import com.paulzzh.yuzu.sound.VoiceType;
 import com.paulzzh.yuzu.texture.TextureConst;
+import cpw.mods.fml.client.GuiModList;
+import cpw.mods.fml.common.Loader;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.GuiModList;
-import net.minecraftforge.fml.common.Loader;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -40,7 +40,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     private static final List<Element> ELEMENTS = new ArrayList<>();
     private static final List<Clickable> CLICKABLES = new ArrayList<>();
     private static final List<TooltipDrawable> TOOLTIP_DRAWABLES = new ArrayList<>();
-    private static long delay = 0L;
+    private static long delay = 1300L;
     /**
      * 存储关于跳过退出语音延迟的信息。
      * <pre>
@@ -78,21 +78,21 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
         drawRect(0, 0, screenWidth, screenHeight, 0xFF000000);
         RenderUtils.scissor(this.mc, currentX, currentY, currentWidth, currentHeight);
-        GlStateManager.enableBlend();
-        GlStateManager.disableLighting();
-        GlStateManager.disableAlpha();
-        GlStateManager.enableTexture2D();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
         for (Element element : ELEMENTS) {
             element.render(this.mc, mouseX, mouseY, delta);
         }
 
-        GlStateManager.disableBlend();
+        GL11.glDisable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         if (YuZuUIConfig.tooltip) {
             String activeTooltip = null;
@@ -103,8 +103,12 @@ public class SenrenBankaTitleScreen extends GuiScreen {
             }
 
             if (activeTooltip != null) {
-                this.drawHoveringText(activeTooltip, mouseX, mouseY);
+                this.drawHoveringText(Collections.singletonList(activeTooltip), mouseX, mouseY);
             }
+        }
+
+        if (YuZuUIConfig.bgm) {
+            TitleScreenMusicTicker.tickBGM();
         }
     }
 
@@ -113,7 +117,6 @@ public class SenrenBankaTitleScreen extends GuiScreen {
      */
     @Override
     public void initGui() {
-        this.mc.setConnectedToRealms(false);
         if (!YuZuUI.isShowed) {
             initWidgets();
             YuZuUI.isShowed = true;
@@ -126,13 +129,9 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     }
 
     /**
-     * 初始化所有组件。动画和声音重新播放，其他声音停止。
+     * 初始化所有组件。动画重新播放。
      */
     public void initWidgets() {
-        if (YuZuUIConfig.bgm) {
-            this.mc.getSoundHandler().stopSounds();
-            ((MusicTickerInterface) this.mc.getMusicTicker()).yuZuUI$updateSoundStartTime();
-        }
         this.clearWidgets();
 
         double a = 0.06;
@@ -289,7 +288,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         selectWorldButton.setTooltipSupplier(() -> I18n.format("menu.singleplayer"));
         selectWorldButton.setSound(SoundRegister.YUZU_TITLE_BUTTON_SINGLEPLAYER);
         selectWorldButton.setOnClick((button) -> {
-            this.mc.displayGuiScreen(new GuiWorldSelection(this));
+            this.mc.displayGuiScreen(new GuiSelectWorld(this));
         });
 
         // 多人游戏
@@ -421,6 +420,21 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     @Override
     public void keyTyped(char typedChar, int keyCode) {
         SoundManager.playSound(this.mc, SoundRegister.YUZU_TITLE_BUTTON_ON);
+    }
+
+    /**
+     * Draws a List of strings as a tooltip. Every entry is drawn on a separate line.
+     *
+     * @deprecated  Use {@link #drawHoveringText(List, int, int)}.
+     */
+    @Deprecated
+    @Override
+    protected void func_146283_a(List<String> textLines, int x, int y) {
+        this.drawHoveringText(textLines, x, y);
+    }
+
+    protected void drawHoveringText(List<String> textLines, int x, int y) {
+        super.func_146283_a(textLines, x, y);
     }
 
     public static long getDelay() {

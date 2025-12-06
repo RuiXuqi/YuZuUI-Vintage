@@ -1,19 +1,28 @@
 package com.paulzzh.yuzu;
 
-import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
-import zone.rong.mixinbooter.IEarlyMixinLoader;
+
+import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
+import com.gtnewhorizon.gtnhmixins.builders.IMixins;
+import com.paulzzh.yuzu.mixin.Mixins;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-@IFMLLoadingPlugin.Name(Tags.MOD_NAME)
-@IFMLLoadingPlugin.MCVersion("1.12.2")
+@SuppressWarnings("unused")
+@IFMLLoadingPlugin.Name(YuZuUI.MOD_NAME)
+@IFMLLoadingPlugin.MCVersion("1.7.10")
 public class YuZuUICore implements IFMLLoadingPlugin, IEarlyMixinLoader {
     @Override
-    public List<String> getMixinConfigs() {
-        return Collections.singletonList("mixins.yuzu.json");
+    public String getMixinConfig() {
+        return "mixins.yuzu.early.json";
+    }
+
+    @Override
+    public List<String> getMixins(Set<String> loadedCoreMods) {
+        return IMixins.getEarlyMixins(Mixins.class, loadedCoreMods);
     }
 
     @Nullable

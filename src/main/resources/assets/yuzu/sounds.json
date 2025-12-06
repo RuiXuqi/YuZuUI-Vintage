@@ -7,391 +7,391 @@
     }]
   },
   "yuzu_title_button_click": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:yuzu_title_button_click"
     }]
   },
   "yuzu_title_button_multiplayer": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:yuzu_title_button_multiplayer"
     }]
   },
   "yuzu_title_button_new_game": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:yuzu_title_button_new_game"
     }]
   },
   "yuzu_title_button_on": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:yuzu_title_button_on"
     }]
   },
   "yuzu_title_button_singleplayer": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:yuzu_title_button_singleplayer"
     }]
   },
   "yuzu_title_senren_lena": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/lena/yuzu_title_senren"
     }]
   },
   "yuzu_title_button_mod_list_lena": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/lena/yuzu_title_button_mod_list"
     }]
   },
   "yuzu_title_button_options_lena": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/lena/yuzu_title_button_options"
     }]
   },
   "yuzu_title_button_quit_game_lena": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/lena/yuzu_title_button_quit_game"
     }]
   },
   "yuzu_title_button_realms_lena": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/lena/yuzu_title_button_realms"
     }]
   },
   "yuzu_title_button_select_world_lena": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/lena/yuzu_title_button_select_world"
     }]
   },
   "yuzu_title_senren_mako": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/mako/yuzu_title_senren"
     }]
   },
   "yuzu_title_button_mod_list_mako": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/mako/yuzu_title_button_mod_list"
     }]
   },
   "yuzu_title_button_options_mako": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/mako/yuzu_title_button_options"
     }]
   },
   "yuzu_title_button_quit_game_mako": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/mako/yuzu_title_button_quit_game"
     }]
   },
   "yuzu_title_button_realms_mako": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/mako/yuzu_title_button_realms"
     }]
   },
   "yuzu_title_button_select_world_mako": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/mako/yuzu_title_button_select_world"
     }]
   },
   "yuzu_title_senren_murasame": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/murasame/yuzu_title_senren"
     }]
   },
   "yuzu_title_button_mod_list_murasame": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/murasame/yuzu_title_button_mod_list"
     }]
   },
   "yuzu_title_button_options_murasame": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/murasame/yuzu_title_button_options"
     }]
   },
   "yuzu_title_button_quit_game_murasame": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/murasame/yuzu_title_button_quit_game"
     }]
   },
   "yuzu_title_button_realms_murasame": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/murasame/yuzu_title_button_realms"
     }]
   },
   "yuzu_title_button_select_world_murasame": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/murasame/yuzu_title_button_select_world"
     }]
   },
   "yuzu_title_senren_yoshino": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/yoshino/yuzu_title_senren"
     }]
   },
   "yuzu_title_button_mod_list_yoshino": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/yoshino/yuzu_title_button_mod_list"
     }]
   },
   "yuzu_title_button_options_yoshino": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/yoshino/yuzu_title_button_options"
     }]
   },
   "yuzu_title_button_quit_game_yoshino": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/yoshino/yuzu_title_button_quit_game"
     }]
   },
   "yuzu_title_button_realms_yoshino": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/yoshino/yuzu_title_button_realms"
     }]
   },
   "yuzu_title_button_select_world_yoshino": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/yoshino/yuzu_title_button_select_world"
     }]
   },
   "yuzu_title_senren_koharu": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/koharu/yuzu_title_senren"
     }]
   },
   "yuzu_title_button_mod_list_koharu": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/koharu/yuzu_title_button_mod_list"
     }]
   },
   "yuzu_title_button_options_koharu": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/koharu/yuzu_title_button_options"
     }]
   },
   "yuzu_title_button_quit_game_koharu": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/koharu/yuzu_title_button_quit_game"
     }]
   },
   "yuzu_title_button_realms_koharu": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/koharu/yuzu_title_button_realms"
     }]
   },
   "yuzu_title_button_select_world_koharu": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/koharu/yuzu_title_button_select_world"
     }]
   },
   "yuzu_title_senren_roka": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/roka/yuzu_title_senren"
     }]
   },
   "yuzu_title_button_mod_list_roka": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/roka/yuzu_title_button_mod_list"
     }]
   },
   "yuzu_title_button_options_roka": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/roka/yuzu_title_button_options"
     }]
   },
   "yuzu_title_button_quit_game_roka": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/roka/yuzu_title_button_quit_game"
     }]
   },
   "yuzu_title_button_realms_roka": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/roka/yuzu_title_button_realms"
     }]
   },
   "yuzu_title_button_select_world_roka": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/roka/yuzu_title_button_select_world"
     }]
   },
   "yuzu_title_senren_rentarou": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/rentarou/yuzu_title_senren"
     }]
   },
   "yuzu_title_button_mod_list_rentarou": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/rentarou/yuzu_title_button_mod_list"
     }]
   },
   "yuzu_title_button_options_rentarou": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/rentarou/yuzu_title_button_options"
     }]
   },
   "yuzu_title_button_quit_game_rentarou": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/rentarou/yuzu_title_button_quit_game"
     }]
   },
   "yuzu_title_button_realms_rentarou": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/rentarou/yuzu_title_button_realms"
     }]
   },
   "yuzu_title_button_select_world_rentarou": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/rentarou/yuzu_title_button_select_world"
     }]
   },
   "yuzu_title_senren_mizuha": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/mizuha/yuzu_title_senren"
     }]
   },
   "yuzu_title_button_mod_list_mizuha": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/mizuha/yuzu_title_button_mod_list"
     }]
   },
   "yuzu_title_button_options_mizuha": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/mizuha/yuzu_title_button_options"
     }]
   },
   "yuzu_title_button_quit_game_mizuha": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/mizuha/yuzu_title_button_quit_game"
     }]
   },
   "yuzu_title_button_realms_mizuha": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/mizuha/yuzu_title_button_realms"
     }]
   },
   "yuzu_title_button_select_world_mizuha": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/mizuha/yuzu_title_button_select_world"
     }]
   },
   "yuzu_title_senren_yasuharu": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/yasuharu/yuzu_title_senren"
     }]
   },
   "yuzu_title_button_mod_list_yasuharu": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/yasuharu/yuzu_title_button_mod_list"
     }]
   },
   "yuzu_title_button_options_yasuharu": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/yasuharu/yuzu_title_button_options"
     }]
   },
   "yuzu_title_button_quit_game_yasuharu": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/yasuharu/yuzu_title_button_quit_game"
     }]
   },
   "yuzu_title_button_realms_yasuharu": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/yasuharu/yuzu_title_button_realms"
     }]
   },
   "yuzu_title_button_select_world_yasuharu": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/yasuharu/yuzu_title_button_select_world"
     }]
   },
   "yuzu_title_senren_genjurou": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/genjurou/yuzu_title_senren"
     }]
   },
   "yuzu_title_button_mod_list_genjurou": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/genjurou/yuzu_title_button_mod_list"
     }]
   },
   "yuzu_title_button_options_genjurou": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/genjurou/yuzu_title_button_options"
     }]
   },
   "yuzu_title_button_quit_game_genjurou": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/genjurou/yuzu_title_button_quit_game"
     }]
   },
   "yuzu_title_button_realms_genjurou": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/genjurou/yuzu_title_button_realms"
     }]
   },
   "yuzu_title_button_select_world_genjurou": {
-    "category": "voice",
+    "category": "master",
     "sounds": [{
       "name": "yuzu:voice/genjurou/yuzu_title_button_select_world"
     }]

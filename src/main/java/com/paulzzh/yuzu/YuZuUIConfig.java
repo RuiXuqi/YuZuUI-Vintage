@@ -1,87 +1,168 @@
 package com.paulzzh.yuzu;
 
-import com.paulzzh.yuzu.sound.SoundManager;
-import com.paulzzh.yuzu.sound.SoundRegister;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundHandler;
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.common.config.Configuration;
 
-import javax.annotation.Nonnull;
+import java.io.File;
 
-@Config(modid = Tags.MOD_ID)
-@Mod.EventBusSubscriber(modid = Tags.MOD_ID)
 public class YuZuUIConfig {
-    private static final String PREFIX = Tags.MOD_ID + ".config.";
+    private static Configuration config;
+    private static final String PREFIX = YuZuUI.MOD_ID + ".config.";
+    private static final String VOICE_LIST_KEY = PREFIX + "voice_list";
 
-    @Config.Comment("启动时打印启动信息，留空以禁用。")
-    @Config.LangKey(PREFIX + "greeting")
     public static String greeting = "Ciallo～(∠ · ω < )⌒★";
-
-    @Config.Comment("是否播放背景音乐。")
-    @Config.LangKey(PREFIX + "bgm")
     public static boolean bgm = true;
-
-    @Config.Comment("是否显示工具提示。")
-    @Config.LangKey(PREFIX + "tooltip")
     public static boolean tooltip = false;
-
-    @Config.Comment("“后日谈”按钮打开语言设置界面，而不是 Realms 界面。")
-    @Config.LangKey(PREFIX + "replace_realms")
     public static boolean replaceRealms = true;
-
-    @Config.Comment("直接退出游戏，而不是回到标题界面。")
-    @Config.LangKey(PREFIX + "just_exit")
     public static boolean justExit = true;
-
     /**
      * 不应该直接调用！使用 SoundManager.getIsVoiceAvailable() 。
      */
     @Deprecated
     @SuppressWarnings("DeprecatedIsStillUsed")
-    @Config.Comment("点击按钮时播放语音。")
-    @Config.LangKey(PREFIX + "voice")
     public static boolean voice = true;
-
-    @Config.Comment("在下段语音播放前停止正播放的语音。")
-    @Config.LangKey(PREFIX + "prevent_mixing_voice")
     public static boolean preventMixingVoice = true;
 
-    private static final String VOICE_LIST_KEY = PREFIX + "voice_list";
-    @Config.LangKey(VOICE_LIST_KEY)
     public static final VoiceList VoiceList = new VoiceList();
-
     public static class VoiceList {
-        @Config.LangKey(VOICE_LIST_KEY + ".lena")
         public boolean lena = false;
-        @Config.LangKey(VOICE_LIST_KEY + ".mako")
         public boolean mako = false;
-        @Config.LangKey(VOICE_LIST_KEY + ".murasame")
         public boolean murasame = true;
-        @Config.LangKey(VOICE_LIST_KEY + ".yoshino")
         public boolean yoshino = false;
-        @Config.LangKey(VOICE_LIST_KEY + ".koharu")
         public boolean koharu = false;
-        @Config.LangKey(VOICE_LIST_KEY + ".roka")
         public boolean roka = false;
-        @Config.LangKey(VOICE_LIST_KEY + ".rentarou")
         public boolean rentarou = false;
-        @Config.LangKey(VOICE_LIST_KEY + ".mizuha")
         public boolean mizuha = false;
-        @Config.LangKey(VOICE_LIST_KEY + ".yasuharu")
         public boolean yasuharu = false;
-        @Config.LangKey(VOICE_LIST_KEY + ".genjurou")
         public boolean genjurou = false;
     }
 
-    @SubscribeEvent
-    public static void onConfigChanged(@Nonnull ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.getModID().equals(Tags.MOD_ID)) {
-            ConfigManager.sync(Tags.MOD_ID, Config.Type.INSTANCE);
-            SoundManager.updateCharacterStatus();
+    public static void init(File configFile) {
+        if (config == null) {
+            config = new Configuration(configFile);
+            config.load();
         }
+        syncConfig();
+    }
+
+    public static void syncConfig() {
+        greeting = config.get(
+            Configuration.CATEGORY_GENERAL,
+            "greeting",
+            greeting,
+            "启动时打印启动信息，留空以禁用。"
+        ).setLanguageKey(PREFIX + "greeting").getString();
+
+        bgm = config.get(
+            Configuration.CATEGORY_GENERAL,
+            "bgm",
+            bgm,
+            "是否播放背景音乐。"
+        ).setLanguageKey(PREFIX + "bgm").getBoolean();
+
+        tooltip = config.get(
+            Configuration.CATEGORY_GENERAL,
+            "tooltip",
+            tooltip,
+            "是否显示工具提示。"
+        ).setLanguageKey(PREFIX + "tooltip").getBoolean();
+
+        replaceRealms = config.get(
+            Configuration.CATEGORY_GENERAL,
+            "replaceRealms",
+            replaceRealms,
+            "“后日谈”按钮打开语言设置界面，而不是 Realms 界面。"
+        ).setLanguageKey(PREFIX + "replace_realms").getBoolean();
+
+        justExit = config.get(
+            Configuration.CATEGORY_GENERAL,
+            "justExit",
+            justExit,
+            "直接退出游戏，而不是回到标题界面。"
+        ).setLanguageKey(PREFIX + "just_exit").getBoolean();
+
+        voice = config.get(
+            Configuration.CATEGORY_GENERAL,
+            "voice",
+            voice,
+            "点击按钮时播放语音。"
+        ).setLanguageKey(PREFIX + "voice").getBoolean();
+
+        preventMixingVoice = config.get(
+            Configuration.CATEGORY_GENERAL,
+            "preventMixingVoice",
+            preventMixingVoice,
+            "在下段语音播放前停止正播放的语音。"
+        ).setLanguageKey(PREFIX + "prevent_mixing_voice").getBoolean();
+
+        final String VOICE_LIST_CATEGORY = Configuration.CATEGORY_GENERAL + Configuration.CATEGORY_SPLITTER + "voicelist";
+        config.setCategoryLanguageKey(VOICE_LIST_CATEGORY, VOICE_LIST_KEY);
+
+        VoiceList.lena = config.get(
+            VOICE_LIST_CATEGORY,
+            "lena",
+            VoiceList.lena
+        ).setLanguageKey(VOICE_LIST_KEY + ".lena").getBoolean();
+
+        VoiceList.mako = config.get(
+            VOICE_LIST_CATEGORY,
+            "mako",
+            VoiceList.mako
+        ).setLanguageKey(VOICE_LIST_KEY + ".mako").getBoolean();
+
+        VoiceList.murasame = config.get(
+            VOICE_LIST_CATEGORY,
+            "murasame",
+            VoiceList.murasame
+        ).setLanguageKey(VOICE_LIST_KEY + ".murasame").getBoolean();
+
+        VoiceList.yoshino = config.get(
+            VOICE_LIST_CATEGORY,
+            "yoshino",
+            VoiceList.yoshino
+        ).setLanguageKey(VOICE_LIST_KEY + ".yoshino").getBoolean();
+
+        VoiceList.koharu = config.get(
+            VOICE_LIST_CATEGORY,
+            "koharu",
+            VoiceList.koharu
+        ).setLanguageKey(VOICE_LIST_KEY + ".koharu").getBoolean();
+
+        VoiceList.roka = config.get(
+            VOICE_LIST_CATEGORY,
+            "roka",
+            VoiceList.roka
+        ).setLanguageKey(VOICE_LIST_KEY + ".roka").getBoolean();
+
+        VoiceList.rentarou = config.get(
+            VOICE_LIST_CATEGORY,
+            "rentarou",
+            VoiceList.rentarou
+        ).setLanguageKey(VOICE_LIST_KEY + ".rentarou").getBoolean();
+
+        VoiceList.mizuha = config.get(
+            VOICE_LIST_CATEGORY,
+            "mizuha",
+            VoiceList.mizuha
+        ).setLanguageKey(VOICE_LIST_KEY + ".mizuha").getBoolean();
+
+        VoiceList.yasuharu = config.get(
+            VOICE_LIST_CATEGORY,
+            "yasuharu",
+            VoiceList.yasuharu
+        ).setLanguageKey(VOICE_LIST_KEY + ".yasuharu").getBoolean();
+
+        VoiceList.genjurou = config.get(
+            VOICE_LIST_CATEGORY,
+            "genjurou",
+            VoiceList.genjurou
+        ).setLanguageKey(VOICE_LIST_KEY + ".genjurou").getBoolean();
+
+        if (config.hasChanged()) {
+            config.save();
+        }
+    }
+
+    public static Configuration getConfig() {
+        return config;
     }
 }

@@ -3,8 +3,8 @@ package com.paulzzh.yuzu.gui.widget;
 import com.paulzzh.yuzu.gui.RenderUtils;
 import com.paulzzh.yuzu.gui.VirtualScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 /**
  * @author IMG
@@ -29,7 +29,7 @@ public class Layer extends AnimatedElement {
     @Override
     public void render(Minecraft mc, int mouseX, int mouseY, float delta) {
         if (duration == null || duration == 0) {
-            GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, alpha);
             mc.getTextureManager().bindTexture(texture);
             RenderUtils.blit(
                 virtualScreen.toPracticalX(x),
@@ -63,7 +63,7 @@ public class Layer extends AnimatedElement {
         }
 
         // 渲染更新后的状态
-        GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, alpha);
         mc.getTextureManager().bindTexture(texture);
         RenderUtils.blit(
             virtualScreen.toPracticalX(x),

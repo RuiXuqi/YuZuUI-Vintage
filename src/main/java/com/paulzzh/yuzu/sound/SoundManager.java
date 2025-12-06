@@ -1,11 +1,12 @@
 package com.paulzzh.yuzu.sound;
 
 import com.paulzzh.yuzu.YuZuUIConfig;
+import com.paulzzh.yuzu.mixin.early.PositionedSoundRecordMixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.client.audio.SoundCategory;
+import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class SoundManager {
 
-    private static final Map<Character, Map<VoiceType, SoundEvent>> VOICE_MAP = new EnumMap<>(Character.class);
+    private static final Map<Character, Map<VoiceType, ResourceLocation>> VOICE_MAP = new EnumMap<>(Character.class);
     private static final List<Character> CHARACTER_ENABLED = new ArrayList<>();
     private static PositionedSoundRecord playedVoiceRecord;
 
@@ -27,7 +28,7 @@ public class SoundManager {
         for (Character character : Character.values()) {
             VOICE_MAP.put(character, new EnumMap<>(VoiceType.class));
             for (VoiceType type : VoiceType.values()) {
-                SoundEvent sound = SoundRegister.registerSound(type.toString() + "_" + character.toString());
+                ResourceLocation sound = SoundRegister.getSoundLocation(type.toString() + "_" + character.toString());
                 VOICE_MAP.get(character).put(type, sound);
             }
         }
@@ -39,7 +40,7 @@ public class SoundManager {
      *
      * @param type 所需的语音种类。
      */
-    public static SoundEvent getVoice(VoiceType type) {
+    public static ResourceLocation getVoice(VoiceType type) {
         Character character = CHARACTER_ENABLED.get(
             ThreadLocalRandom.current().nextInt(CHARACTER_ENABLED.size())
         );
@@ -63,7 +64,7 @@ public class SoundManager {
 //        return characterVoices.get(randomType);
 //    }
 
-    private static SoundEvent getVoice(Character character, VoiceType type) {
+    private static ResourceLocation getVoice(Character character, VoiceType type) {
         return VOICE_MAP.get(character).get(type);
     }
 
@@ -82,14 +83,14 @@ public class SoundManager {
     @SuppressWarnings("deprecation")
     public static boolean getIsVoiceAvailable(Minecraft mc) {
         return YuZuUIConfig.voice && !CHARACTER_ENABLED.isEmpty()
-            && mc.gameSettings.getSoundLevel(SoundCategory.VOICE) != 0;
+            && mc.gameSettings.getSoundLevel(SoundCategory.MASTER) != 0;
     }
 
     /**
      * 播放一些音效用的方法。音量：0.25
      */
-    public static void playSound(@Nonnull Minecraft mc, @Nonnull SoundEvent sound) {
-        PositionedSoundRecord record = PositionedSoundRecord.getMasterRecord(sound, 1.0F);
+    public static void playSound(@Nonnull Minecraft mc, @Nonnull ResourceLocation sound) {
+        PositionedSoundRecord record = PositionedSoundRecord.func_147674_a(sound, 1.0F);
         mc.getSoundHandler().playSound(record);
     }
 
@@ -102,14 +103,13 @@ public class SoundManager {
             if (YuZuUIConfig.preventMixingVoice) {
                 mc.getSoundHandler().stopSound(playedVoiceRecord);
             }
-            SoundEvent soundEvent = getVoice(VoiceType);
-            // 原版竟然没用 VOICE 类别？？？没搜到用法
-            playedVoiceRecord = getSoundRecord(soundEvent, SoundCategory.VOICE, 1.0F, 1.0F);
+            ResourceLocation soundEvent = getVoice(VoiceType);
+            playedVoiceRecord = getSoundRecord(soundEvent, 1.0F, 1.0F);
             mc.getSoundHandler().playSound(playedVoiceRecord);
         }
     }
 
-    public static @Nonnull PositionedSoundRecord getSoundRecord(@Nonnull SoundEvent event, @Nonnull SoundCategory category, float volume, float pitchIn) {
-        return new PositionedSoundRecord(event.getSoundName(), category, volume, pitchIn, false, 0, ISound.AttenuationType.NONE, 0.0F, 0.0F, 0.0F);
+    public static @Nonnull PositionedSoundRecord getSoundRecord(@Nonnull ResourceLocation location, float volume, float pitchIn) {
+        return PositionedSoundRecordMixin.create(location, volume, pitchIn, false, 0, ISound.AttenuationType.NONE, 0.0F, 0.0F, 0.0F);
     }
 }

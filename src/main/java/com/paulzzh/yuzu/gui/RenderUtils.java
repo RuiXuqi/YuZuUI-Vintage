@@ -2,10 +2,7 @@ package com.paulzzh.yuzu.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -13,18 +10,17 @@ import javax.annotation.Nonnull;
 
 public class RenderUtils {
     public static void blit(float x, float y, float width, float height) {
-        GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-        GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-        GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
-        GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
 
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
-        bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        bufferBuilder.pos(x, y + height, 0).tex(0, 1).endVertex();
-        bufferBuilder.pos(x + width, y + height, 0).tex(1, 1).endVertex();
-        bufferBuilder.pos(x + width, y, 0).tex(1, 0).endVertex();
-        bufferBuilder.pos(x, y, 0).tex(0, 0).endVertex();
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV(x, y + height, 0, 0, 1); // 左下角
+        tessellator.addVertexWithUV(x + width, y + height, 0, 1, 1); // 右下角
+        tessellator.addVertexWithUV(x + width, y, 0, 1, 0); // 右上角
+        tessellator.addVertexWithUV(x, y, 0, 0, 0); // 左上角
         tessellator.draw();
     }
 
@@ -32,7 +28,7 @@ public class RenderUtils {
      * Creates a scissor test using minecraft screen coordinates instead of pixel coordinates.
      */
     public static void scissor(@Nonnull Minecraft mc, int screenX, int screenY, int boxWidth, int boxHeight) {
-        ScaledResolution scaledRes = new ScaledResolution(mc);
+        ScaledResolution scaledRes = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         int scale = scaledRes.getScaleFactor();
 
         int x = screenX * scale;

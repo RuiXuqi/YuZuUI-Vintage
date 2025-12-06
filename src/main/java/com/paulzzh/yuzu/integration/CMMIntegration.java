@@ -1,9 +1,9 @@
 package com.paulzzh.yuzu.integration;
 
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
 import lumien.custommainmenu.gui.GuiCustom;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Optional;
 
 import javax.annotation.Nullable;
 

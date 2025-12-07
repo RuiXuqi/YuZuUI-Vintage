@@ -1,9 +1,7 @@
 package com.paulzzh.yuzu;
 
 import com.paulzzh.yuzu.sound.SoundManager;
-import com.paulzzh.yuzu.sound.SoundRegister;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundHandler;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -38,7 +36,7 @@ public class YuZuUIConfig {
     public static boolean justExit = true;
 
     /**
-     * 不应该直接调用！使用 SoundManager.getIsVoiceAvailable() 。
+     * 不应该直接调用！使用 {@link SoundManager#getIsVoiceAvailable(Minecraft)}。
      */
     @Deprecated
     @SuppressWarnings("DeprecatedIsStillUsed")
@@ -51,6 +49,7 @@ public class YuZuUIConfig {
     public static boolean preventMixingVoice = true;
 
     private static final String VOICE_LIST_KEY = PREFIX + "voice_list";
+    @Config.Comment("被启用的语音的列表。")
     @Config.LangKey(VOICE_LIST_KEY)
     public static final VoiceList VoiceList = new VoiceList();
 

@@ -53,8 +53,8 @@ public class SoundManager {
 //     *
 //     * @param character 语音声源。
 //     */
-//    public static SoundEvent getVoice(Character character) {
-//        Map<VoiceType, SoundEvent> characterVoices = VOICE_MAP.get(character);
+//    public static ResourceLocation getVoice(Character character) {
+//        Map<VoiceType, ResourceLocation> characterVoices = VOICE_MAP.get(character);
 //
 //        List<VoiceType> availableTypes = new ArrayList<>(characterVoices.keySet());
 //        VoiceType randomType = availableTypes.get(

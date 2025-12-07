@@ -54,6 +54,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float delta) {
+        TitleScreenMusicTicker.tickBGM();
         // 背景图片保持比例
         int screenWidth = this.width;
         int screenHeight = this.height;
@@ -105,10 +106,6 @@ public class SenrenBankaTitleScreen extends GuiScreen {
             if (activeTooltip != null) {
                 this.drawHoveringText(Collections.singletonList(activeTooltip), mouseX, mouseY);
             }
-        }
-
-        if (YuZuUIConfig.bgm) {
-            TitleScreenMusicTicker.tickBGM();
         }
     }
 
@@ -425,7 +422,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     /**
      * Draws a List of strings as a tooltip. Every entry is drawn on a separate line.
      *
-     * @deprecated  Use {@link #drawHoveringText(List, int, int)}.
+     * @deprecated Use {@link #drawHoveringText(List, int, int)}.
      */
     @Deprecated
     @Override

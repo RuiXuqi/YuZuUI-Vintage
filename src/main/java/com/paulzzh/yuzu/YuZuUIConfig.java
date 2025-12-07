@@ -1,21 +1,18 @@
 package com.paulzzh.yuzu;
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
 
 public class YuZuUIConfig {
-    private static Configuration config;
-    private static final String PREFIX = YuZuUI.MOD_ID + ".config.";
-    private static final String VOICE_LIST_KEY = PREFIX + "voice_list";
-
     public static String greeting = "Ciallo～(∠ · ω < )⌒★";
     public static boolean bgm = true;
     public static boolean tooltip = false;
     public static boolean replaceRealms = true;
     public static boolean justExit = true;
     /**
-     * 不应该直接调用！使用 SoundManager.getIsVoiceAvailable() 。
+     * 不应该直接调用！使用 {@link com.paulzzh.yuzu.sound.SoundManager#getIsVoiceAvailable(Minecraft)}。
      */
     @Deprecated
     @SuppressWarnings("DeprecatedIsStillUsed")
@@ -23,6 +20,7 @@ public class YuZuUIConfig {
     public static boolean preventMixingVoice = true;
 
     public static final VoiceList VoiceList = new VoiceList();
+
     public static class VoiceList {
         public boolean lena = false;
         public boolean mako = false;
@@ -35,6 +33,10 @@ public class YuZuUIConfig {
         public boolean yasuharu = false;
         public boolean genjurou = false;
     }
+
+    private static Configuration config;
+    private static final String PREFIX = YuZuUI.MOD_ID + ".config.";
+    private static final String VOICE_LIST_KEY = PREFIX + "voice_list";
 
     public static void init(File configFile) {
         if (config == null) {
@@ -96,6 +98,7 @@ public class YuZuUIConfig {
 
         final String VOICE_LIST_CATEGORY = Configuration.CATEGORY_GENERAL + Configuration.CATEGORY_SPLITTER + "voicelist";
         config.setCategoryLanguageKey(VOICE_LIST_CATEGORY, VOICE_LIST_KEY);
+        config.setCategoryComment(VOICE_LIST_CATEGORY, "被启用的语音的列表。");
 
         VoiceList.lena = config.get(
             VOICE_LIST_CATEGORY,

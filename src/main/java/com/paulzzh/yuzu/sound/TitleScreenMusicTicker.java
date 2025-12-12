@@ -18,8 +18,9 @@ public class TitleScreenMusicTicker {
      */
     public static boolean tickBGM() {
         SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
-        if (YuZuUIConfig.bgm && !YuZuUI.exit && !YuZuUI.inGamed) {
-            // 播放音乐
+        boolean inMenu = !YuZuUI.exit && !YuZuUI.inGamed;
+
+        if (inMenu && YuZuUIConfig.bgm) {
             if (ISOUND_TITLE == null || !soundHandler.isSoundPlaying(ISOUND_TITLE)) {
                 long currentTime = Minecraft.getSystemTime();
                 if (soundStartTime == null) soundStartTime = currentTime;
@@ -29,12 +30,12 @@ public class TitleScreenMusicTicker {
                     soundStartTime = null;
                 }
             }
-            return true;
         } else if (ISOUND_TITLE != null) {
-            // 停止音乐
             soundHandler.stopSound(ISOUND_TITLE);
             ISOUND_TITLE = null;
+            soundStartTime = null;
         }
-        return false;
+
+        return inMenu;
     }
 }

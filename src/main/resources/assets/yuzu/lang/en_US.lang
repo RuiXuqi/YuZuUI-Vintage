@@ -12,6 +12,8 @@ yuzu.config.just_exit=Just Exit
 yuzu.config.just_exit.tooltip=Quit game directly instead of quitting to Title Screen.
 yuzu.config.voice=Voice
 yuzu.config.voice.tooltip=Play voice when clicking buttons.
+yuzu.config.voice_volume=Voice Volume
+yuzu.config.voice_volume.tooltip=Control the sound volume of voice.
 yuzu.config.prevent_mixing_voice=Prevent Mixing Voice
 yuzu.config.prevent_mixing_voice.tooltip=Stop the currently playing voice before playing a new one.
 

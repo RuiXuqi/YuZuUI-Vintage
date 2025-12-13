@@ -104,7 +104,7 @@ public class SoundManager {
                 mc.getSoundHandler().stopSound(playedVoiceRecord);
             }
             ResourceLocation soundEvent = getVoice(VoiceType);
-            playedVoiceRecord = getSoundRecord(soundEvent, 1.0F, 1.0F);
+            playedVoiceRecord = getSoundRecord(soundEvent, YuZuUIConfig.voiceVolume, 1.0F);
             mc.getSoundHandler().playSound(playedVoiceRecord);
         }
     }

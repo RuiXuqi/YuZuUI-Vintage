@@ -1,7 +1,12 @@
 package com.paulzzh.yuzu;
 
+import cpw.mods.fml.client.config.GuiConfig;
+import cpw.mods.fml.client.config.GuiConfigEntries;
+import cpw.mods.fml.client.config.GuiSlider;
+import cpw.mods.fml.client.config.IConfigElement;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 
 import java.io.File;
 
@@ -17,6 +22,7 @@ public class YuZuUIConfig {
     @Deprecated
     @SuppressWarnings("DeprecatedIsStillUsed")
     public static boolean voice = true;
+    public static float voiceVolume = 1.0F;
     public static boolean preventMixingVoice = true;
 
     public static final VoiceList VoiceList = new VoiceList();
@@ -88,6 +94,17 @@ public class YuZuUIConfig {
             voice,
             "点击按钮时播放语音。"
         ).setLanguageKey(PREFIX + "voice").getBoolean();
+
+        final Property P_VoiceVolume = config.get(
+            Configuration.CATEGORY_GENERAL,
+            "voiceVolume",
+            100,
+            "设置语音音量。"
+        ).setLanguageKey(PREFIX + "voice_volume").setMinValue(0).setMaxValue(100).setConfigEntryClass(PercentageNumberSliderEntry.class);
+        if (P_VoiceVolume.getInt() > Integer.parseInt(P_VoiceVolume.getMaxValue()) || P_VoiceVolume.getInt() < Integer.parseInt(P_VoiceVolume.getMinValue())) {
+            P_VoiceVolume.setValue(P_VoiceVolume.getDefault());
+        }
+        voiceVolume = (float) P_VoiceVolume.getInt() / 100;
 
         preventMixingVoice = config.get(
             Configuration.CATEGORY_GENERAL,
@@ -167,5 +184,15 @@ public class YuZuUIConfig {
 
     public static Configuration getConfig() {
         return config;
+    }
+
+    public static class PercentageNumberSliderEntry extends GuiConfigEntries.NumberSliderEntry {
+        public PercentageNumberSliderEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement<?> configElement) {
+            super(owningScreen, owningEntryList, configElement);
+            if (this.btnValue instanceof GuiSlider slider) {
+                slider.suffix = "%";
+                if (slider.drawString) slider.displayString += slider.suffix;
+            }
+        }
     }
 }

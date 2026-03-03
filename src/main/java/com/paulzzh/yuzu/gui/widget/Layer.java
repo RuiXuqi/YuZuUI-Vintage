@@ -27,49 +27,49 @@ public class Layer extends AnimatedElement {
     }
 
     @Override
-    public void render(Minecraft mc, int mouseX, int mouseY, float delta) {
-        if (duration == null || duration == 0) {
-            GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
-            mc.getTextureManager().bindTexture(texture);
+    public void render(int mouseX, int mouseY, float delta) {
+        if (this.duration == null || this.duration == 0) {
+            GlStateManager.color(1.0F, 1.0F, 1.0F, this.alpha);
+            Minecraft.getMinecraft().getTextureManager().bindTexture(this.texture);
             RenderUtils.blit(
-                virtualScreen.toPracticalX(x),
-                virtualScreen.toPracticalY(y),
-                virtualScreen.toPracticalWidth(width * scale),
-                virtualScreen.toPracticalHeight(height * scale)
+                    this.virtualScreen.toPracticalX(this.x),
+                    this.virtualScreen.toPracticalY(this.y),
+                    this.virtualScreen.toPracticalWidth(this.width * this.scale),
+                    this.virtualScreen.toPracticalHeight(this.height * this.scale)
             );
         }
 
         // 计算动画进度
         long currentTime = System.currentTimeMillis();
-        if (startTime == null) {
-            startTime = currentTime;
+        if (this.startTime == null) {
+            this.startTime = currentTime;
         } else {
-            float elapsed = currentTime - startTime;
-            if (elapsed > delay) {
-                float time = Math.min((elapsed - delay) / duration, 1.0f);
-                if (xFunction != null) {
-                    x = xFunction.apply(time, x);
+            float elapsed = currentTime - this.startTime;
+            if (elapsed > this.delay) {
+                float time = Math.min((elapsed - this.delay) / this.duration, 1.0f);
+                if (this.xFunction != null) {
+                    this.x = this.xFunction.apply(time, this.x);
                 }
-                if (yFunction != null) {
-                    y = yFunction.apply(time, y);
+                if (this.yFunction != null) {
+                    this.y = this.yFunction.apply(time, this.y);
                 }
-                if (alphaFunction != null) {
-                    alpha = alphaFunction.apply(time, alpha);
+                if (this.alphaFunction != null) {
+                    this.alpha = this.alphaFunction.apply(time, this.alpha);
                 }
-                if (scaleFunction != null) {
-                    scale = scaleFunction.apply(time, scale);
+                if (this.scaleFunction != null) {
+                    this.scale = this.scaleFunction.apply(time, this.scale);
                 }
             }
         }
 
         // 渲染更新后的状态
-        GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
-        mc.getTextureManager().bindTexture(texture);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, this.alpha);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(this.texture);
         RenderUtils.blit(
-            virtualScreen.toPracticalX(x),
-            virtualScreen.toPracticalY(y),
-            virtualScreen.toPracticalWidth(width * scale),
-            virtualScreen.toPracticalHeight(height * scale)
+                this.virtualScreen.toPracticalX(this.x),
+                this.virtualScreen.toPracticalY(this.y),
+                this.virtualScreen.toPracticalWidth(this.width * this.scale),
+                this.virtualScreen.toPracticalHeight(this.height * this.scale)
         );
     }
 

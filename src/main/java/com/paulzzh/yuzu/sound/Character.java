@@ -1,35 +1,42 @@
 package com.paulzzh.yuzu.sound;
 
-import com.paulzzh.yuzu.YuZuUIConfig;
+import com.paulzzh.yuzu.config.util.ConfigBuilder;
 
-import java.util.function.BooleanSupplier;
+import javax.annotation.Nonnull;
+import java.util.Locale;
 
 public enum Character {
-    LENA("lena", () -> YuZuUIConfig.VoiceList.lena),
-    MAKO("mako", () -> YuZuUIConfig.VoiceList.mako),
-    MURASAME("murasame", () -> YuZuUIConfig.VoiceList.murasame),
-    YOSHINO("yoshino", () -> YuZuUIConfig.VoiceList.yoshino),
-    KOHARU("koharu", () -> YuZuUIConfig.VoiceList.koharu),
-    ROKA("roka", () -> YuZuUIConfig.VoiceList.roka),
-    RENTAROU("rentarou", () -> YuZuUIConfig.VoiceList.rentarou),
-    MIZUHA("mizuha", () -> YuZuUIConfig.VoiceList.mizuha),
-    YASUHARU("yasuharu", () -> YuZuUIConfig.VoiceList.yasuharu),
-    GENJUROU("genjurou", () -> YuZuUIConfig.VoiceList.genjurou);
+    LENA,
+    MAKO,
+    MURASAME(true),
+    YOSHINO,
+    KOHARU,
+    ROKA,
+    RENTAROU,
+    MIZUHA,
+    YASUHARU,
+    GENJUROU;
 
-    private final String key;
-    private final BooleanSupplier configSupplier;
+    private boolean enabled = false;
 
-    Character(String key, BooleanSupplier configSupplier) {
-        this.key = key;
-        this.configSupplier = configSupplier;
+    Character(boolean enabled) {
+        this.enabled = enabled;
     }
 
-    @Override
-    public String toString() {
-        return this.key;
+    Character() {
     }
 
-    public BooleanSupplier getConfigSupplier() {
-        return this.configSupplier;
+    public String getKey() {
+        return this.name().toLowerCase(Locale.ENGLISH);
+    }
+
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+    public static void buildConfig(@Nonnull ConfigBuilder builder) {
+        for (Character character : Character.values()) {
+            character.enabled = builder.get(character.name().toLowerCase(Locale.ENGLISH), character.enabled);
+        }
     }
 }

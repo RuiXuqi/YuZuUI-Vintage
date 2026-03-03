@@ -9,9 +9,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import javax.annotation.Nonnull;
-
-public class RenderUtils {
+public final class RenderUtils {
     public static void blit(float x, float y, float width, float height) {
         GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
@@ -31,16 +29,19 @@ public class RenderUtils {
     /**
      * Creates a scissor test using minecraft screen coordinates instead of pixel coordinates.
      */
-    public static void scissor(@Nonnull Minecraft mc, int screenX, int screenY, int boxWidth, int boxHeight) {
-        ScaledResolution scaledRes = new ScaledResolution(mc);
-        int scale = scaledRes.getScaleFactor();
+    public static void scissor(int screenX, int screenY, int boxWidth, int boxHeight) {
+        final Minecraft mc = Minecraft.getMinecraft();
+        int scale = new ScaledResolution(mc).getScaleFactor();
 
-        int x = screenX * scale;
-        int y = mc.displayHeight - (screenY * scale + boxHeight * scale);
-        int width = Math.max(0, boxWidth * scale);
-        int height = Math.max(0, boxHeight * scale);
+        boxWidth = Math.max(0, boxWidth);
+        boxHeight = Math.max(0, boxHeight);
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
-        GL11.glScissor(x, y, width, height);
+        GL11.glScissor(
+                screenX * scale,
+                mc.displayHeight - (screenY + boxHeight) * scale,
+                boxWidth * scale,
+                boxHeight * scale
+        );
     }
 }

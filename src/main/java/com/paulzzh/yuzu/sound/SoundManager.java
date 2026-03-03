@@ -8,28 +8,25 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 辅助一些声音相关的调用。
  */
-public class SoundManager {
-
+public final class SoundManager {
     private static final Map<Character, Map<VoiceType, SoundEvent>> VOICE_MAP = new EnumMap<>(Character.class);
     private static final List<Character> CHARACTER_ENABLED = new ArrayList<>();
     private static PositionedSoundRecord playedVoiceRecord;
 
     public static void init() {
         for (Character character : Character.values()) {
-            VOICE_MAP.put(character, new EnumMap<>(VoiceType.class));
+            Map<VoiceType, SoundEvent> map = new HashMap<>();
             for (VoiceType type : VoiceType.values()) {
-                SoundEvent sound = SoundRegister.registerSound(type.toString() + "_" + character.toString());
-                VOICE_MAP.get(character).put(type, sound);
+                SoundEvent sound = SoundRegister.registerSound(type.getKey() + "_" + character.getKey());
+                map.put(type, sound);
             }
+            VOICE_MAP.put(character, map);
         }
         updateCharacterStatus();
     }
@@ -41,7 +38,7 @@ public class SoundManager {
      */
     public static SoundEvent getVoice(VoiceType type) {
         Character character = CHARACTER_ENABLED.get(
-            ThreadLocalRandom.current().nextInt(CHARACTER_ENABLED.size())
+                ThreadLocalRandom.current().nextInt(CHARACTER_ENABLED.size())
         );
 
         return getVoice(character, type);
@@ -70,7 +67,7 @@ public class SoundManager {
     public static void updateCharacterStatus() {
         CHARACTER_ENABLED.clear();
         for (Character character : Character.values()) {
-            if (character.getConfigSupplier().getAsBoolean()) {
+            if (character.isEnabled()) {
                 CHARACTER_ENABLED.add(character);
             }
         }
@@ -80,24 +77,25 @@ public class SoundManager {
      * 获取语音是否可用。
      */
     @SuppressWarnings("deprecation")
-    public static boolean getIsVoiceAvailable(Minecraft mc) {
+    public static boolean isVoiceAvailable() {
         return YuZuUIConfig.voice && !CHARACTER_ENABLED.isEmpty()
-            && mc.gameSettings.getSoundLevel(SoundCategory.VOICE) != 0;
+                && Minecraft.getMinecraft().gameSettings.getSoundLevel(SoundCategory.VOICE) != 0;
     }
 
     /**
      * 播放一些音效用的方法。音量：0.25
      */
-    public static void playSound(@Nonnull Minecraft mc, @Nonnull SoundEvent sound) {
+    public static void playSound(@Nonnull SoundEvent sound) {
         PositionedSoundRecord record = PositionedSoundRecord.getMasterRecord(sound, 1.0F);
-        mc.getSoundHandler().playSound(record);
+        Minecraft.getMinecraft().getSoundHandler().playSound(record);
     }
 
     /**
      * 语音专用的播放方法，会停止当前正在播放的语音并刷新 playedVoiceRecord。音量：1.0
      */
-    public static void playVoice(@Nonnull Minecraft mc, VoiceType VoiceType) {
-        if (getIsVoiceAvailable(mc)) {
+    public static void playVoice(VoiceType VoiceType) {
+        final Minecraft mc = Minecraft.getMinecraft();
+        if (isVoiceAvailable()) {
             // 不用检查语音有没有在播放或者 null，方法本身自带检查
             if (YuZuUIConfig.preventMixingVoice) {
                 mc.getSoundHandler().stopSound(playedVoiceRecord);

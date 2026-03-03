@@ -14,8 +14,7 @@ public enum VoiceType {
         this.key = key;
     }
 
-    @Override
-    public String toString() {
+    public String getKey() {
         return this.key;
     }
 }

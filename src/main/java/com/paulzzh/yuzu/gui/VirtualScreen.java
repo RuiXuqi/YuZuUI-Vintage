@@ -26,31 +26,31 @@ public class VirtualScreen {
     }
 
     public float toPracticalX(float x) {
-        return currentX + x * (float) practicalWidth / (float) virtualWidth;
+        return this.currentX + x * (float) this.practicalWidth / (float) this.virtualWidth;
     }
 
     public float toPracticalY(float y) {
-        return currentY + y * (float) practicalHeight / (float) virtualHeight;
+        return this.currentY + y * (float) this.practicalHeight / (float) this.virtualHeight;
     }
 
     public float toPracticalWidth(float width) {
-        return width * (float) practicalWidth / (float) virtualWidth;
+        return width * (float) this.practicalWidth / (float) this.virtualWidth;
     }
 
     public float toPracticalHeight(float height) {
-        return height * (float) practicalHeight / (float) virtualHeight;
+        return height * (float) this.practicalHeight / (float) this.virtualHeight;
     }
 
     public float toVirtualX(float x) {
-        return (x - currentX) * (float) virtualWidth / (float) practicalWidth;
+        return (x - this.currentX) * (float) this.virtualWidth / (float) this.practicalWidth;
     }
 
     public float toVirtualY(float y) {
-        return (y - currentY) * (float) virtualHeight / (float) practicalHeight;
+        return (y - this.currentY) * (float) this.virtualHeight / (float) this.practicalHeight;
     }
 
     public int getVirtualWidth() {
-        return virtualWidth;
+        return this.virtualWidth;
     }
 
     public void setVirtualWidth(int virtualWidth) {
@@ -58,7 +58,7 @@ public class VirtualScreen {
     }
 
     public int getVirtualHeight() {
-        return virtualHeight;
+        return this.virtualHeight;
     }
 
     public void setVirtualHeight(int virtualHeight) {
@@ -66,7 +66,7 @@ public class VirtualScreen {
     }
 
     public int getPracticalWidth() {
-        return practicalWidth;
+        return this.practicalWidth;
     }
 
     public void setPracticalWidth(int practicalWidth) {
@@ -74,7 +74,7 @@ public class VirtualScreen {
     }
 
     public int getPracticalHeight() {
-        return practicalHeight;
+        return this.practicalHeight;
     }
 
     public void setPracticalHeight(int practicalHeight) {
@@ -82,7 +82,7 @@ public class VirtualScreen {
     }
 
     public int getCurrentX() {
-        return currentX;
+        return this.currentX;
     }
 
     public void setCurrentX(int currentX) {
@@ -90,7 +90,7 @@ public class VirtualScreen {
     }
 
     public int getCurrentY() {
-        return currentY;
+        return this.currentY;
     }
 
     public void setCurrentY(int currentY) {

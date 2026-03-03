@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-@IFMLLoadingPlugin.Name(Tags.MOD_NAME)
+@IFMLLoadingPlugin.Name("EarlyMixin")
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 public class YuZuUICore implements IFMLLoadingPlugin, IEarlyMixinLoader {
     @Override

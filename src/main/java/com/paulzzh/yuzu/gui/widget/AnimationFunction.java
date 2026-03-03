@@ -6,7 +6,6 @@ package com.paulzzh.yuzu.gui.widget;
  */
 @FunctionalInterface
 public interface AnimationFunction<T> {
-
     /**
      * 动画函数
      *

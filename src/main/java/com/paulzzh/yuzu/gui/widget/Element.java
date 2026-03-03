@@ -1,7 +1,6 @@
 package com.paulzzh.yuzu.gui.widget;
 
 import com.paulzzh.yuzu.gui.VirtualScreen;
-import net.minecraft.client.Minecraft;
 
 @SuppressWarnings("unused")
 public abstract class Element {
@@ -12,7 +11,7 @@ public abstract class Element {
     float height;
     float alpha;
 
-    public abstract void render(Minecraft mc, int mouseX, int mouseY, float delta);
+    public abstract void render(int mouseX, int mouseY, float delta);
 
     public float getX() {
         return this.x;

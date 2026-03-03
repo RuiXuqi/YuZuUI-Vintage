@@ -1,7 +1,5 @@
 yuzu.menu.quit_to_title=Quit To Title
 
-yuzu.config.greeting=How shall I greet?
-yuzu.config.greeting.tooltip=Print boot info when booting. Set blank to disable.
 yuzu.config.bgm=BGM
 yuzu.config.bgm.tooltip=Whether play background music or not.
 yuzu.config.tooltip=Tooltip

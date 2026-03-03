@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
  * @author IMG
  * @since 2025/2/16
  */
-public class TextureConst {
+public final class TextureConst {
     public static final ResourceLocation TITLE_CHARALL = newGuiResource("title_charall.png");
     public static final ResourceLocation BACKGROUND_TEXTURE = newGuiResource("title_background.png");
     public static final ResourceLocation TITLE_YOSHINO = newGuiResource("title_yoshino.png");

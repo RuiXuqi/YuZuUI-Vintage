@@ -3,12 +3,6 @@
 
 Minecraft 1.12.2 移植版。
 
---本仓库修改自[1.7.10 by paulzzh](https://github.com/paulzzh/YuZuUI-GTNH)
-
---原仓库修改自[IMG 原版](https://github.com/ming-sc/YuZuUI-Forge)
-
---本仓库同时也参考了[fgfgui 修改版](https://github.com/link-fgfgui/SenrenBanka-UI)
-
 因原仓库许可证不明，所以本项目（同样）也不知道该用啥许可证。
 
 ## 使用提示
@@ -26,3 +20,8 @@ Minecraft 1.12.2 移植版。
 主动兼容 Custom Main Menu。未对 Fancy Menu 主动适配，但经测试未见问题。
 
 与 Default World Generator 存在联动，会适配其新加的创建世界界面。
+
+## 致谢
+- [IMG](https://github.com/ming-sc) 创建了 [原始模组](https://github.com/ming-sc/YuZuUI-Forge)
+- [paulzzh](https://github.com/paulzzh) 创建 [1.7.10 分支](https://github.com/paulzzh/YuZuUI-GTNH)，并修复了很多问题
+- [fgfgui](https://github.com/link-fgfgui) 创建了 [更新分支](https://github.com/link-fgfgui/SenrenBanka-UI)

@@ -1,40 +1,32 @@
 package com.paulzzh.yuzu.mixin;
 
-import com.paulzzh.yuzu.YuZuUI;
-import com.paulzzh.yuzu.YuZuUIConfig;
-import com.paulzzh.yuzu.sound.SoundRegister;
+import com.paulzzh.yuzu.sound.TitleScreenMusicTicker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.MusicTicker;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import javax.annotation.Nonnull;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
-    @Inject(
-        method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundHandler;stopSounds()V")
+    @Redirect(
+            method = "runTick",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/audio/MusicTicker;update()V"
+            )
     )
-    private void inject2(CallbackInfo ci) {
-        YuZuUI.inGamed = true;
-    }
-
-    /**
-     * bgm 启用时返回 YUZU_TITLE_TYPE。若不启用则正常返回 MENU （刷新 {@link MusicTicker#currentMusic} 用）。
-     */
-    @SuppressWarnings("JavadocReference")
-    @Inject(method = "getAmbientMusicType", at = @At("RETURN"), cancellable = true)
-    private void setTitleMusicType(@Nonnull CallbackInfoReturnable<MusicTicker.MusicType> cir) {
-        if (
-            SoundRegister.YUZU_TITLE_TYPE != null
-                && cir.getReturnValue() == MusicTicker.MusicType.MENU
-                && YuZuUIConfig.bgm && !YuZuUI.exit && !YuZuUI.inGamed
-        ) {
-            cir.setReturnValue(SoundRegister.YUZU_TITLE_TYPE);
+    private void updateYuZuTicker(MusicTicker instance) {
+        if (TitleScreenMusicTicker.tickBGM()) {
+            MusicTickerAccessor accessor = (MusicTickerAccessor) instance;
+            ISound currentMusic = accessor.getCurrentMusic();
+            if (currentMusic != null) {
+                Minecraft.getMinecraft().getSoundHandler().stopSound(currentMusic);
+                accessor.setCurrentMusic(null);
+            }
+        } else {
+            instance.update();
         }
     }
 }

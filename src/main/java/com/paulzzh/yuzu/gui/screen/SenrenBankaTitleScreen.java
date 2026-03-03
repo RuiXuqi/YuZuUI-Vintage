@@ -6,9 +6,9 @@ import com.paulzzh.yuzu.gui.RenderUtils;
 import com.paulzzh.yuzu.gui.VirtualScreen;
 import com.paulzzh.yuzu.gui.widget.*;
 import com.paulzzh.yuzu.integration.DWGIntegration;
-import com.paulzzh.yuzu.mixininterface.MusicTickerInterface;
 import com.paulzzh.yuzu.sound.SoundManager;
 import com.paulzzh.yuzu.sound.SoundRegister;
+import com.paulzzh.yuzu.sound.TitleScreenMusicTicker;
 import com.paulzzh.yuzu.sound.VoiceType;
 import com.paulzzh.yuzu.texture.TextureConst;
 import net.minecraft.client.gui.*;
@@ -17,7 +17,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.GuiModList;
-import net.minecraftforge.fml.common.Loader;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -32,9 +31,7 @@ import java.util.concurrent.Executors;
  */
 @SuppressWarnings({"CodeBlock2Expr", "PointlessArithmeticExpression"})
 public class SenrenBankaTitleScreen extends GuiScreen {
-    /*
-    客观存在的一些属性。不需要跟着实例走。
-     */
+    // 客观存在的一些属性。不需要跟着实例走。
     private static final VirtualScreen VIRTUAL_SCREEN = new VirtualScreen(1920, 1080);
     private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(1);
     private static final List<Element> ELEMENTS = new ArrayList<>();
@@ -77,7 +74,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
 
         drawRect(0, 0, screenWidth, screenHeight, 0xFF000000);
-        RenderUtils.scissor(this.mc, currentX, currentY, currentWidth, currentHeight);
+        RenderUtils.scissor(currentX, currentY, currentWidth, currentHeight);
         GlStateManager.enableBlend();
         GlStateManager.disableLighting();
         GlStateManager.disableAlpha();
@@ -87,7 +84,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
         for (Element element : ELEMENTS) {
-            element.render(this.mc, mouseX, mouseY, delta);
+            element.render(mouseX, mouseY, delta);
         }
 
         GlStateManager.disableBlend();
@@ -115,12 +112,12 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     public void initGui() {
         this.mc.setConnectedToRealms(false);
         if (!YuZuUI.isShowed) {
-            initWidgets();
+            this.initWidgets();
             YuZuUI.isShowed = true;
             return;
         }
         if (YuZuUI.inGamed) {
-            initWidgets();
+            this.initWidgets();
             YuZuUI.inGamed = false;
         }
     }
@@ -129,10 +126,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
      * 初始化所有组件。动画和声音重新播放，其他声音停止。
      */
     public void initWidgets() {
-        if (YuZuUIConfig.bgm) {
-            this.mc.getSoundHandler().stopSounds();
-            ((MusicTickerInterface) this.mc.getMusicTicker()).yuZuUI$updateSoundStartTime();
-        }
+        TitleScreenMusicTicker.tickBGM();
         this.clearWidgets();
 
         double a = 0.06;
@@ -140,117 +134,117 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
         // 以下数据来源于 https://github.com/paulzzh/YuZuUI-GTNH/blob/master/src/main/java/com/paulzzh/yuzu/gui/YuZuUIGuiMainMenu.java
         Layer yoshino = new Layer(TextureConst.TITLE_YOSHINO, 517, 50, 973, 1058, 1f, 0, VIRTUAL_SCREEN) {{
-            setDelay(delay);
-            setDuration(590L);
+            this.setDelay(delay);
+            this.setDuration(590L);
 
-            setYFunction((t, now) -> {
+            this.setYFunction((t, now) -> {
                 return (22f - 50f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 50f;
             });
 
-            setAlphaFunction((t, now) -> {
+            this.setAlphaFunction((t, now) -> {
                 return (1f - 0f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 0f;
             });
         }};
 
         Layer murasame = new Layer(TextureConst.TITLE_MURASAME, 221, 86, 1045, 994, 1f, 0, VIRTUAL_SCREEN) {{
-            setDelay(delay + 110L);
-            setDuration(710L);
+            this.setDelay(delay + 110L);
+            this.setDuration(710L);
 
-            setXFunction((t, now) -> {
+            this.setXFunction((t, now) -> {
                 return (175f - 221f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 221f;
             });
 
-            setAlphaFunction((t, now) -> {
+            this.setAlphaFunction((t, now) -> {
                 return (1f - 0f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 0f;
             });
         }};
 
         Layer mako = new Layer(TextureConst.TITLE_MAKO, 805, 386, 1118, 694, 1f, 0, VIRTUAL_SCREEN) {{
-            setDelay(delay + 280L);
-            setDuration(680L);
+            this.setDelay(delay + 280L);
+            this.setDuration(680L);
 
-            setXFunction((t, now) -> {
+            this.setXFunction((t, now) -> {
                 return (906f - 805f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 805f;
             });
 
-            setAlphaFunction((t, now) -> {
+            this.setAlphaFunction((t, now) -> {
                 return (1f - 0f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 0f;
             });
         }};
 
         Layer lena = new Layer(TextureConst.TITLE_LENA, 1002, 149, 876, 1053, 1f, 0, VIRTUAL_SCREEN) {{
-            setDelay(delay + 440L);
-            setDuration(680L);
+            this.setDelay(delay + 440L);
+            this.setDuration(680L);
 
-            setXFunction((t, now) -> {
+            this.setXFunction((t, now) -> {
                 return (float) ((1074f - 1002f) * ((Math.pow(0.05, t) - 1) / (0.05 - 1)) + 1002f);
             });
 
-            setYFunction((t, now) -> {
+            this.setYFunction((t, now) -> {
                 return (float) ((27f - 149f) * ((Math.pow(0.05, t) - 1) / (0.05 - 1)) + 149f);
             });
 
-            setAlphaFunction((t, now) -> {
+            this.setAlphaFunction((t, now) -> {
                 return (float) ((1f - 0f) * ((Math.pow(0.05, t) - 1) / (0.05 - 1)) + 0f);
             });
         }};
 
         Layer logo = new Layer(TextureConst.TITLE_LOGO, 17, 57, 442, 188, 1.067f, 0, VIRTUAL_SCREEN) {{
-            setDelay(delay + 300L);
-            setDuration(570L);
+            this.setDelay(delay + 300L);
+            this.setDuration(570L);
 
-            setXFunction((t, now) -> {
+            this.setXFunction((t, now) -> {
                 return (36f - 17f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 17f;
             });
 
-            setYFunction((t, now) -> {
+            this.setYFunction((t, now) -> {
                 return (60f - 57f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 57f;
             });
 
-            setAlphaFunction((t, now) -> {
+            this.setAlphaFunction((t, now) -> {
                 return (1f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 0f;
             });
 
-            setScaleFunction((t, now) -> {
+            this.setScaleFunction((t, now) -> {
                 return (1f - 1.067f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 1.067f;
             });
         }};
 
         Layer head = new Layer(TextureConst.TITLE_HEAD, 0, 334, 12, 687, 1f, 0, VIRTUAL_SCREEN) {{
-            setDelay(delay + 1130L);
-            setDuration(530L);
+            this.setDelay(delay + 1130L);
+            this.setDuration(530L);
 
-            setAlphaFunction((t, now) -> {
+            this.setAlphaFunction((t, now) -> {
                 float v = (1f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 0f;
                 if (v == 1f && now != 1f) {
-                    SoundManager.playVoice(mc, VoiceType.SENREN);
+                    SoundManager.playVoice(VoiceType.SENREN);
                 }
                 return v;
             });
         }};
 
         Layer background = new Layer(TextureConst.BACKGROUND_TEXTURE, -64, -36, 1920, 1080, 1.067f, 1, VIRTUAL_SCREEN) {{
-            setDelay(delay);
-            setDuration(1120L);
+            this.setDelay(delay);
+            this.setDuration(1120L);
 
-            setXFunction((t, now) -> {
+            this.setXFunction((t, now) -> {
                 return (64f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) - 64f;
             });
 
-            setYFunction((t, now) -> {
+            this.setYFunction((t, now) -> {
                 return (36f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) - 36f;
             });
 
-            setScaleFunction((t, now) -> {
+            this.setScaleFunction((t, now) -> {
                 return (1f - 1.067f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 1.067f;
             });
         }};
 
         Layer all = new Layer(TextureConst.TITLE_CHARALL, 0, 0, 1920, 1080, 1f, 0, VIRTUAL_SCREEN) {{
-            setDelay(delay + 1130L);
-            setDuration(530L);
+            this.setDelay(delay + 1130L);
+            this.setDuration(530L);
 
-            setAlphaFunction((t, now) -> {
+            this.setAlphaFunction((t, now) -> {
                 return (1f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 0f;
             });
         }};
@@ -270,22 +264,17 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
         // 新建世界
         TitleScreenButton newGameButton = this.createTitleScreenButton(60, y, 207, 54,
-            TextureConst.TITLE_NEW_GAME_BUTTON_NORMAL, TextureConst.TITLE_NEW_GAME_BUTTON_ON);
+                TextureConst.TITLE_NEW_GAME_BUTTON_NORMAL, TextureConst.TITLE_NEW_GAME_BUTTON_ON);
         newGameButton.setTooltipSupplier(() -> I18n.format("selectWorld.create"));
         newGameButton.setOnClick((button) -> {
-            // 安装了 DefaultWorldGenerator
-            // 判定不能丢，不然找不到方法
-            if (Loader.isModLoaded(DWGIntegration.DWG_MODID)) {
-                GuiScreen screen = DWGIntegration.getDWGGui(this);
-                this.mc.displayGuiScreen(screen);
-                return;
-            }
-            this.mc.displayGuiScreen(new GuiCreateWorld(this));
+            GuiScreen screen = DWGIntegration.tryGetDWGGui(this);
+            if (screen == null) screen = new GuiCreateWorld(this);
+            this.mc.displayGuiScreen(screen);
         });
 
         // 选择世界
         TitleScreenButton selectWorldButton = this.createTitleScreenButton(60, y + dy, 206, 55,
-            TextureConst.TITLE_SELECT_WORLD_BUTTON_NORMAL, TextureConst.TITLE_SELECT_WORLD_BUTTON_ON);
+                TextureConst.TITLE_SELECT_WORLD_BUTTON_NORMAL, TextureConst.TITLE_SELECT_WORLD_BUTTON_ON);
         selectWorldButton.setTooltipSupplier(() -> I18n.format("menu.singleplayer"));
         selectWorldButton.setSound(SoundRegister.YUZU_TITLE_BUTTON_SINGLEPLAYER);
         selectWorldButton.setOnClick((button) -> {
@@ -294,7 +283,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
         // 多人游戏
         TitleScreenButton continueButton = this.createTitleScreenButton(66, y + dy * 2, 313, 56,
-            TextureConst.TITLE_CONTINUE_BUTTON_NORMAL, TextureConst.TITLE_CONTINUE_BUTTON_ON);
+                TextureConst.TITLE_CONTINUE_BUTTON_NORMAL, TextureConst.TITLE_CONTINUE_BUTTON_ON);
         continueButton.setTooltipSupplier(() -> I18n.format("menu.multiplayer"));
         continueButton.setSound(SoundRegister.YUZU_TITLE_BUTTON_MULTIPLAYER);
         continueButton.setOnClick((button) -> {
@@ -303,7 +292,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
         // Realms
         TitleScreenButton realmsButton = this.createTitleScreenButton(66, y + dy * 3, 164, 54,
-            TextureConst.TITLE_REALMS_BUTTON_NORMAL, TextureConst.TITLE_REALMS_BUTTON_ON);
+                TextureConst.TITLE_REALMS_BUTTON_NORMAL, TextureConst.TITLE_REALMS_BUTTON_ON);
         realmsButton.setTooltipSupplier(() -> I18n.format(YuZuUIConfig.replaceRealms ? "options.language" : "menu.online"));
         realmsButton.setVoiceType(VoiceType.REALMS);
         realmsButton.setOnClick((button) -> {
@@ -316,7 +305,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
         // 模组列表
         TitleScreenButton modListButton = this.createTitleScreenButton(58, y + dy * 4, 211, 54,
-            TextureConst.TITLE_MOD_LIST_BUTTON_NORMAL, TextureConst.TITLE_MOD_LIST_BUTTON_ON);
+                TextureConst.TITLE_MOD_LIST_BUTTON_NORMAL, TextureConst.TITLE_MOD_LIST_BUTTON_ON);
         modListButton.setTooltipSupplier(() -> I18n.format("fml.menu.mods"));
         modListButton.setVoiceType(VoiceType.MOD_LIST);
         modListButton.setOnClick((button) -> {
@@ -325,7 +314,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
         // 设置
         TitleScreenButton optionsButton = this.createTitleScreenButton(59, y + dy * 5, 253, 56,
-            TextureConst.TITLE_OPTIONS_BUTTON_NORMAL, TextureConst.TITLE_OPTIONS_BUTTON_ON);
+                TextureConst.TITLE_OPTIONS_BUTTON_NORMAL, TextureConst.TITLE_OPTIONS_BUTTON_ON);
         optionsButton.setTooltipSupplier(() -> I18n.format("menu.options"));
         optionsButton.setVoiceType(VoiceType.OPTIONS);
         optionsButton.setOnClick((button) -> {
@@ -334,7 +323,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
         // 退出游戏
         TitleScreenButton quitGameButton = this.createTitleScreenButton(60, y + dy * 6, 233, 54,
-            TextureConst.TITLE_QUIT_GAME_BUTTON_NORMAL, TextureConst.TITLE_QUIT_GAME_BUTTON_ON);
+                TextureConst.TITLE_QUIT_GAME_BUTTON_NORMAL, TextureConst.TITLE_QUIT_GAME_BUTTON_ON);
         quitGameButton.setTooltipSupplier(() -> I18n.format(YuZuUIConfig.justExit ? "menu.quit" : "yuzu.menu.quit_to_title"));
         quitGameButton.setVoiceType(VoiceType.QUIT_GAME);
         quitGameButton.setOnClick((button) -> {
@@ -346,7 +335,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
                 CompletableFuture.completedFuture(null).whenComplete((unused, e) -> {
                     EXECUTOR.execute(() -> {
                         // 没语音就不要等了
-                        if (SoundManager.getIsVoiceAvailable(this.mc)) {
+                        if (SoundManager.isVoiceAvailable()) {
                             try {
                                 // 等待音效播放完成
                                 for (int i = 0; i < 150; i++) {
@@ -378,10 +367,10 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
     private TitleScreenButton createTitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover) {
         return new TitleScreenButton(x, y, width, height, texture, textureHover, VIRTUAL_SCREEN) {{
-            setDelay(delay + 1670L);
-            setDuration(570L);
+            this.setDelay(delay + 1670L);
+            this.setDuration(570L);
 
-            setAlphaFunction((t, now) -> {
+            this.setAlphaFunction((t, now) -> {
                 return (1f - 0f) * t + 0f;
             });
         }};
@@ -412,7 +401,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
             this.passExitSound++;
         }
         for (Clickable clickable : CLICKABLES) {
-            if (clickable.mousePressed(this.mc, mouseX, mouseY)) {
+            if (clickable.mousePressed(mouseX, mouseY)) {
                 return;
             }
         }
@@ -420,7 +409,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
     @Override
     public void keyTyped(char typedChar, int keyCode) {
-        SoundManager.playSound(this.mc, SoundRegister.YUZU_TITLE_BUTTON_ON);
+        SoundManager.playSound(SoundRegister.YUZU_TITLE_BUTTON_ON);
     }
 
     public static long getDelay() {

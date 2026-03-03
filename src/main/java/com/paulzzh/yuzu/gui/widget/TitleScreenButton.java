@@ -61,65 +61,66 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
     }
 
     @Override
-    public void render(Minecraft mc, int mouseX, int mouseY, float delta) {
+    public void render(int mouseX, int mouseY, float delta) {
         this.clickable = this.alpha != 0.0F && this.visible && !YuZuUI.exit;
         if (this.visible) {
-            this.isHovered = isMouseOver(mouseX, mouseY);
+            this.isHovered = this.isMouseOver(mouseX, mouseY);
             if (this.clickable && !this.wasHovered && this.isHovered) {
-                SoundManager.playSound(mc, SoundRegister.YUZU_TITLE_BUTTON_ON);
+                SoundManager.playSound(SoundRegister.YUZU_TITLE_BUTTON_ON);
             }
             this.wasHovered = this.isHovered;
-            this.renderButton(mc);
+            this.renderButton();
         }
-        tick();
+        this.tick();
     }
 
-    private void renderButton(Minecraft mc) {
+    private void renderButton() {
         if (this.visible) {
+            final Minecraft mc = Minecraft.getMinecraft();
             if (this.clickable && this.isHovered) {
-                mc.getTextureManager().bindTexture(textureHover);
+                mc.getTextureManager().bindTexture(this.textureHover);
             } else {
-                mc.getTextureManager().bindTexture(texture);
+                mc.getTextureManager().bindTexture(this.texture);
             }
             RenderUtils.blit(
-                virtualScreen.toPracticalX(x),
-                virtualScreen.toPracticalY(y),
-                virtualScreen.toPracticalWidth(width),
-                virtualScreen.toPracticalHeight(height)
+                    this.virtualScreen.toPracticalX(this.x),
+                    this.virtualScreen.toPracticalY(this.y),
+                    this.virtualScreen.toPracticalWidth(this.width),
+                    this.virtualScreen.toPracticalHeight(this.height)
             );
         }
     }
 
     protected void tick() {
-        if (delay == null || duration == 0) {
+        if (this.delay == null || this.duration == 0) {
             return;
         }
 
         long currentTime = Instant.now().toEpochMilli();
-        if (startTime == null) {
-            startTime = currentTime;
+        if (this.startTime == null) {
+            this.startTime = currentTime;
         } else {
-            long t = currentTime - startTime;
-            if (t > delay) {
-                float time = Math.min((float) (t - delay) / duration, 1);
-                if (alphaFunction != null) {
-                    alpha = alphaFunction.apply(time, alpha);
+            long t = currentTime - this.startTime;
+            if (t > this.delay) {
+                float time = Math.min((float) (t - this.delay) / this.duration, 1);
+                if (this.alphaFunction != null) {
+                    this.alpha = this.alphaFunction.apply(time, this.alpha);
                 }
             }
         }
     }
 
     @Override
-    public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
+    public boolean mousePressed(int mouseX, int mouseY) {
         if (this.clickable && this.isHovered) {
-            if (sound != null) {
-                SoundManager.playSound(mc, sound);
+            if (this.sound != null) {
+                SoundManager.playSound(this.sound);
             }
-            if (voiceType != null) {
-                SoundManager.playVoice(mc, voiceType);
+            if (this.voiceType != null) {
+                SoundManager.playVoice(this.voiceType);
             }
-            if (onClick != null) {
-                onClick.accept(this);
+            if (this.onClick != null) {
+                this.onClick.accept(this);
             }
             return true;
         }
@@ -130,9 +131,9 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
      * 实时的悬停检测。不受其他变量影响。
      */
     public boolean isMouseOver(double mouseX, double mouseY) {
-        float virtualX = this.virtualScreen.toVirtualX((float) mouseX) - x;
-        float virtualY = virtualScreen.toVirtualY((float) mouseY) - y;
-        return virtualX >= 0 && virtualX < width && virtualY >= 0 && virtualY < height;
+        float virtualX = this.virtualScreen.toVirtualX((float) mouseX) - this.x;
+        float virtualY = this.virtualScreen.toVirtualY((float) mouseY) - this.y;
+        return virtualX >= 0 && virtualX < this.width && virtualY >= 0 && virtualY < this.height;
     }
 
     public void setOnClick(Consumer<TitleScreenButton> onClick) {

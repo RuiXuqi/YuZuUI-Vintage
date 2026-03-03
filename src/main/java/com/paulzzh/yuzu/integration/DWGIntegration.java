@@ -7,14 +7,26 @@ import com.ezrol.terry.minecraft.defaultworldgenerator.gui.DefaultWorldSelection
 import com.ezrol.terry.minecraft.defaultworldgenerator.gui.GuiCreateCustomWorld;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiWorldSelection;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 
 public class DWGIntegration {
-    public static final String DWG_MODID = "defaultworldgenerator-port";
+    private static final String DWG_MODID = "defaultworldgenerator-port";
+    private static boolean DWG_LOADED = false;
+
+    public static void init() {
+        DWG_LOADED = Loader.isModLoaded(DWG_MODID);
+    }
+
+    @Nullable
+    public static GuiScreen tryGetDWGGui(GuiScreen currentScreen) {
+        return DWG_LOADED ? getDWGGui(currentScreen) : null;
+    }
 
     /**
      * 复制于 {@link com.ezrol.terry.minecraft.defaultworldgenerator.events.GuiEvents#TriggerNewWorld(GuiWorldSelection)}。
@@ -22,7 +34,7 @@ public class DWGIntegration {
     @Nonnull
     @SuppressWarnings("JavadocReference")
     @Optional.Method(modid = DWG_MODID)
-    public static GuiScreen getDWGGui(GuiScreen currentScreen) {
+    private static GuiScreen getDWGGui(GuiScreen currentScreen) {
         List<WorldTypeNode> types = DefaultWorldGenerator.modConfig.getSettings().getWorldList();
         List<WorldTypeNode> selectable = new LinkedList<>();
         for (WorldTypeNode n : types) {

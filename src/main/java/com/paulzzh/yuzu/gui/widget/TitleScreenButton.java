@@ -66,26 +66,27 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
     }
 
     @Override
-    public boolean mousePressed(int mouseX, int mouseY) {
-        if (this.clickable && this.isHovered) {
-            if (this.sound != null) {
-                SoundManager.playSound(this.sound);
-            }
-            if (this.voiceType != null) {
-                SoundManager.playVoice(this.voiceType);
-            }
-            if (this.onClick != null) {
-                this.onClick.accept(this);
-            }
-            return true;
+    public boolean mousePressed(int mouseX, int mouseY, int button) {
+        return this.clickable && this.isHovered;
+    }
+
+    @Override
+    public void onClick(int mouseX, int mouseY, int button) {
+        if (this.sound != null) {
+            SoundManager.playSound(this.sound);
         }
-        return false;
+        if (this.voiceType != null) {
+            SoundManager.playVoice(this.voiceType);
+        }
+        if (this.onClick != null) {
+            this.onClick.accept(this);
+        }
     }
 
     /**
      * 实时的悬停检测。不受其他变量影响。
      */
-    public boolean isMouseOver(int mouseX, int mouseY) {
+    private boolean isMouseOver(int mouseX, int mouseY) {
         float virtualX = this.virtualScreen.toVirtualX(mouseX) - this.x;
         float virtualY = this.virtualScreen.toVirtualY(mouseY) - this.y;
         return virtualX >= 0 && virtualX < this.width && virtualY >= 0 && virtualY < this.height;

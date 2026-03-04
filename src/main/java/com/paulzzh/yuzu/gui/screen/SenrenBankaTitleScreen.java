@@ -352,7 +352,8 @@ public class SenrenBankaTitleScreen extends GuiScreen {
             this.passExitSound++;
         }
         for (Clickable clickable : CLICKABLES) {
-            if (clickable.mousePressed(mouseX, mouseY)) {
+            if (clickable.mousePressed(mouseX, mouseY, button)) {
+                clickable.onClick(mouseX, mouseY, button);
                 return;
             }
         }

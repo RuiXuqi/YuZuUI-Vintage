@@ -9,16 +9,12 @@ public class VirtualScreen {
     // 虚拟宽高
     private int virtualWidth;
     private int virtualHeight;
-
     // 实际宽高
     private int practicalWidth;
     private int practicalHeight;
-
-    private int currentX;
-    private int currentY;
-
-    public VirtualScreen() {
-    }
+    // XY 偏移量
+    private int xOffset;
+    private int yOffset;
 
     public VirtualScreen(int virtualWidth, int virtualHeight) {
         this.virtualWidth = virtualWidth;
@@ -26,11 +22,11 @@ public class VirtualScreen {
     }
 
     public float toPracticalX(float x) {
-        return this.currentX + x * (float) this.practicalWidth / (float) this.virtualWidth;
+        return this.xOffset + x * (float) this.practicalWidth / (float) this.virtualWidth;
     }
 
     public float toPracticalY(float y) {
-        return this.currentY + y * (float) this.practicalHeight / (float) this.virtualHeight;
+        return this.yOffset + y * (float) this.practicalHeight / (float) this.virtualHeight;
     }
 
     public float toPracticalWidth(float width) {
@@ -42,11 +38,11 @@ public class VirtualScreen {
     }
 
     public float toVirtualX(float x) {
-        return (x - this.currentX) * (float) this.virtualWidth / (float) this.practicalWidth;
+        return (x - this.xOffset) * (float) this.virtualWidth / (float) this.practicalWidth;
     }
 
     public float toVirtualY(float y) {
-        return (y - this.currentY) * (float) this.virtualHeight / (float) this.practicalHeight;
+        return (y - this.yOffset) * (float) this.virtualHeight / (float) this.practicalHeight;
     }
 
     public int getVirtualWidth() {
@@ -81,19 +77,19 @@ public class VirtualScreen {
         this.practicalHeight = practicalHeight;
     }
 
-    public int getCurrentX() {
-        return this.currentX;
+    public int getXOffset() {
+        return this.xOffset;
     }
 
-    public void setCurrentX(int currentX) {
-        this.currentX = currentX;
+    public void setXOffset(int xOffset) {
+        this.xOffset = xOffset;
     }
 
-    public int getCurrentY() {
-        return this.currentY;
+    public int getYOffset() {
+        return this.yOffset;
     }
 
-    public void setCurrentY(int currentY) {
-        this.currentY = currentY;
+    public void setYOffset(int yOffset) {
+        this.yOffset = yOffset;
     }
 }

@@ -4,12 +4,15 @@ import com.paulzzh.yuzu.gui.VirtualScreen;
 
 @SuppressWarnings("unused")
 public abstract class Element {
-    VirtualScreen virtualScreen;
-    float x;
-    float y;
-    float width;
-    float height;
-    float alpha;
+    protected final VirtualScreen virtualScreen;
+    protected float x;
+    protected float y;
+    protected float width;
+    protected float height;
+
+    public Element(VirtualScreen virtualScreen) {
+        this.virtualScreen = virtualScreen;
+    }
 
     public abstract void render(int mouseX, int mouseY, float delta);
 
@@ -43,21 +46,5 @@ public abstract class Element {
 
     public void setHeight(float height) {
         this.height = height;
-    }
-
-    public float getAlpha() {
-        return this.alpha;
-    }
-
-    public void setAlpha(float alpha) {
-        this.alpha = alpha;
-    }
-
-    public VirtualScreen getVirtualScreen() {
-        return this.virtualScreen;
-    }
-
-    public void setVirtualScreen(VirtualScreen virtualScreen) {
-        this.virtualScreen = virtualScreen;
     }
 }

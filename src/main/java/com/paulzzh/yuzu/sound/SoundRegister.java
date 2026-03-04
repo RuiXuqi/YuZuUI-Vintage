@@ -1,7 +1,6 @@
 package com.paulzzh.yuzu.sound;
 
 import com.paulzzh.yuzu.Tags;
-import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -19,7 +18,6 @@ public class SoundRegister {
 
     public static void registerSounds() {
         YUZU_TITLE_MUSIC = registerSound("music");
-
         YUZU_TITLE_BUTTON_CLICK = registerSound("button_click");
         YUZU_TITLE_BUTTON_MULTIPLAYER = registerSound("button_multiplayer");
         YUZU_TITLE_BUTTON_NEW_GAME = registerSound("button_new_game");

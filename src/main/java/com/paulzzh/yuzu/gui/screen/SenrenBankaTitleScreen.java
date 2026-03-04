@@ -4,6 +4,7 @@ import com.paulzzh.yuzu.YuZuUI;
 import com.paulzzh.yuzu.YuZuUIConfig;
 import com.paulzzh.yuzu.gui.RenderUtils;
 import com.paulzzh.yuzu.gui.VirtualScreen;
+import com.paulzzh.yuzu.gui.Easing;
 import com.paulzzh.yuzu.gui.widget.*;
 import com.paulzzh.yuzu.integration.DWGIntegration;
 import com.paulzzh.yuzu.sound.SoundManager;
@@ -29,9 +30,9 @@ import java.util.concurrent.Executors;
  * @author IMG
  * @since 2025/2/16
  */
-@SuppressWarnings({"CodeBlock2Expr", "PointlessArithmeticExpression"})
+@SuppressWarnings("CodeBlock2Expr")
 public class SenrenBankaTitleScreen extends GuiScreen {
-    // 客观存在的一些属性。不需要跟着实例走。
+    // 客观存在的一些属性。不需要跟着实例走
     private static final VirtualScreen VIRTUAL_SCREEN = new VirtualScreen(1920, 1080);
     private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(1);
     private static final List<Element> ELEMENTS = new ArrayList<>();
@@ -51,10 +52,9 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float delta) {
-        // 背景图片保持比例
         int screenWidth = this.width;
         int screenHeight = this.height;
-        // 背景适应后的数据
+        // 背景保持比例适应短边
         int currentWidth;
         int currentHeight;
         if (screenWidth * 9 > screenHeight * 16) {
@@ -64,32 +64,29 @@ public class SenrenBankaTitleScreen extends GuiScreen {
             currentWidth = screenWidth;
             currentHeight = screenWidth * 9 / 16;
         }
-        int currentX = (screenWidth - currentWidth) / 2;
-        int currentY = (screenHeight - currentHeight) / 2;
-
         VIRTUAL_SCREEN.setPracticalWidth(currentWidth);
         VIRTUAL_SCREEN.setPracticalHeight(currentHeight);
-        VIRTUAL_SCREEN.setCurrentX(currentX);
-        VIRTUAL_SCREEN.setCurrentY(currentY);
-
+        // 平移背景使其居中
+        int xOffset = (screenWidth - currentWidth) / 2;
+        int yOffset = (screenHeight - currentHeight) / 2;
+        VIRTUAL_SCREEN.setXOffset(xOffset);
+        VIRTUAL_SCREEN.setYOffset(yOffset);
 
         drawRect(0, 0, screenWidth, screenHeight, 0xFF000000);
-        RenderUtils.scissor(currentX, currentY, currentWidth, currentHeight);
-        GlStateManager.enableBlend();
-        GlStateManager.disableLighting();
-        GlStateManager.disableAlpha();
-        GlStateManager.enableTexture2D();
+        RenderUtils.scissor(xOffset, yOffset, currentWidth, currentHeight);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
         for (Element element : ELEMENTS) {
             element.render(mouseX, mouseY, delta);
         }
 
         GlStateManager.disableBlend();
-        GL11.glDisable(GL11.GL_SCISSOR_TEST);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
         if (YuZuUIConfig.tooltip) {
             String activeTooltip = null;
@@ -119,6 +116,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         if (YuZuUI.inGamed) {
             this.initWidgets();
             YuZuUI.inGamed = false;
+            //return;
         }
     }
 
@@ -129,124 +127,79 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         TitleScreenMusicTicker.tickBGM();
         this.clearWidgets();
 
-        double a = 0.06;
         delay = YuZuUI.isShowed ? 100L : 1300L;
 
+        Easing ease06 = Easing.exponentialOut(0.06);
+        Easing ease005 = Easing.exponentialOut(0.05);
+        Easing ease01 = Easing.exponentialOut(0.1);
+
         // 以下数据来源于 https://github.com/paulzzh/YuZuUI-GTNH/blob/master/src/main/java/com/paulzzh/yuzu/gui/YuZuUIGuiMainMenu.java
-        Layer yoshino = new Layer(TextureConst.TITLE_YOSHINO, 517, 50, 973, 1058, 1f, 0, VIRTUAL_SCREEN) {{
+        Layer yoshino = new Layer(TextureConst.TITLE_YOSHINO, 517, 50, 973, 1058, VIRTUAL_SCREEN) {{
+            this.setAlpha(0f);
             this.setDelay(delay);
             this.setDuration(590L);
-
-            this.setYFunction((t, now) -> {
-                return (22f - 50f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 50f;
-            });
-
-            this.setAlphaFunction((t, now) -> {
-                return (1f - 0f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 0f;
-            });
+            this.animateY(22f, ease06);
+            this.animateAlpha(1f, ease06);
         }};
 
-        Layer murasame = new Layer(TextureConst.TITLE_MURASAME, 221, 86, 1045, 994, 1f, 0, VIRTUAL_SCREEN) {{
+        Layer murasame = new Layer(TextureConst.TITLE_MURASAME, 221, 86, 1045, 994, VIRTUAL_SCREEN) {{
+            this.setAlpha(0f);
             this.setDelay(delay + 110L);
             this.setDuration(710L);
-
-            this.setXFunction((t, now) -> {
-                return (175f - 221f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 221f;
-            });
-
-            this.setAlphaFunction((t, now) -> {
-                return (1f - 0f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 0f;
-            });
+            this.animateX(175f, ease06);
+            this.animateAlpha(1f, ease06);
         }};
 
-        Layer mako = new Layer(TextureConst.TITLE_MAKO, 805, 386, 1118, 694, 1f, 0, VIRTUAL_SCREEN) {{
+        Layer mako = new Layer(TextureConst.TITLE_MAKO, 805, 386, 1118, 694, VIRTUAL_SCREEN) {{
+            this.setAlpha(0f);
             this.setDelay(delay + 280L);
             this.setDuration(680L);
-
-            this.setXFunction((t, now) -> {
-                return (906f - 805f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 805f;
-            });
-
-            this.setAlphaFunction((t, now) -> {
-                return (1f - 0f) * (float) ((Math.pow(a, t) - 1) / (a - 1)) + 0f;
-            });
+            this.animateX(906f, ease06);
+            this.animateAlpha(1f, ease06);
         }};
 
-        Layer lena = new Layer(TextureConst.TITLE_LENA, 1002, 149, 876, 1053, 1f, 0, VIRTUAL_SCREEN) {{
+        Layer lena = new Layer(TextureConst.TITLE_LENA, 1002, 149, 876, 1053, VIRTUAL_SCREEN) {{
+            this.setAlpha(0f);
             this.setDelay(delay + 440L);
             this.setDuration(680L);
-
-            this.setXFunction((t, now) -> {
-                return (float) ((1074f - 1002f) * ((Math.pow(0.05, t) - 1) / (0.05 - 1)) + 1002f);
-            });
-
-            this.setYFunction((t, now) -> {
-                return (float) ((27f - 149f) * ((Math.pow(0.05, t) - 1) / (0.05 - 1)) + 149f);
-            });
-
-            this.setAlphaFunction((t, now) -> {
-                return (float) ((1f - 0f) * ((Math.pow(0.05, t) - 1) / (0.05 - 1)) + 0f);
-            });
+            this.animateX(1074f, ease005);
+            this.animateY(27f, ease005);
+            this.animateAlpha(1f, ease005);
         }};
 
-        Layer logo = new Layer(TextureConst.TITLE_LOGO, 17, 57, 442, 188, 1.067f, 0, VIRTUAL_SCREEN) {{
+        Layer logo = new Layer(TextureConst.TITLE_LOGO, 17, 57, 442, 188, VIRTUAL_SCREEN) {{
+            this.setAlpha(0f);
+            this.setScale(1.067f);
             this.setDelay(delay + 300L);
             this.setDuration(570L);
-
-            this.setXFunction((t, now) -> {
-                return (36f - 17f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 17f;
-            });
-
-            this.setYFunction((t, now) -> {
-                return (60f - 57f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 57f;
-            });
-
-            this.setAlphaFunction((t, now) -> {
-                return (1f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 0f;
-            });
-
-            this.setScaleFunction((t, now) -> {
-                return (1f - 1.067f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 1.067f;
-            });
+            this.animateX(36f, ease01);
+            this.animateY(60f, ease01);
+            this.animateAlpha(1f, ease01);
+            this.animateScale(1f, ease01);
         }};
 
-        Layer head = new Layer(TextureConst.TITLE_HEAD, 0, 334, 12, 687, 1f, 0, VIRTUAL_SCREEN) {{
+        Layer head = new Layer(TextureConst.TITLE_HEAD, 0, 334, 12, 687, VIRTUAL_SCREEN) {{
+            this.setAlpha(0f);
             this.setDelay(delay + 1130L);
             this.setDuration(530L);
-
-            this.setAlphaFunction((t, now) -> {
-                float v = (1f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 0f;
-                if (v == 1f && now != 1f) {
-                    SoundManager.playVoice(VoiceType.SENREN);
-                }
-                return v;
-            });
+            this.animateAlpha(1f, ease01);
+            this.setOnComplete(() -> SoundManager.playVoice(VoiceType.SENREN));
         }};
 
-        Layer background = new Layer(TextureConst.BACKGROUND_TEXTURE, -64, -36, 1920, 1080, 1.067f, 1, VIRTUAL_SCREEN) {{
+        Layer background = new Layer(TextureConst.BACKGROUND_TEXTURE, -64, -36, 1920, 1080, VIRTUAL_SCREEN) {{
+            this.setScale(1.067f);
             this.setDelay(delay);
             this.setDuration(1120L);
-
-            this.setXFunction((t, now) -> {
-                return (64f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) - 64f;
-            });
-
-            this.setYFunction((t, now) -> {
-                return (36f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) - 36f;
-            });
-
-            this.setScaleFunction((t, now) -> {
-                return (1f - 1.067f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 1.067f;
-            });
+            this.animateX(0f, ease01);
+            this.animateY(0f, ease01);
+            this.animateScale(1f, ease01);
         }};
 
-        Layer all = new Layer(TextureConst.TITLE_CHARALL, 0, 0, 1920, 1080, 1f, 0, VIRTUAL_SCREEN) {{
+        Layer all = new Layer(TextureConst.TITLE_CHARALL, 0, 0, 1920, 1080, VIRTUAL_SCREEN) {{
+            this.setAlpha(0f);
             this.setDelay(delay + 1130L);
             this.setDuration(530L);
-
-            this.setAlphaFunction((t, now) -> {
-                return (1f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 0f;
-            });
+            this.animateAlpha(1f, ease01);
         }};
 
         this.addChild(background);
@@ -367,12 +320,10 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
     private TitleScreenButton createTitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover) {
         return new TitleScreenButton(x, y, width, height, texture, textureHover, VIRTUAL_SCREEN) {{
+            this.setAlpha(0f);
             this.setDelay(delay + 1670L);
             this.setDuration(570L);
-
-            this.setAlphaFunction((t, now) -> {
-                return (1f - 0f) * t + 0f;
-            });
+            this.animateAlpha(1f, Easing.LINEAR);
         }};
     }
 

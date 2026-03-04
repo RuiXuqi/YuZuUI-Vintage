@@ -10,6 +10,10 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public final class RenderUtils {
+    public static void blit(VirtualScreen virtualScreen, float x, float y, float width, float height) {
+        blit(virtualScreen.toPracticalX(x), virtualScreen.toPracticalY(y), virtualScreen.toPracticalWidth(width), virtualScreen.toPracticalHeight(height));
+    }
+
     public static void blit(float x, float y, float width, float height) {
         GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);

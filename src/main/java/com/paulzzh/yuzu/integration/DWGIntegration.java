@@ -16,11 +16,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DWGIntegration {
-    private static final String DWG_MODID = "defaultworldgenerator-port";
+    private static final String DWG = "defaultworldgenerator-port";
     private static boolean DWG_LOADED = false;
 
     public static void init() {
-        DWG_LOADED = Loader.isModLoaded(DWG_MODID);
+        DWG_LOADED = Loader.isModLoaded(DWG);
     }
 
     @Nullable
@@ -33,7 +33,7 @@ public class DWGIntegration {
      */
     @Nonnull
     @SuppressWarnings("JavadocReference")
-    @Optional.Method(modid = DWG_MODID)
+    @Optional.Method(modid = DWG)
     private static GuiScreen getDWGGui(GuiScreen currentScreen) {
         List<WorldTypeNode> types = DefaultWorldGenerator.modConfig.getSettings().getWorldList();
         List<WorldTypeNode> selectable = new LinkedList<>();

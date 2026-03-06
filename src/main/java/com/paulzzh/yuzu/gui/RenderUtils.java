@@ -10,8 +10,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public final class RenderUtils {
-    public static void blit(VirtualScreen virtualScreen, float x, float y, float width, float height) {
-        blit(virtualScreen.toPracticalX(x), virtualScreen.toPracticalY(y), virtualScreen.toPracticalWidth(width), virtualScreen.toPracticalHeight(height));
+    public static void blit(VirtualScreen virtualScreen, float vX, float vY, float vWidth, float vHeight) {
+        blit(virtualScreen.toPracticalX(vX), virtualScreen.toPracticalY(vY), virtualScreen.toPracticalWidth(vWidth), virtualScreen.toPracticalHeight(vHeight));
     }
 
     public static void blit(float x, float y, float width, float height) {

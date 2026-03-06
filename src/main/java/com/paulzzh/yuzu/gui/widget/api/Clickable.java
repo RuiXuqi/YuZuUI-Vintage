@@ -1,4 +1,4 @@
-package com.paulzzh.yuzu.gui.widget;
+package com.paulzzh.yuzu.gui.widget.api;
 
 public interface Clickable {
     boolean mousePressed(int mouseX, int mouseY, int button);

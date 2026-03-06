@@ -1,8 +1,9 @@
 package com.paulzzh.yuzu.gui.widget;
 
+import com.paulzzh.yuzu.gui.IEasing;
 import com.paulzzh.yuzu.gui.RenderUtils;
 import com.paulzzh.yuzu.gui.VirtualScreen;
-import com.paulzzh.yuzu.gui.Easing;
+import com.paulzzh.yuzu.gui.widget.api.Renderable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -12,13 +13,17 @@ import net.minecraft.util.ResourceLocation;
  * @since 2024/10/26
  */
 @SuppressWarnings({"unused"})
-public class Layer extends AnimatedElement {
+public class Layer extends AnimatedElement implements Renderable {
+    private final VirtualScreen virtualScreen;
     private final ResourceLocation texture;
     private float alpha = 1f;
     private float scale = 1f;
 
-    public Layer(ResourceLocation texture, float x, float y, float width, float height, VirtualScreen virtualScreen) {
-        super(virtualScreen);
+    public Layer(
+            VirtualScreen virtualScreen, ResourceLocation texture,
+            float x, float y, float width, float height
+    ) {
+        this.virtualScreen = virtualScreen;
         this.texture = texture;
         this.x = x;
         this.y = y;
@@ -34,19 +39,19 @@ public class Layer extends AnimatedElement {
         RenderUtils.blit(this.virtualScreen, this.x, this.y, this.width * this.scale, this.height * this.scale);
     }
 
-    public void animateAlpha(float endAlpha, Easing easing) {
+    public void animateAlpha(float endAlpha, IEasing easing) {
         this.animateAlpha(this.alpha, endAlpha, easing);
     }
 
-    public void animateAlpha(float startAlpha, float endAlpha, Easing easing) {
+    public void animateAlpha(float startAlpha, float endAlpha, IEasing easing) {
         this.addAnimator("alpha", t -> this.alpha = startAlpha + (endAlpha - startAlpha) * easing.apply(t));
     }
 
-    public void animateScale(float endScale, Easing easing) {
+    public void animateScale(float endScale, IEasing easing) {
         this.animateScale(this.scale, endScale, easing);
     }
 
-    public void animateScale(float startScale, float endScale, Easing easing) {
+    public void animateScale(float startScale, float endScale, IEasing easing) {
         this.addAnimator("scale", t -> this.scale = startScale + (endScale - startScale) * easing.apply(t));
     }
 

@@ -1,4 +1,4 @@
-package com.paulzzh.yuzu.gui.widget;
+package com.paulzzh.yuzu.gui.widget.api;
 
 import javax.annotation.Nullable;
 

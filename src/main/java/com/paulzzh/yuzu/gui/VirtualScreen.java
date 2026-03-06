@@ -13,8 +13,8 @@ public class VirtualScreen {
     private int practicalWidth;
     private int practicalHeight;
     // XY 偏移量
-    private int xOffset;
-    private int yOffset;
+    private int offsetX;
+    private int offsetY;
 
     public VirtualScreen(int virtualWidth, int virtualHeight) {
         this.virtualWidth = virtualWidth;
@@ -22,11 +22,11 @@ public class VirtualScreen {
     }
 
     public float toPracticalX(float x) {
-        return this.xOffset + x * (float) this.practicalWidth / (float) this.virtualWidth;
+        return this.offsetX + x * (float) this.practicalWidth / (float) this.virtualWidth;
     }
 
     public float toPracticalY(float y) {
-        return this.yOffset + y * (float) this.practicalHeight / (float) this.virtualHeight;
+        return this.offsetY + y * (float) this.practicalHeight / (float) this.virtualHeight;
     }
 
     public float toPracticalWidth(float width) {
@@ -38,11 +38,15 @@ public class VirtualScreen {
     }
 
     public float toVirtualX(float x) {
-        return (x - this.xOffset) * (float) this.virtualWidth / (float) this.practicalWidth;
+        return (x - this.offsetX) * (float) this.virtualWidth / (float) this.practicalWidth;
     }
 
     public float toVirtualY(float y) {
-        return (y - this.yOffset) * (float) this.virtualHeight / (float) this.practicalHeight;
+        return (y - this.offsetY) * (float) this.virtualHeight / (float) this.practicalHeight;
+    }
+
+    public void scissorAround() {
+        RenderUtils.scissor(this.offsetX, this.offsetY, this.practicalWidth, this.practicalHeight);
     }
 
     public int getVirtualWidth() {
@@ -77,19 +81,19 @@ public class VirtualScreen {
         this.practicalHeight = practicalHeight;
     }
 
-    public int getXOffset() {
-        return this.xOffset;
+    public int getOffsetX() {
+        return this.offsetX;
     }
 
-    public void setXOffset(int xOffset) {
-        this.xOffset = xOffset;
+    public void setOffsetX(int offsetX) {
+        this.offsetX = offsetX;
     }
 
-    public int getYOffset() {
-        return this.yOffset;
+    public int getOffsetY() {
+        return this.offsetY;
     }
 
-    public void setYOffset(int yOffset) {
-        this.yOffset = yOffset;
+    public void setOffsetY(int offsetY) {
+        this.offsetY = offsetY;
     }
 }

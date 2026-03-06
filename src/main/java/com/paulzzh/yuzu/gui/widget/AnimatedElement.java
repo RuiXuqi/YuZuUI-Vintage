@@ -1,16 +1,12 @@
 package com.paulzzh.yuzu.gui.widget;
 
-import com.paulzzh.yuzu.gui.VirtualScreen;
-import com.paulzzh.yuzu.gui.Easing;
+import com.paulzzh.yuzu.gui.IEasing;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-/**
- * 动画相关，抽象成类避免重复代码。
- */
 @SuppressWarnings("unused")
 public abstract class AnimatedElement extends Element {
     private final Map<String, Consumer<Float>> animators = new HashMap<>();
@@ -19,10 +15,6 @@ public abstract class AnimatedElement extends Element {
     private @Nullable Long startTime = null;
     private @Nullable Runnable onComplete = null;
     private boolean completed = false;
-
-    public AnimatedElement(VirtualScreen virtualScreen) {
-        super(virtualScreen);
-    }
 
     protected void tick() {
         if (this.duration == 0L || this.animators.isEmpty()) {
@@ -50,19 +42,19 @@ public abstract class AnimatedElement extends Element {
         this.animators.put(identifier, animator);
     }
 
-    public void animateX(float endX, Easing easing) {
+    public void animateX(float endX, IEasing easing) {
         this.animateX(this.x, endX, easing);
     }
 
-    public void animateX(float startX, float endX, Easing easing) {
+    public void animateX(float startX, float endX, IEasing easing) {
         this.addAnimator("x", t -> this.x = startX + (endX - startX) * easing.apply(t));
     }
 
-    public void animateY(float endY, Easing easing) {
+    public void animateY(float endY, IEasing easing) {
         this.animateY(this.y, endY, easing);
     }
 
-    public void animateY(float startY, float endY, Easing easing) {
+    public void animateY(float startY, float endY, IEasing easing) {
         this.addAnimator("y", t -> this.y = startY + (endY - startY) * easing.apply(t));
     }
 

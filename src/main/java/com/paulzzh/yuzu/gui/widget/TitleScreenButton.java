@@ -1,9 +1,12 @@
 package com.paulzzh.yuzu.gui.widget;
 
 import com.paulzzh.yuzu.YuZuUI;
+import com.paulzzh.yuzu.gui.IEasing;
 import com.paulzzh.yuzu.gui.RenderUtils;
 import com.paulzzh.yuzu.gui.VirtualScreen;
-import com.paulzzh.yuzu.gui.Easing;
+import com.paulzzh.yuzu.gui.widget.api.Clickable;
+import com.paulzzh.yuzu.gui.widget.api.Renderable;
+import com.paulzzh.yuzu.gui.widget.api.TooltipDrawable;
 import com.paulzzh.yuzu.sound.SoundManager;
 import com.paulzzh.yuzu.sound.SoundRegister;
 import com.paulzzh.yuzu.sound.VoiceType;
@@ -19,7 +22,8 @@ import java.util.function.Supplier;
  * @author IMG
  * @since 2024/10/26
  */
-public class TitleScreenButton extends AnimatedElement implements Clickable, TooltipDrawable {
+public class TitleScreenButton extends AnimatedElement implements Renderable, Clickable, TooltipDrawable {
+    private final VirtualScreen virtualScreen;
     private final ResourceLocation texture;
     private final ResourceLocation textureHover;
     /// 按钮点击声音
@@ -36,14 +40,17 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
     private boolean clickable;
     private @Nullable Supplier<String> tooltipSupplier;
 
-    public TitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover, VirtualScreen virtualScreen) {
-        super(virtualScreen);
+    public TitleScreenButton(
+            VirtualScreen virtualScreen, ResourceLocation texture, ResourceLocation textureHover,
+            float x, float y, float width, float height
+    ) {
+        this.virtualScreen = virtualScreen;
+        this.texture = texture;
+        this.textureHover = textureHover;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.texture = texture;
-        this.textureHover = textureHover;
         this.sound = SoundRegister.YUZU_TITLE_BUTTON_CLICK;
         this.voiceType = null;
     }
@@ -87,9 +94,9 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
      * 实时的悬停检测。不受其他变量影响。
      */
     private boolean isMouseOver(int mouseX, int mouseY) {
-        float virtualX = this.virtualScreen.toVirtualX(mouseX) - this.x;
-        float virtualY = this.virtualScreen.toVirtualY(mouseY) - this.y;
-        return virtualX >= 0 && virtualX < this.width && virtualY >= 0 && virtualY < this.height;
+        float vMouseX = this.virtualScreen.toVirtualX(mouseX);
+        float vMouseY = this.virtualScreen.toVirtualY(mouseY);
+        return vMouseX >= this.x && vMouseX < this.x + this.width && vMouseY >= this.y && vMouseY < this.y + this.height;
     }
 
     @Override
@@ -103,11 +110,11 @@ public class TitleScreenButton extends AnimatedElement implements Clickable, Too
         return this.tooltipSupplier != null ? this.tooltipSupplier.get() : null;
     }
 
-    public void animateAlpha(float endAlpha, Easing easing) {
+    public void animateAlpha(float endAlpha, IEasing easing) {
         this.animateAlpha(this.alpha, endAlpha, easing);
     }
 
-    public void animateAlpha(float startAlpha, float endAlpha, Easing easing) {
+    public void animateAlpha(float startAlpha, float endAlpha, IEasing easing) {
         this.addAnimator("alpha", t -> this.alpha = startAlpha + (endAlpha - startAlpha) * easing.apply(t));
     }
 

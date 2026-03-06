@@ -1,20 +1,11 @@
 package com.paulzzh.yuzu.gui.widget;
 
-import com.paulzzh.yuzu.gui.VirtualScreen;
-
 @SuppressWarnings("unused")
 public abstract class Element {
-    protected final VirtualScreen virtualScreen;
     protected float x;
     protected float y;
     protected float width;
     protected float height;
-
-    public Element(VirtualScreen virtualScreen) {
-        this.virtualScreen = virtualScreen;
-    }
-
-    public abstract void render(int mouseX, int mouseY, float delta);
 
     public float getX() {
         return this.x;

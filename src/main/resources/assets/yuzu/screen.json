@@ -6,6 +6,7 @@
       "showed": 100
     },
     "background_color": "0xFF000000",
+    "music": "yuzu:yuzu_title_music",
     "fallback_variant": "zh_cn"
   },
   "elements": [

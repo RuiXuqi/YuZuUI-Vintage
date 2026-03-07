@@ -19,7 +19,6 @@ import com.paulzzh.yuzu.gui.widget.api.TooltipDrawable;
 import com.paulzzh.yuzu.integration.DWGIntegration;
 import com.paulzzh.yuzu.sound.SoundManager;
 import com.paulzzh.yuzu.sound.SoundRegister;
-import com.paulzzh.yuzu.sound.TitleScreenMusicTicker;
 import com.paulzzh.yuzu.sound.VoiceType;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
@@ -67,6 +66,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     private static long baseDelay;
     private static long showedDelay;
     private static int backgroundColor;
+    private static @Nullable ResourceLocation music;
     private static @Nullable String fallbackVariant;
 
     @Override
@@ -126,15 +126,10 @@ public class SenrenBankaTitleScreen extends GuiScreen {
     @Override
     public void initGui() {
         this.mc.setConnectedToRealms(false);
-        if (!YuZuUI.isShowed) {
+        if (!YuZuUI.isShowed || YuZuUI.inGamed) {
             this.initWidgets();
             YuZuUI.isShowed = true;
-            return;
-        }
-        if (YuZuUI.inGamed) {
-            this.initWidgets();
             YuZuUI.inGamed = false;
-            //return;
         }
     }
 
@@ -290,6 +285,11 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         return delay;
     }
 
+    @Nullable
+    public static ResourceLocation getMusic() {
+        return music;
+    }
+
     /*
     Json 处理部分
      */
@@ -312,6 +312,9 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         backgroundColor = config.has("background_color") ?
                 Long.decode(config.get("background_color").getAsString()).intValue() :
                 0xFF000000;
+        music = config.has("music") ?
+                new ResourceLocation(config.get("music").getAsString()) :
+                null;
         fallbackVariant = config.get("fallback_variant").getAsString();
     }
 

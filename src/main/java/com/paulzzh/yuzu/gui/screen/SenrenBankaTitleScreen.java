@@ -1,9 +1,13 @@
 package com.paulzzh.yuzu.gui.screen;
 
+import com.google.gson.*;
 import com.paulzzh.yuzu.YuZuUI;
 import com.paulzzh.yuzu.YuZuUIConfig;
 import com.paulzzh.yuzu.gui.IEasing;
+import com.paulzzh.yuzu.gui.JsonParseUtils;
 import com.paulzzh.yuzu.gui.VirtualScreen;
+import com.paulzzh.yuzu.gui.widget.AnimatedElement;
+import com.paulzzh.yuzu.gui.widget.Element;
 import com.paulzzh.yuzu.gui.widget.Layer;
 import com.paulzzh.yuzu.gui.widget.TitleScreenButton;
 import com.paulzzh.yuzu.gui.widget.api.Clickable;
@@ -14,29 +18,32 @@ import com.paulzzh.yuzu.sound.SoundManager;
 import com.paulzzh.yuzu.sound.SoundRegister;
 import com.paulzzh.yuzu.sound.TitleScreenMusicTicker;
 import com.paulzzh.yuzu.sound.VoiceType;
-import com.paulzzh.yuzu.texture.TextureConst;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.client.GuiModList;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 /**
  * @author IMG
  * @since 2025/2/16
  */
-@SuppressWarnings("CodeBlock2Expr")
 public class SenrenBankaTitleScreen extends GuiScreen {
     // 客观存在的一些属性。不需要跟着实例走
-    private static final VirtualScreen VIRTUAL_SCREEN = new VirtualScreen(1920, 1080);
+    private static final VirtualScreen VIRTUAL_SCREEN = new VirtualScreen();
     private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(1);
     private static final List<Renderable> RENDERABLES = new ArrayList<>();
     private static final List<Clickable> CLICKABLES = new ArrayList<>();
@@ -52,6 +59,12 @@ public class SenrenBankaTitleScreen extends GuiScreen {
      * <pre>
      */
     private short passExitSound = -1;
+
+    private static JsonObject uiJsonCache;
+    private static int backgroundColor;
+    private static long baseDelay;
+    private static long showedDelay;
+    private static @Nullable String fallbackLang;
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float delta) {
@@ -75,7 +88,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         VIRTUAL_SCREEN.setOffsetX(offsetX);
         VIRTUAL_SCREEN.setOffsetY(offsetY);
 
-        drawRect(0, 0, screenWidth, screenHeight, 0xFF000000);
+        drawRect(0, 0, screenWidth, screenHeight, backgroundColor);
         VIRTUAL_SCREEN.scissorAround();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.enableTexture2D();
@@ -105,9 +118,6 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         }
     }
 
-    /**
-     * 初始化 Gui。每次打开 UI 时都会调用。
-     */
     @Override
     public void initGui() {
         this.mc.setConnectedToRealms(false);
@@ -123,250 +133,115 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         }
     }
 
-    /**
-     * 初始化所有组件。动画和声音重新播放，其他声音停止。
-     */
     private void initWidgets() {
-        TitleScreenMusicTicker.tickBGM();
         this.clearWidgets();
 
-        delay = YuZuUI.isShowed ? 100L : 1300L;
+        delay = YuZuUI.isShowed ? showedDelay : baseDelay;
 
-        IEasing ease01 = IEasing.exponentialOut(0.1);
-        IEasing ease005 = IEasing.exponentialOut(0.05);
-        IEasing ease06 = IEasing.exponentialOut(0.06);
-
-        // 以下数据来源于 https://github.com/paulzzh/YuZuUI-GTNH/blob/master/src/main/java/com/paulzzh/yuzu/gui/YuZuUIGuiMainMenu.java
-        Layer background = new Layer(
-                VIRTUAL_SCREEN, TextureConst.BACKGROUND_TEXTURE,
-                -64, -36, 1920, 1080
-        ) {{
-            this.setScale(1.067f);
-            this.setDelay(delay);
-            this.setDuration(1120L);
-            this.animateX(0f, ease01);
-            this.animateY(0f, ease01);
-            this.animateScale(1f, ease01);
-        }};
-        this.addChild(background);
-
-        Layer lena = new Layer(
-                VIRTUAL_SCREEN, TextureConst.TITLE_LENA,
-                1002, 149, 876, 1053
-        ) {{
-            this.setAlpha(0f);
-            this.setDelay(delay + 440L);
-            this.setDuration(680L);
-            this.animateX(1074f, ease005);
-            this.animateY(27f, ease005);
-            this.animateAlpha(1f, ease005);
-        }};
-        this.addChild(lena);
-
-        Layer mako = new Layer(
-                VIRTUAL_SCREEN, TextureConst.TITLE_MAKO,
-                805, 386, 1118, 694
-        ) {{
-            this.setAlpha(0f);
-            this.setDelay(delay + 280L);
-            this.setDuration(680L);
-            this.animateX(906f, ease06);
-            this.animateAlpha(1f, ease06);
-        }};
-        this.addChild(mako);
-
-        Layer murasame = new Layer(
-                VIRTUAL_SCREEN, TextureConst.TITLE_MURASAME,
-                221, 86, 1045, 994
-        ) {{
-            this.setAlpha(0f);
-            this.setDelay(delay + 110L);
-            this.setDuration(710L);
-            this.animateX(175f, ease06);
-            this.animateAlpha(1f, ease06);
-        }};
-        this.addChild(murasame);
-
-        Layer yoshino = new Layer(
-                VIRTUAL_SCREEN, TextureConst.TITLE_YOSHINO,
-                517, 50, 973, 1058
-        ) {{
-            this.setAlpha(0f);
-            this.setDelay(delay);
-            this.setDuration(590L);
-            this.animateY(22f, ease06);
-            this.animateAlpha(1f, ease06);
-        }};
-        this.addChild(yoshino);
-
-        Layer all = new Layer(
-                VIRTUAL_SCREEN, TextureConst.TITLE_CHARALL,
-                0, 0, 1920, 1080
-        ) {{
-            this.setAlpha(0f);
-            this.setDelay(delay + 1130L);
-            this.setDuration(530L);
-            this.animateAlpha(1f, ease01);
-        }};
-        this.addChild(all);
-
-        Layer logo = new Layer(
-                VIRTUAL_SCREEN, TextureConst.TITLE_LOGO,
-                17, 57, 442, 188
-        ) {{
-            this.setAlpha(0f);
-            this.setScale(1.067f);
-            this.setDelay(delay + 300L);
-            this.setDuration(570L);
-            this.animateX(36f, ease01);
-            this.animateY(60f, ease01);
-            this.animateAlpha(1f, ease01);
-            this.animateScale(1f, ease01);
-        }};
-        this.addChild(logo);
-
-        Layer head = new Layer(
-                VIRTUAL_SCREEN, TextureConst.TITLE_HEAD,
-                0, 334, 12, 687
-        ) {{
-            this.setAlpha(0f);
-            this.setDelay(delay + 1130L);
-            this.setDuration(530L);
-            this.animateAlpha(1f, ease01);
-            this.setOnComplete(() -> SoundManager.playVoice(VoiceType.SENREN));
-        }};
-        this.addChild(head);
-
-        // 添加按钮
-        int y = 346;
-        final int dy = 100;
-
-        // 新建世界
-        TitleScreenButton newGameButton = createTitleScreenButton(
-                TextureConst.TITLE_NEW_GAME_BUTTON_NORMAL, TextureConst.TITLE_NEW_GAME_BUTTON_ON,
-                60, y, 207, 54
-        );
-        newGameButton.setTooltipSupplier(() -> I18n.format("selectWorld.create"));
-        newGameButton.setOnClick((button) -> {
-            GuiScreen screen = DWGIntegration.tryGetDWGGui(this);
-            if (screen == null) screen = new GuiCreateWorld(this);
-            this.mc.displayGuiScreen(screen);
-        });
-        this.addChild(newGameButton);
-
-        // 选择世界
-        TitleScreenButton selectWorldButton = createTitleScreenButton(
-                TextureConst.TITLE_SELECT_WORLD_BUTTON_NORMAL, TextureConst.TITLE_SELECT_WORLD_BUTTON_ON,
-                60, y + dy, 206, 55
-        );
-        selectWorldButton.setTooltipSupplier(() -> I18n.format("menu.singleplayer"));
-        selectWorldButton.setSound(SoundRegister.YUZU_TITLE_BUTTON_SINGLEPLAYER);
-        selectWorldButton.setOnClick((button) -> {
-            this.mc.displayGuiScreen(new GuiWorldSelection(this));
-        });
-        this.addChild(selectWorldButton);
-
-        // 多人游戏
-        TitleScreenButton continueButton = createTitleScreenButton(
-                TextureConst.TITLE_CONTINUE_BUTTON_NORMAL, TextureConst.TITLE_CONTINUE_BUTTON_ON,
-                66, y + dy * 2, 313, 56
-        );
-        continueButton.setTooltipSupplier(() -> I18n.format("menu.multiplayer"));
-        continueButton.setSound(SoundRegister.YUZU_TITLE_BUTTON_MULTIPLAYER);
-        continueButton.setOnClick((button) -> {
-            this.mc.displayGuiScreen(new GuiMultiplayer(this));
-        });
-        this.addChild(continueButton);
-
-        // Realms
-        TitleScreenButton realmsButton = createTitleScreenButton(
-                TextureConst.TITLE_REALMS_BUTTON_NORMAL, TextureConst.TITLE_REALMS_BUTTON_ON,
-                66, y + dy * 3, 164, 54
-        );
-        realmsButton.setTooltipSupplier(() -> I18n.format(YuZuUIConfig.replaceRealms ? "options.language" : "menu.online"));
-        realmsButton.setVoiceType(VoiceType.REALMS);
-        realmsButton.setOnClick((button) -> {
-            if (YuZuUIConfig.replaceRealms) {
-                this.mc.displayGuiScreen(new GuiLanguage(this, this.mc.gameSettings, this.mc.getLanguageManager()));
-            } else {
-                new RealmsBridge().switchToRealms(this);
+        final String currentLang = this.mc.getLanguageManager().getCurrentLanguage().getLanguageCode().toLowerCase(Locale.ENGLISH);
+        for (JsonElement element : uiJsonCache.getAsJsonArray("elements")) {
+            JsonObject obj = element.getAsJsonObject();
+            String id = obj.get("id").getAsString();
+            try {
+                String type = JsonParseUtils.tryGet(obj, "type").getAsString();
+                JsonObject variants = obj.getAsJsonObject("variants");
+                JsonObject fallback = variants.has(fallbackLang) ?
+                        variants.getAsJsonObject(fallbackLang) : variants.entrySet().iterator().next().getValue().getAsJsonObject();
+                JsonObject current = variants.has(currentLang) ?
+                        variants.getAsJsonObject(currentLang) : null;
+                JsonObject variant = JsonParseUtils.mergeVariant(fallback, current);
+                if (variant == null) throw new JsonParseException("No variant found!");
+                this.buildWidget(variant, type);
+            } catch (JsonParseException e) {
+                YuZuUI.LOG.error("Error when parsing element '{}'. Skipping...", id, e);
             }
-        });
-        this.addChild(realmsButton);
-
-        // 模组列表
-        TitleScreenButton modListButton = createTitleScreenButton(
-                TextureConst.TITLE_MOD_LIST_BUTTON_NORMAL, TextureConst.TITLE_MOD_LIST_BUTTON_ON,
-                58, y + dy * 4, 211, 54
-        );
-        modListButton.setTooltipSupplier(() -> I18n.format("fml.menu.mods"));
-        modListButton.setVoiceType(VoiceType.MOD_LIST);
-        modListButton.setOnClick((button) -> {
-            this.mc.displayGuiScreen(new GuiModList(this));
-        });
-        this.addChild(modListButton);
-
-        // 设置
-        TitleScreenButton optionsButton = createTitleScreenButton(
-                TextureConst.TITLE_OPTIONS_BUTTON_NORMAL, TextureConst.TITLE_OPTIONS_BUTTON_ON,
-                59, y + dy * 5, 253, 56
-        );
-        optionsButton.setTooltipSupplier(() -> I18n.format("menu.options"));
-        optionsButton.setVoiceType(VoiceType.OPTIONS);
-        optionsButton.setOnClick((button) -> {
-            this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
-        });
-        this.addChild(optionsButton);
-
-        // 退出游戏
-        TitleScreenButton quitGameButton = createTitleScreenButton(
-                TextureConst.TITLE_QUIT_GAME_BUTTON_NORMAL, TextureConst.TITLE_QUIT_GAME_BUTTON_ON,
-                60, y + dy * 6, 233, 54
-        );
-        quitGameButton.setTooltipSupplier(() -> I18n.format(YuZuUIConfig.justExit ? "menu.quit" : "yuzu.menu.quit_to_title"));
-        quitGameButton.setVoiceType(VoiceType.QUIT_GAME);
-        quitGameButton.setOnClick((button) -> {
-            YuZuUI.exit = true;
-            if (YuZuUIConfig.justExit) {
-                if (this.passExitSound == -1) {
-                    this.passExitSound = 0;
-                }
-                CompletableFuture.completedFuture(null).whenComplete((unused, e) -> {
-                    EXECUTOR.execute(() -> {
-                        // 没语音就不要等了
-                        if (SoundManager.isVoiceAvailable()) {
-                            try {
-                                // 等待音效播放完成
-                                for (int i = 0; i < 150; i++) {
-                                    Thread.sleep(10);
-                                    if (this.passExitSound == 2) {
-                                        break;
-                                    }
-                                }
-                            } catch (InterruptedException ex) {
-                                throw new RuntimeException(ex);
-                            }
-                        }
-                        this.mc.shutdown();
-                    });
-                });
-            } else {
-                this.mc.displayGuiScreen(null);
-            }
-        });
-        this.addChild(quitGameButton);
+        }
     }
 
-    private static TitleScreenButton createTitleScreenButton(
-            ResourceLocation texture, ResourceLocation textureHover,
-            float x, float y, float width, float height
-    ) {
-        return new TitleScreenButton(VIRTUAL_SCREEN, texture, textureHover, x, y, width, height) {{
-            this.setAlpha(0f);
-            this.setDelay(delay + 1670L);
-            this.setDuration(570L);
-            this.animateAlpha(1f, IEasing.LINEAR);
-        }};
+    private void buildWidget(JsonObject variant, String type) throws JsonParseException {
+        JsonArray vPos = JsonParseUtils.tryGetAsJsonArray(variant, "pos");
+        float vX = vPos.get(0).getAsFloat();
+        float vY = vPos.get(1).getAsFloat();
+        JsonArray vSize = JsonParseUtils.tryGetAsJsonArray(variant, "size");
+        float vWidth = vSize.get(0).getAsFloat();
+        float vHeight = vSize.get(1).getAsFloat();
+
+        JsonElement textures = JsonParseUtils.tryGet(variant, "textures");
+        ResourceLocation normalTex;
+        ResourceLocation hoverTex;
+        if (textures.isJsonPrimitive()) {
+            normalTex = new ResourceLocation(textures.getAsString() + ".png");
+            hoverTex = normalTex;
+        } else {
+            normalTex = new ResourceLocation(textures.getAsJsonObject().get("normal").getAsString() + ".png");
+            hoverTex = new ResourceLocation(textures.getAsJsonObject().get("hover").getAsString() + ".png");
+        }
+
+        AnimatedElement element = switch (type) {
+            case "layer" -> {
+                Layer layer = new Layer(VIRTUAL_SCREEN, normalTex, vX, vY, vWidth, vHeight);
+                if (variant.has("alpha")) {
+                    layer.setAlpha(variant.get("alpha").getAsFloat());
+                }
+                if (variant.has("scale")) {
+                    layer.setScale(variant.get("scale").getAsFloat());
+                }
+                yield layer;
+            }
+            case "button" -> {
+                TitleScreenButton button = new TitleScreenButton(VIRTUAL_SCREEN, normalTex, hoverTex, vX, vY, vWidth, vHeight);
+                if (variant.has("alpha")) {
+                    button.setAlpha(variant.get("alpha").getAsFloat());
+                }
+                if (variant.has("tooltip")) {
+                    final String tooltipKey = variant.get("tooltip").getAsString();
+                    button.setTooltipSupplier(() -> I18n.format(tooltipKey));
+                }
+                if (variant.has("sound")) {
+                    SoundEvent se = SoundEvent.REGISTRY.getObject(new ResourceLocation(variant.get("sound").getAsString()));
+                    if (se != null) button.setSound(se);
+                    else throw new JsonParseException("Sound is invalid.");
+                }
+                if (variant.has("voice")) {
+                    try {
+                        button.setVoiceType(VoiceType.valueOf(variant.get("voice").getAsString().toUpperCase()));
+                    } catch (IllegalArgumentException e) {
+                        throw new JsonParseException("VoiceType is invalid.");
+                    }
+                }
+                if (variant.has("action")) {
+                    button.setOnClick(this.getOnClick(variant.get("action").getAsString()));
+                }
+                yield button;
+            }
+            default -> throw new JsonParseException("Type is invalid.");
+        };
+        if (variant.has("delay_offset")) {
+            element.setDelay(delay + variant.get("delay_offset").getAsLong());
+        }
+        if (variant.has("duration")) {
+            element.setDuration(variant.get("duration").getAsLong());
+        }
+        if (variant.has("on_complete")) {
+            // TODO: 添加更多行为
+            String[] oc = variant.get("on_complete").getAsString().split(":");
+            if ("play_voice".equals(oc[0])) {
+                VoiceType vt = VoiceType.valueOf(oc[1].toUpperCase());
+                element.setOnComplete(() -> SoundManager.playVoice(vt));
+            }
+        }
+        if (variant.has("animations")) {
+            for (JsonElement animation : variant.getAsJsonArray("animations")) {
+                JsonObject object = animation.getAsJsonObject();
+                setAnim(
+                        element,
+                        JsonParseUtils.tryGet(object, "property").getAsString(),
+                        JsonParseUtils.tryGet(object, "to").getAsFloat(),
+                        getEasing(JsonParseUtils.tryGet(object, "easing").getAsString())
+                );
+            }
+        }
+        this.addChild(element);
     }
 
     private <T> void addChild(T child) {
@@ -408,5 +283,119 @@ public class SenrenBankaTitleScreen extends GuiScreen {
 
     public static long getDelay() {
         return delay;
+    }
+
+    /*
+    Json 处理部分
+     */
+
+    public static void updateJson(JsonObject root) throws JsonParseException {
+        uiJsonCache = root;
+
+        String prefix = "/";
+        JsonObject config = JsonParseUtils.tryGetAsJsonObject(root, "config", prefix);
+        prefix += "config/";
+
+        JsonArray size = JsonParseUtils.tryGetAsJsonArray(config, "size", prefix);
+        VIRTUAL_SCREEN.setVirtualWidth(size.get(0).getAsInt());
+        VIRTUAL_SCREEN.setVirtualHeight(size.get(1).getAsInt());
+
+        if (config.has("background_color")) {
+            backgroundColor = Long.decode(config.get("background_color").getAsString()).intValue();
+        } else {
+            backgroundColor = 0xFF000000;
+        }
+        fallbackLang = config.get("fallback_variant").getAsString();
+
+        JsonObject delay = JsonParseUtils.tryGetAsJsonObject(config, "delay", prefix);
+        baseDelay = delay.get("base").getAsLong();
+        showedDelay = delay.get("showed").getAsLong();
+    }
+
+    @Nullable
+    private Consumer<TitleScreenButton> getOnClick(String raw) throws JsonParseException {
+        if (raw.isEmpty()) return null;
+        return switch (raw) {
+            case "new_game" -> b -> {
+                GuiScreen screen = DWGIntegration.tryGetDWGGui(this);
+                if (screen == null) screen = new GuiCreateWorld(this);
+                this.mc.displayGuiScreen(screen);
+            };
+            case "select_world" -> b -> this.mc.displayGuiScreen(new GuiWorldSelection(this));
+            case "continue" -> b -> this.mc.displayGuiScreen(new GuiMultiplayer(this));
+            case "realms" -> b -> {
+                if (YuZuUIConfig.replaceRealms) {
+                    this.mc.displayGuiScreen(new GuiLanguage(this, this.mc.gameSettings, this.mc.getLanguageManager()));
+                } else {
+                    new RealmsBridge().switchToRealms(this);
+                }
+            };
+            case "mod_list" -> b -> this.mc.displayGuiScreen(new GuiModList(this));
+            case "options" -> b -> this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
+            case "quit_game" -> b -> {
+                YuZuUI.exit = true;
+                if (YuZuUIConfig.justExit) {
+                    if (this.passExitSound == -1) {
+                        this.passExitSound = 0;
+                    }
+                    CompletableFuture.runAsync(() -> {
+                        if (SoundManager.isVoiceAvailable()) {
+                            try {
+                                // 等待音效播放完成
+                                for (int i = 0; i < 150; i++) {
+                                    Thread.sleep(10);
+                                    if (this.passExitSound == 2) {
+                                        break;
+                                    }
+                                }
+                            } catch (InterruptedException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                        }
+                        this.mc.shutdown();
+                    }, EXECUTOR);
+                } else {
+                    this.mc.displayGuiScreen(null);
+                }
+            };
+            default -> throw new JsonParseException("Invalid on click type '" + raw + "'!");
+        };
+    }
+
+    @Nonnull
+    private static IEasing getEasing(String raw) throws JsonParseException {
+        String[] parts = raw.split(":");
+        return switch (parts[0]) {
+            case "exponential_out" -> {
+                if (parts.length != 2) {
+                    throw new JsonParseException("Invalid easing '" + raw + "'!");
+                }
+                yield IEasing.exponentialOut(Double.parseDouble(parts[1]));
+            }
+            case "linear" -> IEasing.LINEAR;
+            default -> throw new JsonParseException("Invalid easing '" + raw + "'!");
+        };
+    }
+
+    private static void setAnim(Element element, String property, float to, IEasing easing) throws JsonParseException {
+        if (element instanceof Layer layer) {
+            switch (property) {
+                case "x" -> layer.animateX(to, easing);
+                case "y" -> layer.animateY(to, easing);
+                case "alpha" -> layer.animateAlpha(to, easing);
+                case "scale" -> layer.animateScale(to, easing);
+                default -> throw new JsonParseException("Invalid property '" + property + "'!");
+            }
+            return;
+        }
+        if (element instanceof TitleScreenButton button) {
+            switch (property) {
+                case "x" -> button.animateX(to, easing);
+                case "y" -> button.animateY(to, easing);
+                case "alpha" -> button.animateAlpha(to, easing);
+                default -> throw new JsonParseException("Invalid property '" + property + "'!");
+            }
+            //return;
+        }
     }
 }

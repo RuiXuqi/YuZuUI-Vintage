@@ -4,6 +4,8 @@ import com.paulzzh.yuzu.config.Config;
 import com.paulzzh.yuzu.integration.CMMIntegration;
 import com.paulzzh.yuzu.integration.DWGIntegration;
 import com.paulzzh.yuzu.sound.SoundRegister;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -12,6 +14,9 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
+        final SimpleReloadableResourceManager resourceManager = (SimpleReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
+        resourceManager.registerReloadListener(YuZuUIReloadListener.INSTANCE);
+
         Config.init(event.getSuggestedConfigurationFile());
         CMMIntegration.init();
         DWGIntegration.init();

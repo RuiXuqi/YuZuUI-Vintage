@@ -27,9 +27,9 @@ public class TitleScreenButton extends AnimatedElement implements Renderable, Cl
     private final ResourceLocation texture;
     private final ResourceLocation textureHover;
     /// 按钮点击声音
-    private SoundEvent sound;
+    private @Nullable SoundEvent sound = SoundRegister.YUZU_TITLE_BUTTON_CLICK;
     /// 特定的语音种类
-    private VoiceType voiceType;
+    private @Nullable VoiceType voiceType = null;
     private Consumer<TitleScreenButton> onClick;
     /// 上一帧是否悬停
     private boolean wasHovered;
@@ -51,8 +51,6 @@ public class TitleScreenButton extends AnimatedElement implements Renderable, Cl
         this.y = y;
         this.width = width;
         this.height = height;
-        this.sound = SoundRegister.YUZU_TITLE_BUTTON_CLICK;
-        this.voiceType = null;
     }
 
     @Override

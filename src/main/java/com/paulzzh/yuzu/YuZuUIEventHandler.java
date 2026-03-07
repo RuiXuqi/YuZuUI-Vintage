@@ -16,7 +16,7 @@ public class YuZuUIEventHandler {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void openGui(GuiOpenEvent event) {
         GuiScreen gui = event.getGui();
-        if (YuZuUI.exit) return;
+        if (!YuZuUI.isAvailable || YuZuUI.exit) return;
         if (gui instanceof GuiMainMenu || CMMIntegration.isCMMMenu(gui)) {
             event.setGui(new SenrenBankaTitleScreen());
         }

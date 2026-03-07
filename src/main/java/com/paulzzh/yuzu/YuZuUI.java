@@ -28,6 +28,8 @@ public class YuZuUI {
     public static boolean inGamed = false;
     /// 是否已经手动退出。退出之后就不会自动打开 UI 了。
     public static boolean exit = false;
+    /// 是否可用，不可用则不会打开 UI
+    public static boolean isAvailable = false;
 
     @SidedProxy(clientSide = "com.paulzzh.yuzu.ClientProxy", serverSide = "com.paulzzh.yuzu.CommonProxy")
     public static CommonProxy proxy;

@@ -1,0 +1,411 @@
+{
+  "config": {
+    "size": [1920, 1080],
+    "fallback_variant": "zh_cn",
+    "background_color": "0xFF000000",
+    "delay": {
+      "base": 1300,
+      "showed": 100
+    }
+  },
+  "elements": [
+    {
+      "id": "background",
+      "type": "layer",
+      "variants": {
+        "zh_cn": {
+          "textures": "yuzu:textures/gui/title_background",
+          "pos": [-64, -36],
+          "size": [1920, 1080],
+          "scale": 1.067,
+          "delay_offset": 0,
+          "duration": 1120,
+          "animations": [
+            { "property": "x", "to": 0, "easing": "exponential_out:0.1" },
+            { "property": "y", "to": 0, "easing": "exponential_out:0.1" },
+            { "property": "scale", "to": 1.0, "easing": "exponential_out:0.1" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "lena",
+      "type": "layer",
+      "variants": {
+        "zh_cn": {
+          "textures": "yuzu:textures/gui/title_lena",
+          "pos": [1002, 149],
+          "size": [876, 1053],
+          "alpha": 0.0,
+          "delay_offset": 440,
+          "duration": 680,
+          "animations": [
+            { "property": "x", "to": 1074, "easing": "exponential_out:0.05" },
+            { "property": "y", "to": 27, "easing": "exponential_out:0.05" },
+            { "property": "alpha", "to": 1.0, "easing": "exponential_out:0.05" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "mako",
+      "type": "layer",
+      "variants": {
+        "zh_cn": {
+          "textures": "yuzu:textures/gui/title_mako",
+          "pos": [805, 386],
+          "size": [1118, 694],
+          "alpha": 0.0,
+          "delay_offset": 280,
+          "duration": 680,
+          "animations": [
+            { "property": "x", "to": 906, "easing": "exponential_out:0.06" },
+            { "property": "alpha", "to": 1.0, "easing": "exponential_out:0.06" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "murasame",
+      "type": "layer",
+      "variants": {
+        "zh_cn": {
+          "textures": "yuzu:textures/gui/title_murasame",
+          "pos": [221, 86],
+          "size": [1045, 994],
+          "alpha": 0.0,
+          "delay_offset": 110,
+          "duration": 710,
+          "animations": [
+            { "property": "x", "to": 175, "easing": "exponential_out:0.06" },
+            { "property": "alpha", "to": 1.0, "easing": "exponential_out:0.06" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "yoshino",
+      "type": "layer",
+      "variants": {
+        "zh_cn": {
+          "textures": "yuzu:textures/gui/title_yoshino",
+          "pos": [517, 50],
+          "size": [973, 1058],
+          "alpha": 0.0,
+          "delay_offset": 0,
+          "duration": 590,
+          "animations": [
+            { "property": "y", "to": 22, "easing": "exponential_out:0.06" },
+            { "property": "alpha", "to": 1.0, "easing": "exponential_out:0.06" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "charall",
+      "type": "layer",
+      "variants": {
+        "zh_cn": {
+          "textures": "yuzu:textures/gui/title_charall",
+          "pos": [0, 0],
+          "size": [1920, 1080],
+          "alpha": 0.0,
+          "delay_offset": 1130,
+          "duration": 530,
+          "animations": [
+            { "property": "alpha", "to": 1.0, "easing": "exponential_out:0.1" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "logo",
+      "type": "layer",
+      "variants": {
+        "zh_cn": {
+          "textures": "yuzu:textures/gui/zh_cn/title_logo",
+          "pos": [17, 57],
+          "size": [442, 188],
+          "alpha": 0.0,
+          "scale": 1.067,
+          "delay_offset": 300,
+          "duration": 570,
+          "animations": [
+            { "property": "x", "to": 36, "easing": "exponential_out:0.1" },
+            { "property": "y", "to": 60, "easing": "exponential_out:0.1" },
+            { "property": "alpha", "to": 1.0, "easing": "exponential_out:0.1" },
+            { "property": "scale", "to": 1.0, "easing": "exponential_out:0.1" }
+          ]
+        },
+        "en_us": {
+          "textures": "yuzu:textures/gui/en_us/title_logo"
+        },
+        "zh_tw": {
+          "textures": "yuzu:textures/gui/zh_tw/title_logo"
+        }
+      }
+    },
+    {
+      "id": "head",
+      "type": "layer",
+      "variants": {
+        "zh_cn": {
+          "textures": "yuzu:textures/gui/title_head",
+          "pos": [0, 334],
+          "size": [12, 687],
+          "alpha": 0.0,
+          "delay_offset": 1130,
+          "duration": 530,
+          "on_complete": "play_voice:senren",
+          "animations": [
+            { "property": "alpha", "to": 1.0, "easing": "exponential_out:0.1" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "btn_new_game",
+      "type": "button",
+      "variants": {
+        "zh_cn": {
+          "pos": [60, 346],
+          "size": [207, 54],
+          "action": "new_game",
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_cn/title_new_game_button_normal",
+            "hover": "yuzu:textures/gui/zh_cn/title_new_game_button_on"
+          },
+          "tooltip": "selectWorld.create",
+          "alpha": 0.0,
+          "delay_offset": 1670,
+          "duration": 570,
+          "animations": [
+            { "property": "alpha", "to": 1.0, "easing": "linear" }
+          ]
+        },
+        "en_us": {
+          "textures": {
+            "normal": "yuzu:textures/gui/en_us/title_new_game_button_normal",
+            "hover": "yuzu:textures/gui/en_us/title_new_game_button_on"
+          }
+        },
+        "zh_tw": {
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_tw/title_new_game_button_normal",
+            "hover": "yuzu:textures/gui/zh_tw/title_new_game_button_on"
+          }
+        }
+      }
+    },
+    {
+      "id": "btn_select_world",
+      "type": "button",
+      "variants": {
+        "zh_cn": {
+          "pos": [60, 446],
+          "size": [206, 55],
+          "action": "select_world",
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_cn/title_select_world_button_normal",
+            "hover": "yuzu:textures/gui/zh_cn/title_select_world_button_on"
+          },
+          "tooltip": "menu.singleplayer",
+          "sound": "yuzu:yuzu_title_button_singleplayer",
+          "alpha": 0.0,
+          "delay_offset": 1670,
+          "duration": 570,
+          "animations": [
+            { "property": "alpha", "to": 1.0, "easing": "linear" }
+          ]
+        },
+        "en_us": {
+          "textures": {
+            "normal": "yuzu:textures/gui/en_us/title_select_world_button_normal",
+            "hover": "yuzu:textures/gui/en_us/title_select_world_button_on"
+          }
+        },
+        "zh_tw": {
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_tw/title_select_world_button_normal",
+            "hover": "yuzu:textures/gui/zh_tw/title_select_world_button_on"
+          }
+        }
+      }
+    },
+    {
+      "id": "btn_continue",
+      "type": "button",
+      "variants": {
+        "zh_cn": {
+          "pos": [66, 546],
+          "size": [313, 56],
+          "action": "continue",
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_cn/title_continue_button_normal",
+            "hover": "yuzu:textures/gui/zh_cn/title_continue_button_on"
+          },
+          "tooltip": "menu.multiplayer",
+          "sound": "yuzu:yuzu_title_button_multiplayer",
+          "alpha": 0.0,
+          "delay_offset": 1670,
+          "duration": 570,
+          "animations": [
+            { "property": "alpha", "to": 1.0, "easing": "linear" }
+          ]
+        },
+        "en_us": {
+          "textures": {
+            "normal": "yuzu:textures/gui/en_us/title_continue_button_normal",
+            "hover": "yuzu:textures/gui/en_us/title_continue_button_on"
+          }
+        },
+        "zh_tw": {
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_tw/title_continue_button_normal",
+            "hover": "yuzu:textures/gui/zh_tw/title_continue_button_on"
+          }
+        }
+      }
+    },
+    {
+      "id": "btn_realms",
+      "type": "button",
+      "variants": {
+        "zh_cn": {
+          "pos": [66, 646],
+          "size": [164, 54],
+          "action": "realms",
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_cn/title_realms_button_normal",
+            "hover": "yuzu:textures/gui/zh_cn/title_realms_button_on"
+          },
+          "tooltip": "menu.online",
+          "voice": "realms",
+          "alpha": 0.0,
+          "delay_offset": 1670,
+          "duration": 570,
+          "animations": [
+            { "property": "alpha", "to": 1.0, "easing": "linear" }
+          ]
+        },
+        "en_us": {
+          "textures": {
+            "normal": "yuzu:textures/gui/en_us/title_realms_button_normal",
+            "hover": "yuzu:textures/gui/en_us/title_realms_button_on"
+          }
+        },
+        "zh_tw": {
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_tw/title_realms_button_normal",
+            "hover": "yuzu:textures/gui/zh_tw/title_realms_button_on"
+          }
+        }
+      }
+    },
+    {
+      "id": "btn_mod_list",
+      "type": "button",
+      "variants": {
+        "zh_cn": {
+          "pos": [58, 746],
+          "size": [211, 54],
+          "action": "mod_list",
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_cn/title_mod_list_button_normal",
+            "hover": "yuzu:textures/gui/zh_cn/title_mod_list_button_on"
+          },
+          "tooltip": "fml.menu.mods",
+          "voice": "mod_list",
+          "alpha": 0.0,
+          "delay_offset": 1670,
+          "duration": 570,
+          "animations": [
+            { "property": "alpha", "to": 1.0, "easing": "linear" }
+          ]
+        },
+        "en_us": {
+          "textures": {
+            "normal": "yuzu:textures/gui/en_us/title_mod_list_button_normal",
+            "hover": "yuzu:textures/gui/en_us/title_mod_list_button_on"
+          }
+        },
+        "zh_tw": {
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_tw/title_mod_list_button_normal",
+            "hover": "yuzu:textures/gui/zh_tw/title_mod_list_button_on"
+          }
+        }
+      }
+    },
+    {
+      "id": "btn_options",
+      "type": "button",
+      "variants": {
+        "zh_cn": {
+          "pos": [59, 846],
+          "size": [253, 56],
+          "action": "options",
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_cn/title_options_button_normal",
+            "hover": "yuzu:textures/gui/zh_cn/title_options_button_on"
+          },
+          "tooltip": "menu.options",
+          "voice": "options",
+          "alpha": 0.0,
+          "delay_offset": 1670,
+          "duration": 570,
+          "animations": [
+            { "property": "alpha", "to": 1.0, "easing": "linear" }
+          ]
+        },
+        "en_us": {
+          "textures": {
+            "normal": "yuzu:textures/gui/en_us/title_options_button_normal",
+            "hover": "yuzu:textures/gui/en_us/title_options_button_on"
+          }
+        },
+        "zh_tw": {
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_tw/title_options_button_normal",
+            "hover": "yuzu:textures/gui/zh_tw/title_options_button_on"
+          }
+        }
+      }
+    },
+    {
+      "id": "btn_quit_game",
+      "type": "button",
+      "variants": {
+        "zh_cn": {
+          "pos": [60, 946],
+          "size": [233, 54],
+          "action": "quit_game",
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_cn/title_quit_game_button_normal",
+            "hover": "yuzu:textures/gui/zh_cn/title_quit_game_button_on"
+          },
+          "tooltip": "yuzu.menu.quit_to_title",
+          "voice": "quit_game",
+          "alpha": 0.0,
+          "delay_offset": 1670,
+          "duration": 570,
+          "animations": [
+            { "property": "alpha", "to": 1.0, "easing": "linear" }
+          ]
+        },
+        "en_us": {
+          "textures": {
+            "normal": "yuzu:textures/gui/en_us/title_quit_game_button_normal",
+            "hover": "yuzu:textures/gui/en_us/title_quit_game_button_on"
+          }
+        },
+        "zh_tw": {
+          "textures": {
+            "normal": "yuzu:textures/gui/zh_tw/title_quit_game_button_normal",
+            "hover": "yuzu:textures/gui/zh_tw/title_quit_game_button_on"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -16,6 +16,9 @@ public class VirtualScreen {
     private int offsetX;
     private int offsetY;
 
+    public VirtualScreen() {
+    }
+
     public VirtualScreen(int virtualWidth, int virtualHeight) {
         this.virtualWidth = virtualWidth;
         this.virtualHeight = virtualHeight;

@@ -19,7 +19,7 @@ public class TitleScreenMusicTicker {
      */
     public static boolean tickBGM() {
         SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
-        boolean inMenu = !YuZuUI.exit && !YuZuUI.inGamed;
+        boolean inMenu = YuZuUI.isAvailable && !YuZuUI.exit && !YuZuUI.inGamed;
 
         if (inMenu && YuZuUIConfig.bgm) {
             if (ISOUND_TITLE == null || !soundHandler.isSoundPlaying(ISOUND_TITLE)) {

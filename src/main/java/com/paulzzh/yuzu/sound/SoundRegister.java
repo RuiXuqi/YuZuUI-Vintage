@@ -10,25 +10,22 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
  */
 public class SoundRegister {
     public static SoundEvent YUZU_TITLE_MUSIC;
-    public static SoundEvent YUZU_TITLE_BUTTON_CLICK;
-    public static SoundEvent YUZU_TITLE_BUTTON_MULTIPLAYER;
-    public static SoundEvent YUZU_TITLE_BUTTON_NEW_GAME;
     public static SoundEvent YUZU_TITLE_BUTTON_ON;
-    public static SoundEvent YUZU_TITLE_BUTTON_SINGLEPLAYER;
+    public static SoundEvent YUZU_TITLE_BUTTON_CLICK;
 
     public static void registerSounds() {
         YUZU_TITLE_MUSIC = registerSound("music");
-        YUZU_TITLE_BUTTON_CLICK = registerSound("button_click");
-        YUZU_TITLE_BUTTON_MULTIPLAYER = registerSound("button_multiplayer");
-        YUZU_TITLE_BUTTON_NEW_GAME = registerSound("button_new_game");
         YUZU_TITLE_BUTTON_ON = registerSound("button_on");
-        YUZU_TITLE_BUTTON_SINGLEPLAYER = registerSound("button_singleplayer");
+        YUZU_TITLE_BUTTON_CLICK = registerSound("button_click");
+
+        registerSound("button_new_game");
+        registerSound("button_singleplayer");
+        registerSound("button_multiplayer");
+
         SoundManager.init();
     }
 
     /**
-     * 注册语音。
-     *
      * @param name 简写的名字。会自动添加 yuzu_title_ 前缀。
      */
     public static SoundEvent registerSound(String name) {

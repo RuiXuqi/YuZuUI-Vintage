@@ -1,12 +1,12 @@
 {
   "config": {
     "size": [1920, 1080],
-    "fallback_variant": "zh_cn",
-    "background_color": "0xFF000000",
     "delay": {
       "base": 1300,
       "showed": 100
-    }
+    },
+    "background_color": "0xFF000000",
+    "fallback_variant": "zh_cn"
   },
   "elements": [
     {

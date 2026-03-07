@@ -1,6 +1,9 @@
 package com.paulzzh.yuzu.gui.screen;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.paulzzh.yuzu.YuZuUI;
 import com.paulzzh.yuzu.YuZuUIConfig;
 import com.paulzzh.yuzu.gui.IEasing;
@@ -60,25 +63,27 @@ public class SenrenBankaTitleScreen extends GuiScreen {
      */
     private short passExitSound = -1;
 
-    private static JsonObject uiJsonCache;
-    private static int backgroundColor;
+    private static JsonObject rootJson;
     private static long baseDelay;
     private static long showedDelay;
-    private static @Nullable String fallbackLang;
+    private static int backgroundColor;
+    private static @Nullable String fallbackVariant;
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float delta) {
         final int screenWidth = this.width;
         final int screenHeight = this.height;
+        final int virtualWidth = VIRTUAL_SCREEN.getVirtualWidth();
+        final int virtualHeight = VIRTUAL_SCREEN.getVirtualHeight();
         // 背景保持比例适应短边
         int currentWidth;
         int currentHeight;
-        if (screenWidth * 9 > screenHeight * 16) {
-            currentWidth = screenHeight * 16 / 9;
+        if (screenWidth * virtualHeight > screenHeight * virtualWidth) {
+            currentWidth = screenHeight * virtualWidth / virtualHeight;
             currentHeight = screenHeight;
         } else {
             currentWidth = screenWidth;
-            currentHeight = screenWidth * 9 / 16;
+            currentHeight = screenWidth * virtualHeight / virtualWidth;
         }
         VIRTUAL_SCREEN.setPracticalWidth(currentWidth);
         VIRTUAL_SCREEN.setPracticalHeight(currentHeight);
@@ -139,14 +144,14 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         delay = YuZuUI.isShowed ? showedDelay : baseDelay;
 
         final String currentLang = this.mc.getLanguageManager().getCurrentLanguage().getLanguageCode().toLowerCase(Locale.ENGLISH);
-        for (JsonElement element : uiJsonCache.getAsJsonArray("elements")) {
+        for (JsonElement element : rootJson.getAsJsonArray("elements")) {
             JsonObject obj = element.getAsJsonObject();
             String id = obj.get("id").getAsString();
             try {
                 String type = JsonParseUtils.tryGet(obj, "type").getAsString();
                 JsonObject variants = obj.getAsJsonObject("variants");
-                JsonObject fallback = variants.has(fallbackLang) ?
-                        variants.getAsJsonObject(fallbackLang) : variants.entrySet().iterator().next().getValue().getAsJsonObject();
+                JsonObject fallback = fallbackVariant != null && variants.has(fallbackVariant) ?
+                        variants.getAsJsonObject(fallbackVariant) : variants.entrySet().iterator().next().getValue().getAsJsonObject();
                 JsonObject current = variants.has(currentLang) ?
                         variants.getAsJsonObject(currentLang) : null;
                 JsonObject variant = JsonParseUtils.mergeVariant(fallback, current);
@@ -290,7 +295,7 @@ public class SenrenBankaTitleScreen extends GuiScreen {
      */
 
     public static void updateJson(JsonObject root) throws JsonParseException {
-        uiJsonCache = root;
+        rootJson = root;
 
         String prefix = "/";
         JsonObject config = JsonParseUtils.tryGetAsJsonObject(root, "config", prefix);
@@ -300,16 +305,14 @@ public class SenrenBankaTitleScreen extends GuiScreen {
         VIRTUAL_SCREEN.setVirtualWidth(size.get(0).getAsInt());
         VIRTUAL_SCREEN.setVirtualHeight(size.get(1).getAsInt());
 
-        if (config.has("background_color")) {
-            backgroundColor = Long.decode(config.get("background_color").getAsString()).intValue();
-        } else {
-            backgroundColor = 0xFF000000;
-        }
-        fallbackLang = config.get("fallback_variant").getAsString();
-
         JsonObject delay = JsonParseUtils.tryGetAsJsonObject(config, "delay", prefix);
         baseDelay = delay.get("base").getAsLong();
         showedDelay = delay.get("showed").getAsLong();
+
+        backgroundColor = config.has("background_color") ?
+                Long.decode(config.get("background_color").getAsString()).intValue() :
+                0xFF000000;
+        fallbackVariant = config.get("fallback_variant").getAsString();
     }
 
     @Nullable

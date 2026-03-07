@@ -124,8 +124,8 @@
       "variants": {
         "zh_cn": {
           "textures": "yuzu:textures/gui/zh_cn/title_logo",
-          "pos": [17, 57],
-          "size": [442, 188],
+          "pos": [19, 60],
+          "size": [437, 184],
           "alpha": 0.0,
           "scale": 1.067,
           "delay_offset": 300,
@@ -138,10 +138,14 @@
           ]
         },
         "en_us": {
-          "textures": "yuzu:textures/gui/en_us/title_logo"
+          "textures": "yuzu:textures/gui/en_us/title_logo",
+          "pos": [20, 61],
+          "size": [440, 184]
         },
         "zh_tw": {
-          "textures": "yuzu:textures/gui/zh_tw/title_logo"
+          "textures": "yuzu:textures/gui/zh_tw/title_logo",
+          "pos": [19, 60],
+          "size": [442, 188]
         }
       }
     },
@@ -184,12 +188,16 @@
           ]
         },
         "en_us": {
+          "pos": [60, 347],
+          "size": [199, 44],
           "textures": {
             "normal": "yuzu:textures/gui/en_us/title_new_game_button_normal",
             "hover": "yuzu:textures/gui/en_us/title_new_game_button_on"
           }
         },
         "zh_tw": {
+          "pos": [60, 346],
+          "size": [207, 54],
           "textures": {
             "normal": "yuzu:textures/gui/zh_tw/title_new_game_button_normal",
             "hover": "yuzu:textures/gui/zh_tw/title_new_game_button_on"
@@ -219,12 +227,16 @@
           ]
         },
         "en_us": {
+          "pos": [60, 448],
+          "size": [174, 44],
           "textures": {
             "normal": "yuzu:textures/gui/en_us/title_select_world_button_normal",
             "hover": "yuzu:textures/gui/en_us/title_select_world_button_on"
           }
         },
         "zh_tw": {
+          "pos": [60, 446],
+          "size": [206, 55],
           "textures": {
             "normal": "yuzu:textures/gui/zh_tw/title_select_world_button_normal",
             "hover": "yuzu:textures/gui/zh_tw/title_select_world_button_on"
@@ -254,12 +266,16 @@
           ]
         },
         "en_us": {
+          "pos": [66, 549],
+          "size": [278, 44],
           "textures": {
             "normal": "yuzu:textures/gui/en_us/title_continue_button_normal",
             "hover": "yuzu:textures/gui/en_us/title_continue_button_on"
           }
         },
         "zh_tw": {
+          "pos": [66, 546],
+          "size": [313, 56],
           "textures": {
             "normal": "yuzu:textures/gui/zh_tw/title_continue_button_normal",
             "hover": "yuzu:textures/gui/zh_tw/title_continue_button_on"
@@ -289,12 +305,16 @@
           ]
         },
         "en_us": {
+          "pos": [66, 646],
+          "size": [191, 43],
           "textures": {
             "normal": "yuzu:textures/gui/en_us/title_realms_button_normal",
             "hover": "yuzu:textures/gui/en_us/title_realms_button_on"
           }
         },
         "zh_tw": {
+          "pos": [66, 645],
+          "size": [164, 55],
           "textures": {
             "normal": "yuzu:textures/gui/zh_tw/title_realms_button_normal",
             "hover": "yuzu:textures/gui/zh_tw/title_realms_button_on"
@@ -324,12 +344,16 @@
           ]
         },
         "en_us": {
+          "pos": [58, 747],
+          "size": [208, 43],
           "textures": {
             "normal": "yuzu:textures/gui/en_us/title_mod_list_button_normal",
             "hover": "yuzu:textures/gui/en_us/title_mod_list_button_on"
           }
         },
         "zh_tw": {
+          "pos": [58, 745],
+          "size": [211, 55],
           "textures": {
             "normal": "yuzu:textures/gui/zh_tw/title_mod_list_button_normal",
             "hover": "yuzu:textures/gui/zh_tw/title_mod_list_button_on"
@@ -359,12 +383,16 @@
           ]
         },
         "en_us": {
+          "pos": [59, 849],
+          "size": [269, 44],
           "textures": {
             "normal": "yuzu:textures/gui/en_us/title_options_button_normal",
             "hover": "yuzu:textures/gui/en_us/title_options_button_on"
           }
         },
         "zh_tw": {
+          "pos": [59, 846],
+          "size": [253, 56],
           "textures": {
             "normal": "yuzu:textures/gui/zh_tw/title_options_button_normal",
             "hover": "yuzu:textures/gui/zh_tw/title_options_button_on"
@@ -394,12 +422,16 @@
           ]
         },
         "en_us": {
+          "pos": [60, 947],
+          "size": [158, 43],
           "textures": {
             "normal": "yuzu:textures/gui/en_us/title_quit_game_button_normal",
             "hover": "yuzu:textures/gui/en_us/title_quit_game_button_on"
           }
         },
         "zh_tw": {
+          "pos": [60, 946],
+          "size": [233, 54],
           "textures": {
             "normal": "yuzu:textures/gui/zh_tw/title_quit_game_button_normal",
             "hover": "yuzu:textures/gui/zh_tw/title_quit_game_button_on"

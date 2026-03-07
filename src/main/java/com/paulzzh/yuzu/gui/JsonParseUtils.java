@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public final class JsonParseUtils {
     @Nonnull
     public static JsonObject tryGetAsJsonObject(JsonObject jsonObject, String name) throws JsonParseException {
@@ -48,19 +49,13 @@ public final class JsonParseUtils {
         if (current == null) {
             return fallback;
         }
-
         JsonObject merged = new JsonObject();
-
-        // 1. 先把 fallback 的所有基础属性放进去
         for (Map.Entry<String, JsonElement> entry : fallback.entrySet()) {
             merged.add(entry.getKey(), entry.getValue());
         }
-
-        // 2. 把 current (当前语言) 的特有属性覆盖上去
         for (Map.Entry<String, JsonElement> entry : current.entrySet()) {
             merged.add(entry.getKey(), entry.getValue());
         }
-
         return merged;
     }
 }
